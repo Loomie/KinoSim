@@ -1,4 +1,4 @@
-package de.outstare.java.kinosim;
+package de.outstare.kinosim;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

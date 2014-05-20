@@ -1,4 +1,4 @@
-package de.outstare.java.kinosim;
+package de.outstare.kinosim;
 
 /**
  * Hello world!
