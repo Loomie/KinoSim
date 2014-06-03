@@ -1,4 +1,4 @@
-package de.outstare.kinosim.housegenerator;
+package de.outstare.kinosim.housegenerator.hall;
 
 import java.util.Random;
 

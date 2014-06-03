@@ -1,4 +1,4 @@
-package de.outstare.kinosim.housegenerator;
+package de.outstare.kinosim.housegenerator.hall;
 
 import de.outstare.kinosim.cinema.CinemaHall;
 

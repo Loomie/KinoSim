@@ -1,6 +1,6 @@
-package de.outstare.kinosim.housegenerator;
+package de.outstare.kinosim.housegenerator.hall;
 
-import static de.outstare.kinosim.housegenerator.RandomCinemaHallGenerator.*;
+import static de.outstare.kinosim.housegenerator.hall.RandomCinemaHallGenerator.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
