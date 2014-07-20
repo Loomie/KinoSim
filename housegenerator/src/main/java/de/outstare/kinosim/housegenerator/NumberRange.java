@@ -24,7 +24,7 @@ public class NumberRange {
 
     public double getRandomValue() {
 	final double normalRandom = RANDOM.nextGaussian();
-	return average + Math.max(-1.0, Math.min(normalRandom / 4, 1.0)) * singleRange;
-	// return minimum + Math.random() * (maximum - minimum);
+	final double valueInRange = average + Math.max(-1.0, Math.min(normalRandom / 4, 1.0)) * singleRange;
+	return Math.min(Math.max(minimum, valueInRange), maximum);
     }
 }
