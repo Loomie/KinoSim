@@ -27,7 +27,12 @@ public interface Movie {
     String getDistributor();
 
     /**
-     * @return the category of this film
+     * @return the categories of this film
      */
     Set<Genre> getGenres();
+
+    /**
+     * @return what this movie means to people
+     */
+    Rating getRating();
 }

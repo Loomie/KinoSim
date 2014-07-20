@@ -13,7 +13,7 @@ public class RandomCinemaHallGenerator implements CinemHallGenerator {
 
     static int randomCapacity() {
 	final int base = random.nextInt(100);
-	final int raise = random.nextInt(1000);
+	final int raise = random.nextInt(3000);
 	return MINIMUM + base + raise;
     }
 

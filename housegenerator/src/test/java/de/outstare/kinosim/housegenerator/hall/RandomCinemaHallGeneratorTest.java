@@ -16,7 +16,7 @@ public class RandomCinemaHallGeneratorTest {
 		System.out.println();
 	    }
 	    assertTrue(String.valueOf(result), result >= MINIMUM);
-	    assertTrue(String.valueOf(result), result <= 99 + 999 + MINIMUM);
+	    assertTrue(String.valueOf(result), result <= 99 + 2999 + MINIMUM);
 	}
     }
 
