@@ -1,4 +1,4 @@
-package movie.popularity;
+package de.outstare.kinosim.movie.popularity;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package movie.popularity;
+package de.outstare.kinosim.movie.popularity;
 
 /**
  * A PopularityCalculator calculates the popularity of a movie.

@@ -1,4 +1,4 @@
-package movie.generator;
+package de.outstare.kinosim.movie.generator;
 
 import java.util.ArrayList;
 import java.util.Arrays;

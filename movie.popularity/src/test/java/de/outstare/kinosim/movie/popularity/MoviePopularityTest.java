@@ -1,4 +1,4 @@
-package movie.popularity;
+package de.outstare.kinosim.movie.popularity;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
+import de.outstare.kinosim.movie.popularity.Audience;
+import de.outstare.kinosim.movie.popularity.MoviePopularity;
 
 public class MoviePopularityTest {
 

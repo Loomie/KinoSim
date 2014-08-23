@@ -1,4 +1,4 @@
-package movie.generator;
+package de.outstare.kinosim.movie.generator;
 
 import de.outstare.kinosim.movie.Movie;
 

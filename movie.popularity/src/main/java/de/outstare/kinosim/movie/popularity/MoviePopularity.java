@@ -1,4 +1,4 @@
-package movie.popularity;
+package de.outstare.kinosim.movie.popularity;
 
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
