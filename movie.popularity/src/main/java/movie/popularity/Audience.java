@@ -1,5 +1,6 @@
 package movie.popularity;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,13 +52,24 @@ public enum Audience {
 	factorPreference.put(RatingCategory.PROFESSIONALITY, professionalPref);
     }
 
-    int getPriority(final RatingCategory factor) {
-	assert factorPriorities.containsKey(factor);
-	return factorPriorities.get(factor).intValue();
+    double getPriorityRatio(final RatingCategory factor) {
+	return factorPriorities.get(factor).intValue() / (double) getSum(factorPriorities.values());
     }
 
     int getPreferedValue(final RatingCategory factor) {
 	assert factorPreference.containsKey(factor);
 	return factorPreference.get(factor).intValue();
+    }
+
+    double getPreferedRatio(final RatingCategory factor) {
+	return factorPriorities.get(factor).intValue() / (double) getSum(factorPriorities.values());
+    }
+
+    private int getSum(final Collection<Integer> values) {
+	int sum = 0;
+	for (final Integer priority : values) {
+	    sum += priority.intValue();
+	}
+	return sum;
     }
 }
