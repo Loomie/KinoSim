@@ -1,0 +1,75 @@
+package de.outstare.kinosim.schedule;
+
+import java.time.LocalTime;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import de.outstare.kinosim.cinema.CinemaHall;
+import de.outstare.kinosim.movie.Movie;
+
+/**
+ * A Show is a single scheduled presentation. It defines at which time (when) a movie (what) runs in which hall (where). Additionally advertisements
+ * and breaks can be planned.
+ */
+public class Show {
+	private final LocalTime		start;
+	private final Movie			film;
+	private final CinemaHall	hall;
+	private final AdBlock		ads;
+	private final int			breakDurationInMinutes;
+
+	public Show(final LocalTime start, final Movie film, final CinemaHall hall, final AdBlock ads, final int breakDurationInMinutes) {
+		super();
+		this.start = start;
+		this.film = film;
+		this.hall = hall;
+		this.ads = ads;
+		this.breakDurationInMinutes = breakDurationInMinutes;
+	}
+
+	public LocalTime getStart() {
+		return start;
+	}
+
+	public Movie getFilm() {
+		return film;
+	}
+
+	public CinemaHall getHall() {
+		return hall;
+	}
+
+	public AdBlock getAds() {
+		return ads;
+	}
+
+	public int getBreakDurationInMinutes() {
+		return breakDurationInMinutes;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		final Show other = (Show) obj;
+		return new EqualsBuilder()
+				.append(start, other.start)
+				.append(film, other.film)
+				.append(hall, other.hall)
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(93761, 5651)
+				.append(start)
+				.append(film)
+				.append(hall)
+				.toHashCode();
+	}
+}

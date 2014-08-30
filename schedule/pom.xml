@@ -7,4 +7,16 @@
     <relativePath>../..</relativePath>
   </parent>
   <artifactId>schedule</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>de.outstare.kinosim</groupId>
+  		<artifactId>cinema</artifactId>
+  		<version>0.1.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.outstare.kinosim</groupId>
+  		<artifactId>movie</artifactId>
+  		<version>0.1.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>
