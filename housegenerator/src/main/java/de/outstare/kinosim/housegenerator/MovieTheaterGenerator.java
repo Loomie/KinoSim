@@ -8,5 +8,5 @@ import de.outstare.kinosim.cinema.MovieTheater;
  *
  */
 public interface MovieTheaterGenerator {
-    MovieTheater createTheater();
+	MovieTheater createTheater();
 }

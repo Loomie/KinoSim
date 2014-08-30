@@ -5,8 +5,8 @@ package de.outstare.kinosim.cinema;
  *
  */
 public interface MovieTheater {
-    /**
-     * @return the total number of people who can simultaneously see movies in this theater
-     */
-    int getNumberOfSeats();
+	/**
+	 * @return the total number of people who can simultaneously see movies in this theater
+	 */
+	int getNumberOfSeats();
 }

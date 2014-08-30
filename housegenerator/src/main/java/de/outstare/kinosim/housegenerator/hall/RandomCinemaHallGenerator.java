@@ -8,18 +8,18 @@ import de.outstare.kinosim.cinema.CinemaHall;
  * A HouseGenerator creates a {@link CinemaHall}.
  */
 public class RandomCinemaHallGenerator implements CinemHallGenerator {
-    private static final Random random = new Random();
-    static final int MINIMUM = 20;
+	private static final Random	random	= new Random();
+	static final int			MINIMUM	= 20;
 
-    static int randomCapacity() {
-	final int base = random.nextInt(100);
-	final int raise = random.nextInt(3000);
-	return MINIMUM + base + raise;
-    }
+	static int randomCapacity() {
+		final int base = random.nextInt(100);
+		final int raise = random.nextInt(3000);
+		return MINIMUM + base + raise;
+	}
 
-    @Override
-    public CinemaHall createHall() {
-	return new FixedSizeCinemaHall(randomCapacity());
-    }
+	@Override
+	public CinemaHall createHall() {
+		return new FixedSizeCinemaHall(randomCapacity());
+	}
 
 }
