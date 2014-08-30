@@ -9,12 +9,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<modules>
-		<module>../../git/KinoSim/cinema</module>
-		<module>../../git/KinoSim/housegenerator</module>
-		<module>../../git/KinoSim/movie</module>
-		<module>../../git/KinoSim/movie.generator</module>
-		<module>../../git/KinoSim/movie.popularity</module>
-		<module>../../git/KinoSim/kinosim</module>
+		
+		
+		
+		
+		
+		
+		
+		
+		<module>cinema</module>
+		<module>housegenerator</module>
+		<module>movie</module>
+		<module>movie.generator</module>
+		<module>movie.popularity</module>
 	</modules>
 	<build>
 		<plugins>
