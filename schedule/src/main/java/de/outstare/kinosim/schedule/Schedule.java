@@ -18,4 +18,8 @@ public interface Schedule extends Iterable<Show> {
 	 * @return a view that only lists the {@link Show}s for the given movie.
 	 */
 	Schedule filterForMovie(Movie hall);
+
+	void add(Show show);
+
+	void remove(Show show);
 }

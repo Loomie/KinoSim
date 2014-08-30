@@ -3,6 +3,7 @@ package de.outstare.kinosim.housegenerator.hall;
 import java.util.Random;
 
 import de.outstare.kinosim.cinema.CinemaHall;
+import de.outstare.kinosim.cinema.FixedSizeCinemaHall;
 
 /**
  * A HouseGenerator creates a {@link CinemaHall}.
