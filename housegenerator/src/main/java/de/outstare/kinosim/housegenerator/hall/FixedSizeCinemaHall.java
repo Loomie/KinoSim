@@ -10,6 +10,7 @@ public class FixedSizeCinemaHall implements CinemaHall {
 
     }
 
+    @Override
     public int getCapacity() {
 	return capacity;
     }

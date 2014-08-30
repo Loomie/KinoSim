@@ -17,6 +17,7 @@ public class RandomCinemaHallGenerator implements CinemHallGenerator {
 	return MINIMUM + base + raise;
     }
 
+    @Override
     public CinemaHall createHall() {
 	return new FixedSizeCinemaHall(randomCapacity());
     }

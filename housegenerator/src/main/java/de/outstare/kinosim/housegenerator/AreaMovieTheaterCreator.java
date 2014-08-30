@@ -15,6 +15,7 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
     /**
      * @see de.outstare.kinosim.housegenerator.MovieTheaterGenerator#createTheater()
      */
+    @Override
     public MovieTheater createTheater() {
 	final double usableArea = area * 1.2; // +20 % because between the large halls offices and so on can be build above other areas
 	final double cinemaAreaPerSeat = RoomType.CinemaHall.getSquareMeters(1); // use fixed value instead of a new random value for each call
@@ -41,6 +42,7 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 	System.out.println("Gesamtsitze: " + actualSeats + " Verwendete Nettofläche: " + usedSpace / 1.2 + " m²");
 	final int totalCapacity = actualSeats;
 	return new MovieTheater() {
+	    @Override
 	    public int getNumberOfSeats() {
 		return totalCapacity;
 	    }
