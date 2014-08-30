@@ -6,17 +6,20 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class RandomCinemaHallGeneratorTest {
+	private static final boolean	SHOW_VALUES	= false;
 
 	@Test
 	public void testRandomCapacity() {
-		for (int i = 0; i < 200000; i++) {
+		for (int i = 0; i < 2000000; i++) {
 			final int result = randomCapacity();
-			System.out.print(result + " ");
-			if (i % 200 == 0) {
-				System.out.println();
+			if (SHOW_VALUES) {
+				System.out.print(result + " ");
+				if (i % 100 == 0) {
+					System.out.println();
+				}
 			}
-			assertTrue(String.valueOf(result), result >= MINIMUM);
-			assertTrue(String.valueOf(result), result <= 99 + 2999 + MINIMUM);
+			assertTrue(String.valueOf(result), result >= MINIMUM + 2); // at least 1 base and 1 raise
+			assertTrue(String.valueOf(result), result <= MINIMUM + MAX_BASE + MAX_RAISE);
 		}
 	}
 

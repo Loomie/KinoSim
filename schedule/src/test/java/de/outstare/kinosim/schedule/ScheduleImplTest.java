@@ -29,9 +29,9 @@ public class ScheduleImplTest {
 	private ScheduleImpl		objectUnderTest;
 
 	public ScheduleImplTest() {
-		hall1 = new FixedSizeCinemaHall(100);
-		hall2 = new FixedSizeCinemaHall(50);
-		hall3 = new FixedSizeCinemaHall(10);
+		hall1 = new FixedSizeCinemaHall(1, 100);
+		hall2 = new FixedSizeCinemaHall(1, 50);
+		hall3 = new FixedSizeCinemaHall(1, 10);
 		movie1 = new SimpleMovie("a", 0, 0, null, null, null);
 		movie2 = new SimpleMovie("b", 0, 0, null, null, null);
 		movie3 = new SimpleMovie("x", 0, 0, null, null, null);
@@ -49,7 +49,7 @@ public class ScheduleImplTest {
 
 	@Test
 	public void testAdd() {
-		final Show show = mockShow(LocalTime.NOON, new FixedSizeCinemaHall(1), movie1);
+		final Show show = mockShow(LocalTime.NOON, new FixedSizeCinemaHall(1, 1), movie1);
 
 		objectUnderTest.add(show);
 
@@ -58,7 +58,7 @@ public class ScheduleImplTest {
 
 	@Test
 	public void testRemove() {
-		final Show show = mockShow(LocalTime.NOON, new FixedSizeCinemaHall(1), movie1);
+		final Show show = mockShow(LocalTime.NOON, new FixedSizeCinemaHall(1, 1), movie1);
 		objectUnderTest.add(show);
 
 		objectUnderTest.remove(show);

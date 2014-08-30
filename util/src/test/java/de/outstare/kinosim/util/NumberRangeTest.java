@@ -1,4 +1,4 @@
-package de.outstare.kinosim.housegenerator;
+package de.outstare.kinosim.util;
 
 import static org.junit.Assert.*;
 
