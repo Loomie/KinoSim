@@ -1,5 +1,6 @@
 package de.outstare.kinosim.movie;
 
+import java.time.Duration;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -11,13 +12,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class SimpleMovie implements Movie {
 
 	private final String		title;
-	private final int			duration;
+	private final Duration		duration;
 	private final int			ageRating;
 	private final String		distributor;
 	private final Set<Genre>	genres;
 	private final Rating		rating;
 
-	public SimpleMovie(final String title, final int duration, final int ageRating, final String distributor, final Set<Genre> genres,
+	public SimpleMovie(final String title, final Duration duration, final int ageRating, final String distributor, final Set<Genre> genres,
 			final Rating rating) {
 		this.title = title;
 		this.duration = duration;
@@ -40,7 +41,7 @@ public class SimpleMovie implements Movie {
 	 * @see de.outstare.kinosim.movie.Movie#getDuration()
 	 */
 	@Override
-	public int getDuration() {
+	public Duration getDuration() {
 		return duration;
 	}
 

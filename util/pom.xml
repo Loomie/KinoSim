@@ -4,6 +4,7 @@
     <groupId>de.outstare.kinosim</groupId>
     <artifactId>parent</artifactId>
     <version>0.1.1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
   <artifactId>util</artifactId>
 </project>

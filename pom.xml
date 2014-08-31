@@ -25,6 +25,7 @@
 		<module>util</module>
 		<module>schedule</module>
 		<module>schedule.editor</module>
+		<module>app</module>
 	</modules>
 	<build>
 		<plugins>

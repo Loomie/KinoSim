@@ -66,7 +66,7 @@ public class MovieListGui implements ListCellRenderer<Movie> {
 		// title.setFont(defaultFont.deriveFont(defaultFont.getSize() * 1.2f));
 
 		final JLabel description = new JLabel();
-		description.setText(value.getDuration() + " min., " + value.getAgeRating() + " yrs");
+		description.setText(value.getDuration().toMinutes() + " min., " + value.getAgeRating() + " yrs");
 		description.setHorizontalAlignment(SwingConstants.LEADING);
 		description.setFont(defaultFont.deriveFont(defaultFont.getSize() * 0.8f));
 
@@ -85,7 +85,7 @@ public class MovieListGui implements ListCellRenderer<Movie> {
 	 */
 	private static void createAndShowGUI(final MovieListGui movieList) {
 		// Create and set up the window.
-		final JFrame frame = new JFrame("ListDemo");
+		final JFrame frame = new JFrame("MovieListGuiDemo");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Create and set up the content pane.

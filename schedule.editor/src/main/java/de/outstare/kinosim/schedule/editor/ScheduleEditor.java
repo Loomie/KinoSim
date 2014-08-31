@@ -75,4 +75,8 @@ public class ScheduleEditor {
 	public SortedSet<Movie> getAvailableMovies() {
 		return new TreeSet<>(availableMovies);
 	}
+
+	public Schedule getHallSchedule(final CinemaHall hall) {
+		return schedule.filterForHall(hall);
+	}
 }

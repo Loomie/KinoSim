@@ -18,5 +18,10 @@
 			<artifactId>movie.generator</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>de.outstare.kinosim</groupId>
+			<artifactId>housegenerator</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

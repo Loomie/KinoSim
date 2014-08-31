@@ -1,5 +1,6 @@
 package de.outstare.kinosim.movie.generator;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class RandomMovieGenerator implements MovieGenerator {
 			final String		title		= createTitle();
 			final Rating		rating		= createRating();
 			final Set<Genre>	genres		= createGenres();
-			final int			duration	= createDuration();
+			final Duration		duration	= createDuration();
 			final String		distributor	= createDistributor();
 			final int			ageRating	= createAgeRating();
 
@@ -51,7 +52,7 @@ public class RandomMovieGenerator implements MovieGenerator {
 			}
 
 			@Override
-			public int getDuration() {
+			public Duration getDuration() {
 				return duration;
 			}
 
@@ -68,6 +69,11 @@ public class RandomMovieGenerator implements MovieGenerator {
 			@Override
 			public String toString() {
 				return ToStringBuilder.reflectionToString(this);
+			}
+
+			@Override
+			public int compareTo(final Movie o) {
+				return getTitle().compareTo(o.getTitle());
 			}
 		};
 	}
@@ -102,8 +108,8 @@ public class RandomMovieGenerator implements MovieGenerator {
 		return (int) (Math.random() * available.size());
 	}
 
-	private int createDuration() {
-		return (int) (60 + Math.random() * 90);
+	private Duration createDuration() {
+		return Duration.ofMinutes((int) (60 + Math.random() * 90));
 	}
 
 	private String createDistributor() {

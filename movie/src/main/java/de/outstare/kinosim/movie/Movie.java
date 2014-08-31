@@ -1,5 +1,6 @@
 package de.outstare.kinosim.movie;
 
+import java.time.Duration;
 import java.util.Set;
 
 /**
@@ -14,7 +15,7 @@ public interface Movie extends Comparable<Movie> {
 	/**
 	 * @return the length in minutes
 	 */
-	int getDuration();
+	Duration getDuration();
 
 	/**
 	 * @return the minimum age for whom this film is appropriate (in Germany "FSK", in US the MPAA rating)

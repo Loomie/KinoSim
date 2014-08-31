@@ -1,5 +1,6 @@
 package de.outstare.kinosim.schedule;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -32,6 +33,15 @@ public class Show {
 		return start;
 	}
 
+	public Duration getDuration() {
+		final Duration totalDuration = Duration.ZERO
+				.plus(film.getDuration())
+				.plus(ads.getDuration())
+				.plus(Duration.ofMinutes(breakDurationInMinutes));
+		System.out.println("Show.getDuration() movie: " + film.getDuration().toMillis() + ", total: " + totalDuration.toMillis());
+		return totalDuration;
+	}
+
 	public Movie getFilm() {
 		return film;
 	}
@@ -58,19 +68,19 @@ public class Show {
 		}
 		final Show other = (Show) obj;
 		return new EqualsBuilder()
-				.append(start, other.start)
-				.append(film, other.film)
-				.append(hall, other.hall)
-				.isEquals();
+		.append(start, other.start)
+		.append(film, other.film)
+		.append(hall, other.hall)
+		.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(93761, 5651)
-				.append(start)
-				.append(film)
-				.append(hall)
-				.toHashCode();
+		.append(start)
+		.append(film)
+		.append(hall)
+		.toHashCode();
 	}
 
 	// clone methods
