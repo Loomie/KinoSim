@@ -33,6 +33,22 @@ public class ScheduleImpl implements Schedule {
 		shows.remove(show);
 	}
 
+	@Override
+	public Show getEarliest() {
+		if (shows.isEmpty()) {
+			return null;
+		}
+		return shows.first();
+	}
+
+	@Override
+	public Show getLatest() {
+		if (shows.isEmpty()) {
+			return null;
+		}
+		return shows.last();
+	}
+
 	/**
 	 * @see java.lang.Iterable#iterator()
 	 */

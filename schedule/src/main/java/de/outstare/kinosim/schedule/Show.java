@@ -72,4 +72,26 @@ public class Show {
 				.append(hall)
 				.toHashCode();
 	}
+
+	// clone methods
+
+	public Show copyWithOtherStart(final LocalTime newStart) {
+		return new Show(newStart, film, hall, ads, breakDurationInMinutes);
+	}
+
+	public Show copyWithOtherMovie(final Movie newFilm) {
+		return new Show(start, newFilm, hall, ads, breakDurationInMinutes);
+	}
+
+	public Show copyWithOtherHall(final CinemaHall newHall) {
+		return new Show(start, film, newHall, ads, breakDurationInMinutes);
+	}
+
+	public Show copyWithOtherAds(final AdBlock newAds) {
+		return new Show(start, film, hall, newAds, breakDurationInMinutes);
+	}
+
+	public Show copyWithOtherBreak(final int newBreakDurationInMinutes) {
+		return new Show(start, film, hall, ads, newBreakDurationInMinutes);
+	}
 }

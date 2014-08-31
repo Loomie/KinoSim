@@ -1,10 +1,12 @@
 package de.outstare.kinosim.schedule;
 
 /**
- * A AdBlock contains all advertisements shown prior to a show.
+ * An AdBlock contains all advertisements shown prior to a show.
  */
 public class AdBlock {
-	private final int	lengthInMinutes;
+	public static final AdBlock	NONE	= new AdBlock(0);
+
+	private final int			lengthInMinutes;
 
 	public AdBlock(final int lengthInMinutes) {
 		this.lengthInMinutes = lengthInMinutes;

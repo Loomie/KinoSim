@@ -22,4 +22,14 @@ public interface Schedule extends Iterable<Show> {
 	void add(Show show);
 
 	void remove(Show show);
+
+	/**
+	 * @return <code>null</code> if no shows is scheduled
+	 */
+	Show getEarliest();
+
+	/**
+	 * @return <code>null</code> if no shows is scheduled
+	 */
+	Show getLatest();
 }
