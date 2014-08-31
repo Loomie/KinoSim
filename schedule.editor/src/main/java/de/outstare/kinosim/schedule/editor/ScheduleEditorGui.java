@@ -10,10 +10,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import de.outstare.kinosim.cinema.CinemaHall;
+import de.outstare.kinosim.housegenerator.hall.CinemaHallGenerator;
 import de.outstare.kinosim.housegenerator.hall.RandomCinemaHallGenerator;
 import de.outstare.kinosim.movie.Movie;
+import de.outstare.kinosim.movie.generator.MovieGenerator;
 import de.outstare.kinosim.movie.generator.RandomMovieGenerator;
 import de.outstare.kinosim.schedule.AdBlock;
 import de.outstare.kinosim.schedule.Schedule;
@@ -68,12 +71,12 @@ public class ScheduleEditorGui {
 	/** Test **/
 	public static void main(final String[] args) {
 		final Schedule schedule = new ScheduleImpl();
-		final RandomCinemaHallGenerator hallGenerator = new RandomCinemaHallGenerator();
+		final CinemaHallGenerator hallGenerator = new RandomCinemaHallGenerator();
 		final List<CinemaHall> halls = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
 			halls.add(hallGenerator.createHall());
 		}
-		final RandomMovieGenerator movieGenerator = new RandomMovieGenerator();
+		final MovieGenerator movieGenerator = new RandomMovieGenerator();
 		final List<Movie> movies = new ArrayList<>();
 		for (int i = 0; i < 13; i++) {
 			movies.add(movieGenerator.generate());
@@ -87,6 +90,6 @@ public class ScheduleEditorGui {
 		final ScheduleEditorGui editorGui = new ScheduleEditorGui(testEditor);
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
-		javax.swing.SwingUtilities.invokeLater(() -> createAndShowGUI(editorGui));
+		SwingUtilities.invokeLater(() -> createAndShowGUI(editorGui));
 	}
 }

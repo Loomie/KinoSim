@@ -6,6 +6,7 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -26,7 +27,7 @@ class ScheduleGui {
 	JComponent createUi() {
 		final JPanel showRow = new JPanel(null);
 		showRow.setBackground(Color.LIGHT_GRAY);
-		showRow.setSize(400, 200);
+		showRow.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
 
 		for (final Show show : schedule) {
 			final ShowGui showGui = new ShowGui(show);
