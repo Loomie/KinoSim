@@ -1,14 +1,16 @@
 package de.outstare.kinosim.schedule.editor;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.SortedSet;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -38,15 +40,25 @@ public class ScheduleEditorGui {
 	}
 
 	public JComponent createUi() {
+		final JPanel timeline = new JPanel();
+		timeline.setLayout(new GridLayout(1, 24));
+		for (int i = 0; i < 24; i++) {
+			timeline.add(new JLabel(String.valueOf(i)));
+		}
+
 		// we use a list for the rows and paint the columns inside
 		final SortedSet<CinemaHall> halls = editor.getAvailableHalls();
 		final JPanel rows = new JPanel();
-		rows.setLayout(new BoxLayout(rows, BoxLayout.PAGE_AXIS));
+		rows.setLayout(new GridLayout(halls.size(), 1, 0, 4));
 		for (final CinemaHall hall : halls) {
 			final ScheduleGui cinemaGui = new ScheduleGui(editor.getHallSchedule(hall));
 			rows.add(cinemaGui.createUi());
 		}
-		return rows;
+
+		final JPanel editor = new JPanel(new BorderLayout());
+		editor.add(timeline, BorderLayout.NORTH);
+		editor.add(rows, BorderLayout.CENTER);
+		return editor;
 	}
 
 	/**
