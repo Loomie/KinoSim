@@ -56,7 +56,7 @@ public enum Audience {
 		return factorPriorities.get(factor).intValue() / (double) getSum(factorPriorities.values());
 	}
 
-	int getPreferedValue(final RatingCategory factor) {
+	int getPreferredValue(final RatingCategory factor) {
 		assert factorPreference.containsKey(factor);
 		return factorPreference.get(factor).intValue();
 	}

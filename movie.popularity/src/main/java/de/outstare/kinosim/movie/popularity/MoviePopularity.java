@@ -33,7 +33,7 @@ public class MoviePopularity {
 	}
 
 	private double getCategoryPopularity(final Audience audience, final RatingCategory category) {
-		final int expectedValue = audience.getPreferedValue(category);
+		final int expectedValue = audience.getPreferredValue(category);
 		final int currentValue = rating.getValue(category);
 		final int diff = currentValue - expectedValue;
 		if (diff > Rating.MAX_VALUE / 2) {
