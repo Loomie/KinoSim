@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
-import de.outstare.kinosim.movie.popularity.Audience;
-import de.outstare.kinosim.movie.popularity.MoviePopularity;
 
 public class MoviePopularityTest {
 
@@ -23,15 +21,15 @@ public class MoviePopularityTest {
 		// System.out.println(a + " " + result);
 		// }
 		result = testObject.getPopularity(Audience.ADULTS);
-		assertEquals(-0.390837117337661, result, 0);
+		assertEquals(0, result, 0);
 		result = testObject.getPopularity(Audience.KIDS);
-		assertEquals(0.5468341864356077, result, 0);
+		assertEquals(0.6990884350293445, result, 0);
 		result = testObject.getPopularity(Audience.SENIORS);
-		assertEquals(-0.2572372751252366, result, 0);
+		assertEquals(0.08816778784387098, result, 0);
 		result = testObject.getPopularity(Audience.TEENS);
 		assertEquals(0.39721359549995794, result, 0);
 		result = testObject.getPopularity(Audience.TWENS);
-		assertEquals(-0.3999423734377209, result, 0);
+		assertEquals(1.83697019872103E-17, result, 0);
 	}
 
 	@Test

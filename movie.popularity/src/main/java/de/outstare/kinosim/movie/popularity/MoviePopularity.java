@@ -36,11 +36,11 @@ public class MoviePopularity {
 		final int expectedValue = audience.getPreferredValue(category);
 		final int currentValue = rating.getValue(category);
 		final int diff = currentValue - expectedValue;
-		if (diff > Rating.MAX_VALUE / 2) {
+		if (Math.abs(diff) > Rating.MAX_VALUE / 2) {
 			return 0;
 		}
 		final double relativeDiff = diff / (Rating.MAX_VALUE / 2.0);
-		assert -0.5 <= relativeDiff && relativeDiff <= 0.5 : "difference ration must be max. +/-0.5, but was " + relativeDiff;
+		assert -1.0 <= relativeDiff && relativeDiff <= 1.0 : "difference ration must be max. +/-1.0, but was " + relativeDiff;
 		// we use a cosinus curve for weighting the difference (preferred value is at zero)
 		final double x = relativeDiff * Math.PI / 2; // +/- half pi = full pi
 		final double y = Math.cos(x);
