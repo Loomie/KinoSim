@@ -31,8 +31,7 @@ import de.outstare.kinosim.schedule.Show;
  *
  * It is basically a table with hours of the day on the x-axis and {@link CinemaHall}s on the y-axis. Additionally a pool of movies is available.
  */
-public class ScheduleEditorGui
-{
+public class ScheduleEditorGui {
 	private final ScheduleEditor	editor;
 
 	public ScheduleEditorGui(final ScheduleEditor editor) {

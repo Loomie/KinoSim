@@ -5,8 +5,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class RandomCinemaHallGeneratorTest
-{
+public class RandomCinemaHallGeneratorTest {
 	private static final boolean	SHOW_VALUES	= false;
 
 	@Test

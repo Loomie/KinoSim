@@ -15,8 +15,7 @@ import de.outstare.kinosim.schedule.Show;
  * A ScheduleEditor modifies {@link Show}s of a {@link Schedule}. It can manipulate a schedule by moving {@link Movie}s between {@link CinemaHall}s on
  * a timeline.
  */
-public class ScheduleEditor
-{
+public class ScheduleEditor {
 	private final Schedule							schedule;
 	private final Collection<? extends CinemaHall>	availableHalls;
 	private final Collection<? extends Movie>		availableMovies;

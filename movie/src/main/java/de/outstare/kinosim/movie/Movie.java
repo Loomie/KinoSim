@@ -6,8 +6,7 @@ import java.util.Set;
 /**
  * A Movie describes all aspects of a film relevant for a cinema.
  */
-public interface Movie extends Comparable<Movie>
-{
+public interface Movie extends Comparable<Movie> {
 	/**
 	 * @return the name of this film
 	 */

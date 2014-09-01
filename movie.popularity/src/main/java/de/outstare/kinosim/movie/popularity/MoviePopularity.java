@@ -6,8 +6,7 @@ import de.outstare.kinosim.movie.RatingCategory;
 /**
  * A MoviePopularity holds all factors and the resulting popularity of a movie.
  */
-public class MoviePopularity
-{
+public class MoviePopularity {
 	private final Rating	rating;
 
 	// private final Set<Genre> genres;

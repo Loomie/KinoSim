@@ -8,8 +8,7 @@ import java.util.Map.Entry;
  * A Rating determines the objective weight of {@link RatingCategory} for a movie. The objectiveness might come from a representative number of
  * critics.
  */
-public class Rating
-{
+public class Rating {
 	/**
 	 * The max rating value (currently 100 to be easily used as a percentage)
 	 */

@@ -8,8 +8,7 @@ import de.outstare.kinosim.cinema.RoomType;
 /**
  * A HouseGenerator creates a {@link CinemaHall}.
  */
-public class RandomCinemaHallGenerator implements CinemaHallGenerator
-{
+public class RandomCinemaHallGenerator implements CinemaHallGenerator {
 	private static final Random	random		= new Random();
 	static final int			MINIMUM		= 20;
 	static final int			MAX_BASE	= 100;

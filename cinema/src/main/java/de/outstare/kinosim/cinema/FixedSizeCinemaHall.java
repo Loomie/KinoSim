@@ -1,7 +1,6 @@
 package de.outstare.kinosim.cinema;
 
-public class FixedSizeCinemaHall extends SimpleRoom implements CinemaHall
-{
+public class FixedSizeCinemaHall extends SimpleRoom implements CinemaHall {
 	private final int	capacity;
 
 	public FixedSizeCinemaHall(final double allocatedSpace, final int capacity) {

@@ -13,8 +13,7 @@ import de.outstare.kinosim.cinema.FixedSizeCinemaHall;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.SimpleMovie;
 
-public class ScheduleImplTest
-{
+public class ScheduleImplTest {
 	private final CinemaHall	hall1;
 	private final CinemaHall	hall2;
 	private final CinemaHall	hall3;

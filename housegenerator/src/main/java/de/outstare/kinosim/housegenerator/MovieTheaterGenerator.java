@@ -7,7 +7,6 @@ import de.outstare.kinosim.cinema.MovieTheater;
  * A MovieTheaterGenerator creates a full cinema house with mutliple {@link CinemaHall}s.
  *
  */
-public interface MovieTheaterGenerator
-{
+public interface MovieTheaterGenerator {
 	MovieTheater createTheater();
 }
