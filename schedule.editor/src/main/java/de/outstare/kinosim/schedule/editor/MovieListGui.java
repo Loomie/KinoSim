@@ -27,7 +27,8 @@ import de.outstare.kinosim.movie.generator.RandomMovieGenerator;
 /**
  * A MovieListGui is a graphical list of {@link Movie}s. It shows a summary of each movie. Movies can be dragged from this list.
  */
-public class MovieListGui implements ListCellRenderer<Movie> {
+public class MovieListGui implements ListCellRenderer<Movie>
+{
 	private final List<Movie>	movies	= new ArrayList<>();
 
 	public MovieListGui(final Collection<? extends Movie> movies) {

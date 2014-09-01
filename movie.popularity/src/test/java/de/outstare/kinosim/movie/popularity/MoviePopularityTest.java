@@ -10,7 +10,8 @@ import org.junit.Test;
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
 
-public class MoviePopularityTest {
+public class MoviePopularityTest
+{
 
 	@Test
 	public void testGetPopularityMin() {

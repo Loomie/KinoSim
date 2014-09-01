@@ -5,7 +5,8 @@ import java.util.Random;
 /**
  * A NumberRange is a number between a minimum and a maximum.
  */
-public class NumberRange {
+public class NumberRange
+{
 	private static final Random	RANDOM	= new Random();
 
 	private final double		minimum;

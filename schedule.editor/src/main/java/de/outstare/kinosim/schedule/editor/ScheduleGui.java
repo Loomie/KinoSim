@@ -15,7 +15,8 @@ import de.outstare.kinosim.schedule.Show;
 /**
  * A ScheduleGui displays all scheduled {@link Show}s in a single row (shows may overlap!).
  */
-class ScheduleGui {
+class ScheduleGui
+{
 	private final Schedule				schedule;
 	private final Collection<ShowGui>	showGuis	= new ArrayList<>();
 

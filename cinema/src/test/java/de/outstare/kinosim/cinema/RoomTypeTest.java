@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class RoomTypeTest {
+public class RoomTypeTest
+{
 
 	@Test
 	public void testGetSquareMetersStorage() {

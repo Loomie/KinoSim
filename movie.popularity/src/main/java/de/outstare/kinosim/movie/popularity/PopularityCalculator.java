@@ -3,7 +3,8 @@ package de.outstare.kinosim.movie.popularity;
 /**
  * A PopularityCalculator calculates the popularity of a movie.
  */
-public final class PopularityCalculator {
+public final class PopularityCalculator
+{
 	private PopularityCalculator() {
 		// no instances
 	}

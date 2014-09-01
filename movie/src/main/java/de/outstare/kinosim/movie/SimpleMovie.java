@@ -9,7 +9,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 /**
  * A SimpleMovie implements just {@link Movie}.
  */
-public class SimpleMovie implements Movie {
+public class SimpleMovie implements Movie
+{
 
 	private final String		title;
 	private final Duration		duration;

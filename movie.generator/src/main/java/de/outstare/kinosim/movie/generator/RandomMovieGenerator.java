@@ -17,7 +17,8 @@ import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
 
-public class RandomMovieGenerator implements MovieGenerator {
+public class RandomMovieGenerator implements MovieGenerator
+{
 
 	public static void main(final String[] args) {
 		final MovieGenerator gen = new RandomMovieGenerator();

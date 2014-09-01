@@ -12,7 +12,8 @@ import de.outstare.kinosim.movie.Movie;
 /**
  * A ScheduleImpl implements {@link Schedule}.
  */
-public class ScheduleImpl implements Schedule {
+public class ScheduleImpl implements Schedule
+{
 	private final SortedSet<Show>	shows;
 
 	public ScheduleImpl() {

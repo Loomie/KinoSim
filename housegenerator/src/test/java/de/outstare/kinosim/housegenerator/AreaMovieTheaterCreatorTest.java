@@ -6,7 +6,8 @@ import org.junit.Test;
 
 import de.outstare.kinosim.cinema.MovieTheater;
 
-public class AreaMovieTheaterCreatorTest {
+public class AreaMovieTheaterCreatorTest
+{
 
 	@Test
 	public void testCreateTheater() {

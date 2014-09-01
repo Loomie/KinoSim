@@ -15,7 +15,8 @@ import de.outstare.kinosim.cinema.RoomType;
 /**
  * A AreaMovieTheaterCreator generates a {@link MovieTheater} for a given area of land (an estate).
  */
-public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
+public class AreaMovieTheaterCreator implements MovieTheaterGenerator
+{
 	private static final Logger	LOG	= LoggerFactory.getLogger(AreaMovieTheaterCreator.class);
 
 	private final int			area;															// in square meters

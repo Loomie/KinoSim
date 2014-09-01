@@ -13,7 +13,8 @@ import de.outstare.kinosim.movie.Movie;
  * A Show is a single scheduled presentation. It defines at which time (when) a movie (what) runs in which hall (where). Additionally advertisements
  * and breaks can be planned.
  */
-public class Show {
+public class Show
+{
 	private final LocalTime		start;
 	private final Movie			film;
 	private final CinemaHall	hall;

@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class NumberRangeTest {
+public class NumberRangeTest
+{
 
 	@Test
 	public void testGetRandomValue() {
