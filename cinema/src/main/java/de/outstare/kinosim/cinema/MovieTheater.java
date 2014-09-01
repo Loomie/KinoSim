@@ -14,7 +14,7 @@ public interface MovieTheater {
 
 	/**
 	 * FIXME use operations instead of getter, like getWorplaces(RoomType) or {@link #getNumberOfSeats()}
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<Room> getRooms();

@@ -18,7 +18,7 @@ import de.outstare.kinosim.cinema.RoomType;
 public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 	private static final Logger	LOG	= LoggerFactory.getLogger(AreaMovieTheaterCreator.class);
 
-	private final int	area;	// in square meters
+	private final int			area;															// in square meters
 
 	public AreaMovieTheaterCreator(final int areaInSquareMeters) {
 		area = areaInSquareMeters;

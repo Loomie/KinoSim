@@ -15,8 +15,8 @@ import de.outstare.kinosim.schedule.Show;
  * A ShowGui displays a {@link Show} graphically.
  */
 class ShowGui {
-	private final Show show;
-	private JComponent ui;
+	private final Show	show;
+	private JComponent	ui;
 
 	ShowGui(final Show show) {
 		this.show = show;
