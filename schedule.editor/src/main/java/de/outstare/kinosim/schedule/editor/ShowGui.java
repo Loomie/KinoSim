@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.border.LineBorder;
 
 import de.outstare.kinosim.schedule.Show;
 
@@ -14,16 +15,19 @@ import de.outstare.kinosim.schedule.Show;
  * A ShowGui displays a {@link Show} graphically.
  */
 class ShowGui {
-	private final Show	show;
-	private JComponent	ui;
+	private final Show show;
+	private JComponent ui;
 
 	ShowGui(final Show show) {
 		this.show = show;
 	}
 
 	JComponent createUi() {
+		final String labelText = show.getStart() + " " + show.getFilm().getTitle();
 		// TODO
-		final JLabel label = new JLabel(show.getStart() + " " + show.getFilm().getTitle());
+		final JLabel label = new JLabel(labelText);
+		label.setBorder(new LineBorder(Color.BLACK));
+		label.setToolTipText(labelText);
 		label.setOpaque(true);
 		label.setBackground(Color.YELLOW);
 
