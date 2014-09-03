@@ -16,9 +16,9 @@ import de.outstare.kinosim.cinema.RoomType;
  * A AreaMovieTheaterCreator generates a {@link MovieTheater} for a given area of land (an estate).
  */
 public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
-	private static final Logger	LOG	= LoggerFactory.getLogger(AreaMovieTheaterCreator.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AreaMovieTheaterCreator.class);
 
-	private final int			area;															// in square meters
+	private final int area; // in square meters
 
 	public AreaMovieTheaterCreator(final int areaInSquareMeters) {
 		area = areaInSquareMeters;
@@ -31,7 +31,7 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 	public MovieTheater createTheater() {
 		final double usableArea = area * 1.2; // +20 % because between the large halls offices and so on can be build above other areas
 		final double cinemaAreaPerSeat = RoomType.CinemaHall.createRoom(1).getAllocatedSpace(); // use fixed value instead of a new random value for
-																								// each call
+		// each call
 		// 1. estimate seats by using a fixed part of space for a single hall
 		final int calculatedSeats = estimateSeats(usableArea, cinemaAreaPerSeat);
 		// 2. create all rooms except cinema halls (because each type will be calculated only once, but we want multiple halls)
@@ -74,7 +74,7 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 				continue;
 			}
 			final Room room = type.createRoom(calculatedSeats);
-			LOG.debug(type + " " + room.getAllocatedSpace() + " m²");
+			LOG.debug(room.toString());
 			rooms.add(room);
 		}
 		return rooms;
