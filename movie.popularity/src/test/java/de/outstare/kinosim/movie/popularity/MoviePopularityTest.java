@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
+import de.outstare.kinosim.population.Audience;
 
 public class MoviePopularityTest {
 

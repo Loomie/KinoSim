@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.outstare.kinosim.movie.RatingCategory;
+import de.outstare.kinosim.population.Audience;
 
 /**
  * A Audience is the target group of people for a movie.
  */
-public enum Audience {
+enum AudienceMoviePrefs {
 	/**
 	 * 0-11
 	 */
@@ -37,8 +38,9 @@ public enum Audience {
 	/**
 	 * Priority means how important the factor is (sum is 100%). The preference value is which amount of the factor is mostly wanted.
 	 */
-	private Audience(final int seriousPrio, final int realityPrio, final int emotePrio, final int lengthPrio, final int professionalPrio,
-			final int seriousPref, final int realityPref, final int emotePref, final int lengthPref, final int professionalPref) {
+	private AudienceMoviePrefs(final int seriousPrio, final int realityPrio, final int emotePrio, final int lengthPrio, final int professionalPrio,
+			final int seriousPref,
+			final int realityPref, final int emotePref, final int lengthPref, final int professionalPref) {
 		factorPriorities.put(RatingCategory.SERIOUSITY, seriousPrio);
 		factorPriorities.put(RatingCategory.REALITY, realityPrio);
 		factorPriorities.put(RatingCategory.EMOTION, emotePrio);
@@ -71,5 +73,22 @@ public enum Audience {
 			sum += priority.intValue();
 		}
 		return sum;
+	}
+
+	public static AudienceMoviePrefs forAudience(final Audience audience) {
+		switch (audience) {
+		case KIDS:
+			return KIDS;
+		case TEENS:
+			return TEENS;
+		case TWENS:
+			return TWENS;
+		case ADULTS:
+			return ADULTS;
+		case SENIORS:
+			return SENIORS;
+		default:
+			throw new IllegalArgumentException("unexpected audience " + audience);
+		}
 	}
 }

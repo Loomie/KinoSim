@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * A SimpleMovie implements just {@link Movie}.
@@ -83,6 +84,11 @@ public class SimpleMovie implements Movie {
 	@Override
 	public int compareTo(final Movie o) {
 		return getTitle().compareTo(o.getTitle());
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 	@Override

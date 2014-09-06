@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.movie.Movie;
@@ -55,6 +56,11 @@ public class Show {
 
 	public int getBreakDurationInMinutes() {
 		return breakDurationInMinutes;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 	@Override

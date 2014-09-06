@@ -1,7 +1,11 @@
 package de.outstare.kinosim.movie.popularity;
 
+import com.google.common.collect.Range;
+
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
+import de.outstare.kinosim.population.Audience;
+import de.outstare.kinosim.util.Distributions;
 
 /**
  * A MoviePopularity holds all factors and the resulting popularity of a movie.
@@ -24,28 +28,23 @@ public class MoviePopularity {
 	 * @return the ratio of people who want to watch the movie (0.0 - 1.0)
 	 */
 	public double getPopularity(final Audience audience) {
+		final AudienceMoviePrefs audiencePrefs = AudienceMoviePrefs.forAudience(audience);
 		double total = 0;
 		final RatingCategory[] categories = RatingCategory.values();
 		for (final RatingCategory category : categories) {
-			total += getCategoryPopularity(audience, category);
+			total += getCategoryPopularity(audiencePrefs, category);
 		}
 		return total;
 	}
 
-	private double getCategoryPopularity(final Audience audience, final RatingCategory category) {
+	private double getCategoryPopularity(final AudienceMoviePrefs audience, final RatingCategory category) {
 		final int expectedValue = audience.getPreferredValue(category);
 		final int currentValue = rating.getValue(category);
-		final int diff = currentValue - expectedValue;
-		if (Math.abs(diff) > Rating.MAX_VALUE / 2) {
-			return 0;
-		}
-		final double relativeDiff = diff / (Rating.MAX_VALUE / 2.0);
-		assert -1.0 <= relativeDiff && relativeDiff <= 1.0 : "difference ration must be max. +/-1.0, but was " + relativeDiff;
-		// we use a cosinus curve for weighting the difference (preferred value is at zero)
-		final double x = relativeDiff * Math.PI / 2; // +/- half pi = full pi
-		final double y = Math.cos(x);
-		assert 0 <= y && y <= 1 : "expect value between 0-1 for x between -pi/2 and +pi/2. Was " + y + " for cos(" + x + ")";
+		// more than half range away is worth nothing
+		final int usedRangeMin = expectedValue - Rating.MAX_VALUE / 2;
+		final int usedRangeMax = expectedValue + Rating.MAX_VALUE / 2;
+		final double ratio = Distributions.getDifferenceRatio(expectedValue, currentValue, Range.closed(usedRangeMin, usedRangeMax));
 		// and weight it with the priority
-		return y * audience.getPriorityRatio(category);
+		return ratio * audience.getPriorityRatio(category);
 	}
 }
