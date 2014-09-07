@@ -1,4 +1,4 @@
-package de.outstare.kinosim.schedule.editor;
+package de.outstare.kinosim.schedule.editor.gui;
 
 import java.awt.Color;
 import java.awt.Component;

@@ -1,4 +1,4 @@
-package de.outstare.kinosim.schedule.editor;
+package de.outstare.kinosim.schedule.editor.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -24,6 +24,7 @@ import de.outstare.kinosim.schedule.AdBlock;
 import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
+import de.outstare.kinosim.schedule.editor.ScheduleEditor;
 
 /**
  * A ScheduleEditorGui is the graphical user interface for a {@link ScheduleEditor}. It lets the user manipulate a schedule by moving {@link Movie}s
