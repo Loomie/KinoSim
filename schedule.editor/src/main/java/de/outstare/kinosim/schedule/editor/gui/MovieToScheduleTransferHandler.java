@@ -1,5 +1,6 @@
 package de.outstare.kinosim.schedule.editor.gui;
 
+import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -88,7 +89,25 @@ class MovieToScheduleTransferHandler extends TransferHandler {
 
 	@Override
 	public boolean canImport(final TransferSupport support) {
-		return support.isDataFlavorSupported(MOVIE_DATA_FLAVOR);
+		final boolean isSupported = support.isDataFlavorSupported(MOVIE_DATA_FLAVOR);
+
+		Rectangle dropLocation;
+		if (isSupported) {
+			dropLocation = new Rectangle(support.getDropLocation().getDropPoint());
+			final Transferable transferable = support.getTransferable();
+			if (transferable != null) {
+				try {
+					final Movie movie = (Movie) transferable.getTransferData(MOVIE_DATA_FLAVOR);
+					dropLocation.width = (int) movie.getDuration().toMinutes();
+				} catch (UnsupportedFlavorException | IOException e) {
+					LOG.error("could not get movie out of transferable: {}", e.toString());
+				}
+			}
+		} else {
+			dropLocation = null;
+		}
+		((JComponent) support.getComponent()).putClientProperty("dropRectangle", dropLocation);
+		return isSupported;
 	}
 
 	@Override

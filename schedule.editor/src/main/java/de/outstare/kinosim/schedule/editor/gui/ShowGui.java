@@ -1,6 +1,7 @@
 package de.outstare.kinosim.schedule.editor.gui;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.time.temporal.ChronoUnit;
@@ -41,17 +42,24 @@ class ShowGui {
 	void updateBounds() {
 		final long totalSecs = ChronoUnit.DAYS.getDuration().toMinutes() * 60;
 		final long startInSec = show.getStart().toSecondOfDay();
-		final long lengthInSec = show.getDuration().getSeconds();
+		final long lengthInMins = show.getDuration().toMinutes();
 		final double relativeStart = startInSec / (double) totalSecs;
-		final double relativeLength = lengthInSec / (double) totalSecs;
 
 		final Dimension parentSize = (ui.getParent() == null) ? new Dimension(100, 10) : ui.getParent().getSize();
 		final Insets insets = ui.getParent().getInsets();
 		parentSize.setSize(parentSize.width - insets.left - insets.right, parentSize.height - insets.top - insets.bottom);
 		final int x = (int) (parentSize.width * relativeStart);
 		final int y = insets.top;
-		final int width = (int) (parentSize.width * relativeLength);
+		final int width = minutesToPixels(lengthInMins, ui.getParent());
 		final int height = parentSize.height;
 		ui.setBounds(x, y, width, height);
+	}
+
+	static int minutesToPixels(final long minutes, final Container parent) {
+		final long totalMins = ChronoUnit.DAYS.getDuration().toMinutes();
+		final double relativeLength = minutes / (double) totalMins;
+
+		final int parentWidth = (parent == null) ? 100 : parent.getWidth();
+		return (int) (parentWidth * relativeLength);
 	}
 }
