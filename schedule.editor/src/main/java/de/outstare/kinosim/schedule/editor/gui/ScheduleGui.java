@@ -24,17 +24,17 @@ class ScheduleGui {
 	}
 
 	JComponent createUi() {
-		final JPanel showRow = new JPanel(null);
-		showRow.setBackground(Color.LIGHT_GRAY);
+		final JPanel hallRow = new JPanel(null);
+		hallRow.setBackground(Color.LIGHT_GRAY);
 
 		for (final Show show : schedule) {
 			final ShowGui showGui = new ShowGui(show);
-			showRow.add(showGui.createUi());
+			hallRow.add(showGui.createUi());
 			showGui.updateBounds();
 			showGuis.add(showGui);
 		}
 
-		showRow.addComponentListener(new ComponentAdapter() {
+		hallRow.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(final ComponentEvent e) {
 				for (final ShowGui showGui : showGuis) {
@@ -43,6 +43,6 @@ class ScheduleGui {
 			}
 		});
 
-		return showRow;
+		return hallRow;
 	}
 }

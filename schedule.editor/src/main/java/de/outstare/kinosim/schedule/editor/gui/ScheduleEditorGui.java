@@ -1,5 +1,6 @@
 package de.outstare.kinosim.schedule.editor.gui;
 
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -35,10 +36,11 @@ import de.outstare.kinosim.schedule.editor.ScheduleEditor;
  */
 public class ScheduleEditorGui {
 	private final ScheduleEditor	editor;
+	private JPanel					rows;
 
 	public ScheduleEditorGui(final ScheduleEditor editor) {
 		this.editor = editor;
-
+		editor.addChangeListener(() -> updateHallSchedules());
 	}
 
 	public JComponent createUi() {
@@ -49,14 +51,10 @@ public class ScheduleEditorGui {
 		}
 
 		// we use a list for the rows and paint the columns inside
-		final SortedSet<CinemaHall> halls = editor.getAvailableHalls();
-		final JPanel rows = new JPanel();
-		rows.setLayout(new GridLayout(halls.size(), 1, 0, 4));
-		for (final CinemaHall hall : halls) {
-			final ScheduleGui cinemaGui = new ScheduleGui(editor.getHallSchedule(hall));
-			rows.add(cinemaGui.createUi());
-		}
+		rows = new JPanel();
+		updateHallSchedules();
 
+		final SortedSet<CinemaHall> halls = editor.getAvailableHalls();
 		final JPanel cinemaLabels = new JPanel(new GridLayout(halls.size(), 1));
 		for (final CinemaHall hall : halls) {
 			cinemaLabels.add(new JLabel("" + hall.getCapacity()));
@@ -81,6 +79,25 @@ public class ScheduleEditorGui {
 		editor.add(rows, constraints);
 
 		return editor;
+	}
+
+	private void updateHallSchedules() {
+		rows.removeAll();
+
+		final SortedSet<CinemaHall> halls = editor.getAvailableHalls();
+		rows.setLayout(new GridLayout(halls.size(), 1, 0, 4));
+
+		for (final CinemaHall hall : halls) {
+			final ScheduleGui cinemaGui = new ScheduleGui(editor.getHallSchedule(hall));
+			final JComponent editorPanel = cinemaGui.createUi();
+			editorPanel.setTransferHandler(new MovieToScheduleTransferHandler(editor, hall));
+			rows.add(editorPanel);
+		}
+
+		final Container parent = rows.getParent();
+		if (parent != null) {
+			parent.validate();
+		}
 	}
 
 	/**

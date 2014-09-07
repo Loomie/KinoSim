@@ -51,6 +51,7 @@ public class MovieListGui implements ListCellRenderer<Movie> {
 		final JList<Movie> list = new JList<>(model);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setDragEnabled(true);
+		list.setTransferHandler(new MovieToScheduleTransferHandler(null, null));
 		list.setCellRenderer(this);
 
 		return new JScrollPane(list);
