@@ -15,7 +15,7 @@ import de.outstare.kinosim.movie.Movie;
  * and breaks can be planned.
  */
 public class Show {
-	private final LocalTime		start;
+	private LocalTime			start;
 	private final Movie			film;
 	private final CinemaHall	hall;
 	private final AdBlock		ads;
@@ -32,6 +32,10 @@ public class Show {
 
 	public LocalTime getStart() {
 		return start;
+	}
+
+	public void setStart(final LocalTime newStart) {
+		start = newStart;
 	}
 
 	public Duration getDuration() {
@@ -57,7 +61,7 @@ public class Show {
 	public int getBreakDurationInMinutes() {
 		return breakDurationInMinutes;
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
@@ -73,26 +77,22 @@ public class Show {
 		}
 		final Show other = (Show) obj;
 		return new EqualsBuilder()
-				.append(start, other.start)
-				.append(film, other.film)
-				.append(hall, other.hall)
-				.isEquals();
+		.append(start, other.start)
+		.append(film, other.film)
+		.append(hall, other.hall)
+		.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(93761, 5651)
-				.append(start)
-				.append(film)
-				.append(hall)
-				.toHashCode();
+		.append(start)
+		.append(film)
+		.append(hall)
+		.toHashCode();
 	}
 
 	// clone methods
-
-	public Show copyWithOtherStart(final LocalTime newStart) {
-		return new Show(newStart, film, hall, ads, breakDurationInMinutes);
-	}
 
 	public Show copyWithOtherMovie(final Movie newFilm) {
 		return new Show(start, newFilm, hall, ads, breakDurationInMinutes);

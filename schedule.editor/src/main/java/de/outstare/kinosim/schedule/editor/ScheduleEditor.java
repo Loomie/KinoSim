@@ -62,10 +62,9 @@ public class ScheduleEditor {
 		return newShow;
 	}
 
-	public Show moveToTime(final Show show, final LocalTime start) {
-		final Show newShow = show.copyWithOtherStart(start);
-		replace(show, newShow);
-		return newShow;
+	public void moveToTime(final Show show, final LocalTime start) {
+		show.setStart(start);
+		changed();
 	}
 
 	public Show setAds(final Show show, final AdBlock ads) {

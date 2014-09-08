@@ -3,11 +3,18 @@ package de.outstare.kinosim.schedule.editor.gui;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import de.outstare.kinosim.schedule.Show;
@@ -24,16 +31,58 @@ class ShowGui {
 	}
 
 	JComponent createUi() {
-		final String labelText = show.getStart() + " " + show.getFilm().getTitle();
-		// TODO
-		final JLabel label = new JLabel(labelText);
-		label.setBorder(new LineBorder(Color.BLACK));
-		label.setToolTipText(labelText);
-		label.setOpaque(true);
-		label.setBackground(Color.YELLOW);
+		final JLabel label = new JLabel();
+		updateLabel(label);
 
-		ui = label;
-		return label;
+		final JPanel panel = new JPanel(new GridLayout(2, 1));
+		panel.add(label);
+		panel.add(new JLabel(show.getFilm().getTitle()));
+		ui = panel;
+		ui.setOpaque(true);
+		ui.setBackground(Color.YELLOW);
+		ui.setBorder(new LineBorder(Color.BLACK));
+
+		final AtomicInteger lastX = new AtomicInteger(-1);
+		ui.addMouseMotionListener(new MouseMotionAdapter() {
+
+			@Override
+			public void mouseDragged(final MouseEvent e) {
+				if (e.getSource() != ui) {
+					return;
+				}
+				// calculate
+				final int newX = e.getXOnScreen();
+				if (lastX.get() == -1) {
+					lastX.set(newX);
+					return;
+				}
+				final int difference = newX - lastX.get();
+				if (difference == 0) {
+					return;
+				}
+				lastX.set(newX);
+				// move
+				final double pixelPerMinute = ui.getWidth() / (double) show.getDuration().toMinutes();
+				final long movedMinutes = (long) (difference / pixelPerMinute);
+				final LocalTime newStart = show.getStart().plusMinutes(movedMinutes);
+				show.setStart(newStart);
+				updateLabel(label);
+				updateBounds();
+				// done
+				e.consume();
+			}
+		});
+		ui.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(final MouseEvent e) {
+				lastX.set(-1);
+			}
+		});
+		return ui;
+	}
+
+	private void updateLabel(final JLabel label) {
+		label.setText(show.getStart().toString());
 	}
 
 	/**
@@ -53,6 +102,7 @@ class ShowGui {
 		final int width = minutesToPixels(lengthInMins, ui.getParent());
 		final int height = parentSize.height;
 		ui.setBounds(x, y, width, height);
+		ui.validate();
 	}
 
 	static int minutesToPixels(final long minutes, final Container parent) {

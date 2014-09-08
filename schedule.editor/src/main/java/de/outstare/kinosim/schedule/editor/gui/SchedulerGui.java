@@ -58,7 +58,7 @@ public class SchedulerGui {
 		frame.setContentPane(newContentPane);
 
 		// Display the window.
-		frame.setSize(500, 300);
+		frame.setSize(1000, 600);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}

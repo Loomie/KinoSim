@@ -136,8 +136,8 @@ class MovieToScheduleTransferHandler extends TransferHandler {
 		final int dropX = support.getDropLocation().getDropPoint().x;
 		final double dropRatio = dropX / (double) width;
 
-		final long totalWithSeconds = ChronoUnit.DAYS.getDuration().toMinutes() * 60;
-		final long daySeconds = (long) (dropRatio * totalWithSeconds);
-		return LocalTime.ofSecondOfDay(daySeconds);
+		final long totalWithMinutes = ChronoUnit.DAYS.getDuration().toMinutes();
+		final long dayMinutes = (long) (dropRatio * totalWithMinutes);
+		return LocalTime.ofSecondOfDay(dayMinutes * 60);
 	}
 }
