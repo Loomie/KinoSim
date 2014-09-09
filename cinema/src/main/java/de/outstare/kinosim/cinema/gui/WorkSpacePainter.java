@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.outstare.kinosim.cinema.WorkSpace;
+import de.outstare.kinosim.util.NumberRange;
 
 public class WorkSpacePainter extends JPanel {
 
@@ -34,7 +35,7 @@ public class WorkSpacePainter extends JPanel {
 
 	private int startCorner;
 
-	private final double workplacesPerRow;
+	private double workplacesPerRow;
 
 	private final double workspacesAreaWidth;
 
@@ -50,15 +51,21 @@ public class WorkSpacePainter extends JPanel {
 		this.pixelsPerMeter = pixelsPerMeter;
 		rand = new Random();
 		rows = 1;
+		final int maxWorkplacesPerRow = (int) new NumberRange(7, 10).getRandomValue();
+		workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		if (workspace.getWorkplaceCount() > 2 && rand.nextDouble() >= 0.5d) {
-			// When there are 3 Workspaces in 2 rows, there has to be enough free space left
 			rows = 2;
-			if (workspace.getWorkplaceCount() == 3 && workspace.getAllocatedSpace() < (4 * (WORKPLACE_AREA_HEIGHT * WORKPLACE_AREA_WIDTH))) {
-				rows = 1;
-			}
+			workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
+		}
+		while (workplacesPerRow > maxWorkplacesPerRow) {
+			rows++;
+			workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
+		}
+		while (rows * WORKPLACE_AREA_HEIGHT * workplacesPerRow * WORKPLACE_AREA_WIDTH > workspace.getAllocatedSpace()) {
+			rows--;
+			workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		}
 		startCorner = rand.nextInt(4);
-		workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		workspacesAreaWidth = WORKPLACE_AREA_WIDTH * workplacesPerRow;
 		workspacesAreaHeight = WORKPLACE_AREA_HEIGHT * rows;
 		backgroundHeight = Math.sqrt((workspace.getAllocatedSpace() * workspacesAreaHeight) / workspacesAreaWidth);
@@ -81,43 +88,50 @@ public class WorkSpacePainter extends JPanel {
 	@Override
 	protected void paintComponent(final Graphics g) {
 		paintBackground(mToPixels(backgroundWidth), mToPixels(backgroundHeight), g);
+		int row = 0;
 		for (int w = 0; w < workspace.getWorkplaceCount(); w++) {
-			for (int r = 0; r < rows; r++) {
-				int x = 0;
-				int y = 0;
-				final GraphicalArea newArea;
-				final ArrayList<Direction> walls = new ArrayList<>();
-				final int col = (int) Math.max(w - workplacesPerRow, w);
-				switch (startCorner) {
-				case 0: // top left
-					addDirecionsToWalls(workplacesPerRow, w, r, walls, Direction.N, Direction.W);
-					break;
-				case 1: // top right
-					addDirecionsToWalls(workplacesPerRow, w, r, walls, Direction.N, Direction.E);
-					break;
-				case 2: // bottom right
-					addDirecionsToWalls(workplacesPerRow, w, r, walls, Direction.S, Direction.E);
-					break;
-				case 3: // bottom left
-					addDirecionsToWalls(workplacesPerRow, w, r, walls, Direction.S, Direction.W);
-					x = mToPixels(col * WORKPLACE_AREA_WIDTH);
-				}
-				if (startCorner == 0 || startCorner == 3) {
-					x = mToPixels(col * WORKPLACE_AREA_WIDTH);
-				} else {
-					x = mToPixels(backgroundWidth - WORKPLACE_AREA_WIDTH * col);
-				}
-				if (startCorner == 1 || startCorner == 0) {
-					y = mToPixels(r * WORKPLACE_AREA_HEIGHT);
-				} else {
-					y = mToPixels(backgroundHeight - (r + 1) * WORKPLACE_AREA_HEIGHT);
-				}
-				final Point areaCorner = new Point(x, y);
-				newArea = new GraphicalArea(areaCorner, mToPixels(WORKPLACE_AREA_WIDTH), mToPixels(WORKPLACE_AREA_HEIGHT), false, walls);
-				paintWorkplace(g, newArea);
+			int x = 0;
+			int y = 0;
+			final GraphicalArea newArea;
+			final ArrayList<Direction> walls = new ArrayList<>();
+			final int col = (int) (w % workplacesPerRow);
+			switch (startCorner) {
+			case 0: // top left
+				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.N, Direction.W);
+				break;
+			case 1: // top right
+				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.N, Direction.E);
+				break;
+			case 2: // bottom right
+				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.S, Direction.E);
+				break;
+			case 3: // bottom left
+				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.S, Direction.W);
+				x = mToPixels(col * WORKPLACE_AREA_WIDTH);
+			}
+			if (startCorner == 0 || startCorner == 3) {
+				x = mToPixels(col * WORKPLACE_AREA_WIDTH);
+			} else {
+				x = mToPixels(backgroundWidth - WORKPLACE_AREA_WIDTH * (col + 1));
+			}
+			if (startCorner == 1 || startCorner == 0) {
+				y = mToPixels(row * WORKPLACE_AREA_HEIGHT);
+			} else {
+				y = mToPixels(backgroundHeight - (row + 1) * WORKPLACE_AREA_HEIGHT);
+			}
+			final Point areaCorner = new Point(x, y);
+			newArea = new GraphicalArea(areaCorner, mToPixels(WORKPLACE_AREA_WIDTH), mToPixels(WORKPLACE_AREA_HEIGHT), false, walls);
+			paintWorkplace(g, newArea);
+			if ((w + 1) % workplacesPerRow == 0) {
+				row++;
 			}
 		}
 		// Calculate and fill the free areas left
+
+		// TEST/DEBUG
+		final String debug = workspace.getWorkplaceCount() + ", " + rows;
+		g.setColor(Color.YELLOW);
+		g.drawString(debug, 5, 10);
 	}
 
 	private void paintWorkplace(final Graphics g, final GraphicalArea workplaceArea) {

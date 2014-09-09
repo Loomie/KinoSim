@@ -23,6 +23,7 @@ public class GraphicalArea {
 	 * @param length
 	 * @param height
 	 * @param freeArea
+	 *            is this area free and will be filled up?
 	 * @param walls
 	 */
 	public GraphicalArea(final Point position, final int length, final int height, final boolean freeArea, final List<Direction> walls) {
@@ -56,6 +57,8 @@ public class GraphicalArea {
 	}
 
 	/**
+	 * Returns true if there is no workplce in this area (in other words: if this area can be filled with stuff).
+	 *
 	 * @return the freeArea
 	 */
 	public boolean isFreeArea() {
