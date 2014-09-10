@@ -11,10 +11,11 @@ import com.google.common.collect.Range;
 import de.outstare.kinosim.movie.popularity.MoviePopularity;
 import de.outstare.kinosim.population.Audience;
 import de.outstare.kinosim.population.PopulationPyramid;
+import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.Show;
 import de.outstare.kinosim.util.Distributions;
 
-public class GuestCalculator {
+class GuestCalculator {
 	private static final Logger		LOG						= LoggerFactory.getLogger(GuestCalculator.class);
 	private static final double		MAX_SEASON_MULTIPLIER	= 0.5;
 
@@ -26,28 +27,35 @@ public class GuestCalculator {
 	 * @param population
 	 *            the available population in age groups
 	 */
-	public GuestCalculator(final PopulationPyramid population) {
+	GuestCalculator(final PopulationPyramid population) {
 		super();
 		this.population = population;
 	}
 
-	public int calculateGuests(final Show show, final LocalDate date) {
+	int calculateTotalGuests(final Schedule schedule, final LocalDate date) {
+		int total = 0;
+		for (final Show show : schedule) {
+			total += calculateGuests(show, date);
+		}
+		return total;
+	}
+
+	int calculateGuests(final Show show, final LocalDate date) {
 		int total = 0;
 		for (final Audience audience : Audience.values()) {
-			total += calculateAudienceGuests(show, audience);
+			total += calculateAudienceGuests(show, date, audience);
 		}
-		total *= dateFactor(date);
 		final int guests = Math.min(total, show.getHall().getCapacity());
 		LOG.info("{} guests on {} for {}", guests, date, show);
 		return guests;
 	}
 
-	private int calculateAudienceGuests(final Show show, final Audience audience) {
+	int calculateAudienceGuests(final Show show, final LocalDate date, final Audience audience) {
 		final double populationPart = population.getPopulationOfAudience(audience) * 0.012;
 		final double movieFactor = new MoviePopularity(show.getFilm().getRating()).getPopularity(audience);
 		final double startFactor = startTimeFactor(show, audience);
 		final double averageWeightedFactor = (5.0 * movieFactor + 1.0 * startFactor) / 6;
-		return (int) (populationPart * averageWeightedFactor);
+		return (int) (populationPart * averageWeightedFactor * dateFactor(date));
 	}
 
 	private double startTimeFactor(final Show show, final Audience audience) {

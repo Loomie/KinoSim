@@ -39,7 +39,7 @@ public class GuestCalculatorTest {
 	public void testCalculateGuestsMin() {
 		final Movie movie = createRatedMovie(0, 0, 0, 0, 0);
 		final Show show = new Show(LocalTime.of(3, 0), movie, new FixedSizeCinemaHall(1, 500), AdBlock.NONE, 0);
-		assertEquals(108, objectUnderTest.calculateGuests(show, normal_saturday));
+		assertEquals(107, objectUnderTest.calculateGuests(show, normal_saturday));
 	}
 
 	@Test
@@ -55,7 +55,7 @@ public class GuestCalculatorTest {
 		final int halfRating = Rating.MAX_VALUE / 2;
 		final Movie movie = createRatedMovie(halfRating, halfRating, halfRating, halfRating, halfRating);
 		final Show show = new Show(LocalTime.of(18, 0), movie, new FixedSizeCinemaHall(1, 500), AdBlock.NONE, 0);
-		assertEquals(405, objectUnderTest.calculateGuests(show, normal_saturday));
+		assertEquals(404, objectUnderTest.calculateGuests(show, normal_saturday));
 	}
 
 	@Test
@@ -63,17 +63,17 @@ public class GuestCalculatorTest {
 		final int halfRating = Rating.MAX_VALUE / 5;
 		final Movie movie = createRatedMovie(halfRating, halfRating, halfRating, halfRating, halfRating);
 		final Show show = new Show(LocalTime.of(14, 0), movie, new FixedSizeCinemaHall(1, 500), AdBlock.NONE, 0);
-		assertEquals(257, objectUnderTest.calculateGuests(show, normal_saturday));
+		assertEquals(255, objectUnderTest.calculateGuests(show, normal_saturday));
 	}
 
 	/** an almost perfect film must fill a large hall on a Saturday **/
 	@Test
 	public void testCalculateGuestsGoodDates() {
 		final Show show = new Show(LocalTime.of(20, 0), createVeryGoodMovie(), new FixedSizeCinemaHall(1, 500), AdBlock.NONE, 0);
-		assertEquals(408, objectUnderTest.calculateGuests(show, normal_saturday));
+		assertEquals(407, objectUnderTest.calculateGuests(show, normal_saturday));
 		assertEquals(500, objectUnderTest.calculateGuests(show, good_saturday));
-		assertEquals(242, objectUnderTest.calculateGuests(show, poor_saturday));
-		assertEquals(365, objectUnderTest.calculateGuests(show, normal_monday));
+		assertEquals(241, objectUnderTest.calculateGuests(show, poor_saturday));
+		assertEquals(364, objectUnderTest.calculateGuests(show, normal_monday));
 		assertEquals(500, objectUnderTest.calculateGuests(show, good_monday));
 		assertEquals(199, objectUnderTest.calculateGuests(show, poor_monday));
 	}
@@ -84,15 +84,15 @@ public class GuestCalculatorTest {
 		final FixedSizeCinemaHall hall = new FixedSizeCinemaHall(1, 500);
 		Show show;
 		show = new Show(LocalTime.of(8, 0), movie, hall, AdBlock.NONE, 0);
-		assertEquals(395, objectUnderTest.calculateGuests(show, normal_saturday));
+		assertEquals(394, objectUnderTest.calculateGuests(show, normal_saturday));
 		show = new Show(LocalTime.of(11, 0), movie, hall, AdBlock.NONE, 0);
-		assertEquals(408, objectUnderTest.calculateGuests(show, normal_saturday));
+		assertEquals(409, objectUnderTest.calculateGuests(show, normal_saturday));
 		show = new Show(LocalTime.of(14, 0), movie, hall, AdBlock.NONE, 0);
 		assertEquals(418, objectUnderTest.calculateGuests(show, normal_saturday));
 		show = new Show(LocalTime.of(17, 0), movie, hall, AdBlock.NONE, 0);
 		assertEquals(420, objectUnderTest.calculateGuests(show, normal_saturday));
 		show = new Show(LocalTime.of(20, 0), movie, hall, AdBlock.NONE, 0);
-		assertEquals(408, objectUnderTest.calculateGuests(show, normal_saturday));
+		assertEquals(407, objectUnderTest.calculateGuests(show, normal_saturday));
 		show = new Show(LocalTime.of(23, 0), movie, hall, AdBlock.NONE, 0);
 		assertEquals(363, objectUnderTest.calculateGuests(show, normal_saturday));
 	}
