@@ -1,8 +1,11 @@
 package de.outstare.kinosim.movie;
 
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -85,7 +88,7 @@ public class SimpleMovie implements Movie {
 	public int compareTo(final Movie o) {
 		return getTitle().compareTo(o.getTitle());
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
@@ -120,5 +123,25 @@ public class SimpleMovie implements Movie {
 				.append(genres)
 				.append(rating)
 				.toHashCode();
+	}
+
+	public static Movie createRandom() {
+		final Random r = new Random();
+		final String aTitle = randomWord(r) + " " + randomWord(r);
+		final Duration aDuration = Duration.ofMinutes(60 + r.nextInt(60));
+		final int age = 6 + 4 * r.nextInt(4);
+		final String aDistributor = randomWord(r);
+		final Set<Genre> aGenres = new HashSet<>();
+		final int genreCount = 1 + r.nextInt(3);
+		for (int i = 0; i < genreCount; i++) {
+			Genre randomGenre = Genre.values()[r.nextInt(Genre.values().length)];
+			aGenres.add(randomGenre);
+		}
+		final Rating aRating = Rating.createRandom();
+		return new SimpleMovie(aTitle, aDuration, age, aDistributor, aGenres, aRating);
+	}
+
+	private static String randomWord(final Random r) {
+		return RandomStringUtils.randomAlphabetic(4 + r.nextInt(8));
 	}
 }

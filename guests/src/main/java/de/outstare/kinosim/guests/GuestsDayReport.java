@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.google.common.base.Preconditions;
+
 import de.outstare.kinosim.population.Audience;
 import de.outstare.kinosim.schedule.Schedule;
+import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
 
 /**
@@ -16,8 +19,10 @@ import de.outstare.kinosim.schedule.Show;
  */
 public class GuestsDayReport implements Iterable<GuestsShowReport> {
 	private final SortedSet<GuestsShowReport>	reports	= new TreeSet<>();
+	private final LocalDate						date;
 
 	public GuestsDayReport(final GuestCalculator calculator, final Schedule schedule, final LocalDate date) {
+		this.date = date;
 		for (final Show show : schedule) {
 			final Map<Audience, Integer> guests = new HashMap<>();
 			for (final Audience audience : Audience.values()) {
@@ -30,12 +35,34 @@ public class GuestsDayReport implements Iterable<GuestsShowReport> {
 		}
 	}
 
+	public LocalDate getDay() {
+		return date;
+	}
+
 	@Override
 	public Iterator<GuestsShowReport> iterator() {
 		return reports.iterator();
 	}
 
+	public int getShowCount() {
+		return reports.size();
+	}
+
+	public GuestsShowReport getShowReport(final int index) {
+		Preconditions.checkElementIndex(index, reports.size());
+
+		final Iterator<GuestsShowReport> it = iterator();
+		for (int i = 0; i < index; i++) {
+			it.next();
+		}
+		return it.next();
+	}
+
 	public int getTotalGuests() {
 		return reports.stream().mapToInt(e -> e.getTotalGuests()).sum();
+	}
+
+	public static GuestsDayReport createRandom() {
+		return new GuestsDayReport(GuestCalculator.createRandom(), ScheduleImpl.createRandom(), LocalDate.now());
 	}
 }

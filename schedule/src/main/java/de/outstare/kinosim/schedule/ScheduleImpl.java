@@ -73,4 +73,13 @@ public class ScheduleImpl implements Schedule {
 		return new ScheduleImpl(Sets.filter(shows, show -> movie.equals(show.getFilm())));
 	}
 
+	public static Schedule createRandom() {
+		final Schedule s = new ScheduleImpl();
+		final int showCount = (int) (Math.random() * 18) + 3;
+		for (int i = 0; i < showCount; i++) {
+			s.add(Show.createRandom());
+		}
+		return s;
+	}
+
 }

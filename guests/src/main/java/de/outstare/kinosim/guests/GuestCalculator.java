@@ -55,7 +55,9 @@ class GuestCalculator {
 		final double movieFactor = new MoviePopularity(show.getFilm().getRating()).getPopularity(audience);
 		final double startFactor = startTimeFactor(show, audience);
 		final double averageWeightedFactor = (5.0 * movieFactor + 1.0 * startFactor) / 6;
-		return (int) (populationPart * averageWeightedFactor * dateFactor(date));
+		final int guests = (int) (populationPart * averageWeightedFactor * dateFactor(date));
+		LOG.debug("{} {} on {} for {}", guests, audience, date, show);
+		return guests;
 	}
 
 	private double startTimeFactor(final Show show, final Audience audience) {
@@ -108,5 +110,9 @@ class GuestCalculator {
 			break;
 		}
 		return weekdayFactor;
+	}
+
+	public static GuestCalculator createRandom() {
+		return new GuestCalculator(PopulationPyramid.createRandom());
 	}
 }
