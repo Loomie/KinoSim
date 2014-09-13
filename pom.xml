@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.outstare.kinosim</groupId>
 	<artifactId>parent</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Kinosim</name>
 	<scm>
@@ -45,13 +45,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>local.deployment.repo</id>
-			<name>Local deployment repository</name>
-			<url>file:///deployment-repo.m2</url>
-		</repository>
-	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
