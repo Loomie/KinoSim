@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A PopulationPyramid holds the age distribution of the population. This implementation uses a linear pyramid form.
  *
- * @see http://de.wikipedia.org/wiki/Altersverteilung#Absch.C3.A4tzung_der_Altersverteilungen
+ * @see <a href="http://de.wikipedia.org/wiki/Altersverteilung#Absch.C3.A4tzung_der_Altersverteilungen">Absch&auml;tzung der Altersverteilungen</a>
  */
 public class PopulationPyramid {
 	private static final Logger	LOG	= LoggerFactory.getLogger(PopulationPyramid.class);

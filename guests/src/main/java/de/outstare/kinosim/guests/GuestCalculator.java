@@ -22,8 +22,6 @@ public class GuestCalculator {
 	private final PopulationPyramid	population;
 
 	/**
-	 * @param month
-	 *            the time of year for what guests should be calculated (summer or winter?)
 	 * @param population
 	 *            the available population in age groups
 	 */
