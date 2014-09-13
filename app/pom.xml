@@ -13,4 +13,16 @@
 		<version>0.1.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>de.outstare.kinosim</groupId>
+			<artifactId>guests</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.outstare.kinosim</groupId>
+			<artifactId>schedule.editor</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 </project>

@@ -15,7 +15,7 @@ import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.Show;
 import de.outstare.kinosim.util.Distributions;
 
-class GuestCalculator {
+public class GuestCalculator {
 	private static final Logger		LOG						= LoggerFactory.getLogger(GuestCalculator.class);
 	private static final double		MAX_SEASON_MULTIPLIER	= 0.5;
 
@@ -27,7 +27,7 @@ class GuestCalculator {
 	 * @param population
 	 *            the available population in age groups
 	 */
-	GuestCalculator(final PopulationPyramid population) {
+	public GuestCalculator(final PopulationPyramid population) {
 		super();
 		this.population = population;
 	}

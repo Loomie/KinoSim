@@ -1,6 +1,8 @@
 package de.outstare.kinosim.guests.gui;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -27,7 +29,7 @@ public class GuestsDayReportGui {
 		this.report = report;
 	}
 
-	JComponent createUi() {
+	public JComponent createUi() {
 		final JTable table = new JTable(createModel());
 		table.getColumnModel().getColumn(0).setPreferredWidth(200);
 		table.getColumnModel().getColumn(2).setPreferredWidth(200);
@@ -35,7 +37,8 @@ public class GuestsDayReportGui {
 
 		final JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		panel.add(new JLabel(report.getDay().toString()));
+		final String dayLabel = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(report.getDay());
+		panel.add(new JLabel(dayLabel));
 		panel.add(table.getTableHeader());
 		panel.add(table);
 		return panel;
