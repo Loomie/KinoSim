@@ -7,7 +7,7 @@
 	<name>Kinosim</name>
 	<scm>
 		<url>https://github.com/Loomie/KinoSim</url>
-		<developerConnection>scm:git:ssh://git@github.com:Loomie/KinoSim.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@github.com/Loomie/KinoSim.git</developerConnection>
 		<connection>scm:git:https://github.com/Loomie/KinoSim.git</connection>
 	  <tag>parent-0.1.1</tag>
   </scm>
