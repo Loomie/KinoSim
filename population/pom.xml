@@ -3,7 +3,7 @@
   <parent>
     <groupId>de.outstare.kinosim</groupId>
     <artifactId>parent</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
   </parent>
   <artifactId>population</artifactId>
 </project>
