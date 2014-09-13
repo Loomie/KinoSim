@@ -9,19 +9,19 @@
 	<parent>
 		<groupId>de.outstare.kinosim</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.1.2-SNAPSHOT</version>
+		<version>0.1.2</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>de.outstare.kinosim</groupId>
 			<artifactId>guests</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
+			<version>0.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>de.outstare.kinosim</groupId>
 			<artifactId>schedule.editor</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
+			<version>0.1.2</version>
 		</dependency>
 	</dependencies>
 	<build>

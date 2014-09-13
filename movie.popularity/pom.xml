@@ -5,23 +5,23 @@
 		<dependency>
 			<groupId>de.outstare.kinosim</groupId>
 			<artifactId>movie</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
+			<version>0.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>de.outstare.kinosim</groupId>
 			<artifactId>population</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
+			<version>0.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>de.outstare.kinosim</groupId>
 			<artifactId>util</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
+			<version>0.1.2</version>
 		</dependency>
 	</dependencies>
 	<parent>
 		<groupId>de.outstare.kinosim</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.1.2-SNAPSHOT</version>
+		<version>0.1.2</version>
 		<relativePath>..</relativePath>
 	</parent>
 </project>
