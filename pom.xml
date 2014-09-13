@@ -45,6 +45,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<repository>
+			<id>local.deployment.repo</id>
+			<name>Local deployment repository</name>
+			<url>file:///deployment-repo.m2</url>
+		</repository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
