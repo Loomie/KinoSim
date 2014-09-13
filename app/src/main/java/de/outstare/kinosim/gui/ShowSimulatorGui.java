@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import de.outstare.kinosim.ShowSimulator;
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.guests.GuestCalculator;
+import de.outstare.kinosim.guests.GuestsDayReport;
 import de.outstare.kinosim.guests.gui.GuestsDayReportGui;
 import de.outstare.kinosim.housegenerator.hall.CinemaHallGenerator;
 import de.outstare.kinosim.housegenerator.hall.RandomCinemaHallGenerator;
@@ -32,7 +33,7 @@ import de.outstare.kinosim.schedule.editor.ScheduleEditor;
 import de.outstare.kinosim.schedule.editor.gui.SchedulerGui;
 
 /**
- * A ShowSimulatorGui shows a {@link ScheduleEditor}, a button for simulating and a report for the simulation result.
+ * A ShowSimulatorGui shows a {@link ScheduleEditor}, a button for simulating and a {@link GuestsDayReport} for the simulation result.
  */
 public class ShowSimulatorGui {
 	private final ScheduleEditor	editor;
