@@ -14,11 +14,15 @@ public class TimeRangeTest {
 		final TimeRange twoFour = createRange(2, 4);
 		final TimeRange threeFive = createRange(3, 5);
 		final TimeRange oneSix = createRange(1, 6);
+		final TimeRange wrapping1 = createRange(23, 2);
+		final TimeRange wrapping2 = createRange(22, 1);
 
 		assertNotOverlaps(oneTwo, threeFive);
 		assertOverlaps(oneTwo, twoFour);
 		assertOverlaps(twoFour, threeFive);
 		assertOverlaps(oneSix, twoFour);
+		assertOverlaps(oneTwo, wrapping1);
+		assertOverlaps(wrapping1, wrapping2);
 	}
 
 	private void assertOverlaps(final TimeRange first, final TimeRange second) {

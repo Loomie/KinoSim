@@ -23,7 +23,29 @@ public class TimeRange {
 	}
 
 	public boolean overlaps(final TimeRange other) {
+		if (endsNextDay()) {
+			return overlapsDayEnd(other);
+		}
+		if (other.endsNextDay()) {
+			return other.overlapsDayEnd(this);
+		}
+		assert start.isBefore(end) : "start must be less than end!";
+		assert other.start.isBefore(other.end) : "other start must be less than other end!";
 		return !start.isAfter(other.end) && !end.isBefore(other.start);
+	}
+
+	private boolean overlapsDayEnd(final TimeRange other) {
+		// check rest of this day and start of next day separately
+		final TimeRange firstPart = new TimeRange(start, LocalTime.MAX);
+		final TimeRange secondPart = new TimeRange(LocalTime.MIN, end);
+		return firstPart.overlaps(other) || secondPart.overlaps(other);
+	}
+
+	/**
+	 * @return <code>true</code> if the end of this time range is an the next day.
+	 */
+	public boolean endsNextDay() {
+		return start.isAfter(end);
 	}
 
 	@Override
@@ -36,16 +58,16 @@ public class TimeRange {
 		}
 		final TimeRange other = (TimeRange) obj;
 		return new EqualsBuilder()
-				.append(start, other.start)
-				.append(end, other.end)
-				.isEquals();
+		.append(start, other.start)
+		.append(end, other.end)
+		.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(75527, 21559)
-				.append(start)
-				.append(end)
-				.toHashCode();
+		.append(start)
+		.append(end)
+		.toHashCode();
 	}
 }
