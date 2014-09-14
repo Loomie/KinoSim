@@ -1,5 +1,6 @@
 package de.outstare.kinosim.schedule.editor;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.schedule.AdBlock;
 import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.Show;
+import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A ScheduleEditor modifies {@link Show}s of a {@link Schedule}. It can manipulate a schedule by moving {@link Movie}s between {@link CinemaHall}s on
@@ -103,5 +105,10 @@ public class ScheduleEditor {
 		for (final ScheduleChangeListener listener : listeners) {
 			listener.scheduleChanged();
 		}
+	}
+
+	public boolean isFree(final CinemaHall hallForNewMovies, final LocalTime startTime, final Duration duration) {
+		final TimeRange newRange = new TimeRange(startTime, duration);
+		return getHallSchedule(hallForNewMovies).isFree(hallForNewMovies, newRange);
 	}
 }

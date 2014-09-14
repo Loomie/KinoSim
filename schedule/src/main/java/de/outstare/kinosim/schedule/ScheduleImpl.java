@@ -1,5 +1,6 @@
 package de.outstare.kinosim.schedule;
 
+import java.time.LocalTime;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -8,6 +9,7 @@ import com.google.common.collect.Sets;
 
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.movie.Movie;
+import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A ScheduleImpl implements {@link Schedule}.
@@ -71,6 +73,35 @@ public class ScheduleImpl implements Schedule {
 	@Override
 	public Schedule filterForMovie(final Movie movie) {
 		return new ScheduleImpl(Sets.filter(shows, show -> movie.equals(show.getFilm())));
+	}
+
+	/**
+	 * @see de.outstare.kinosim.schedule.Schedule#isFree(de.outstare.kinosim.cinema.CinemaHall, de.outstare.kinosim.util.TimeRange)
+	 */
+	@Override
+	public boolean isFree(final CinemaHall hall, final TimeRange timeRange) {
+		return isFree(hall, timeRange, null);
+	}
+
+	private boolean isFree(final CinemaHall hall, final TimeRange timeRange, final Show excludeShow) {
+		boolean free = true;
+		for (final Show plannedShow : filterForHall(hall)) {
+			if (plannedShow.equals(excludeShow)) {
+				continue;
+			}
+			final TimeRange showRange = new TimeRange(plannedShow.getStart(), plannedShow.getDuration());
+			if (timeRange.overlaps(showRange)) {
+				free = false;
+				break;
+			}
+		}
+		return free;
+	}
+
+	@Override
+	public boolean isFreeFor(final CinemaHall hall, final LocalTime start, final Show show) {
+		final TimeRange timeRange = new TimeRange(start, show.getDuration());
+		return isFree(hall, timeRange, show);
 	}
 
 	public static Schedule createRandom() {

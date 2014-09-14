@@ -90,6 +90,7 @@ class MovieToScheduleTransferHandler extends TransferHandler {
 	@Override
 	public boolean canImport(final TransferSupport support) {
 		final boolean isSupported = support.isDataFlavorSupported(MOVIE_DATA_FLAVOR);
+		boolean isAccepted = isSupported;
 
 		Rectangle dropLocation;
 		if (isSupported) {
@@ -99,6 +100,9 @@ class MovieToScheduleTransferHandler extends TransferHandler {
 				try {
 					final Movie movie = (Movie) transferable.getTransferData(MOVIE_DATA_FLAVOR);
 					dropLocation.width = (int) movie.getDuration().toMinutes();
+					if (editor != null && !editor.isFree(hallForNewMovies, getStartTime(support), movie.getDuration())) {
+						isAccepted = false;
+					}
 				} catch (UnsupportedFlavorException | IOException e) {
 					LOG.error("could not get movie out of transferable: {}", e.toString());
 				}
@@ -106,8 +110,8 @@ class MovieToScheduleTransferHandler extends TransferHandler {
 		} else {
 			dropLocation = null;
 		}
-		((JComponent) support.getComponent()).putClientProperty("dropRectangle", dropLocation);
-		return isSupported;
+		((JComponent) support.getComponent()).putClientProperty(ScheduleGui.DROP_AREA_PROP, dropLocation);
+		return isAccepted;
 	}
 
 	@Override

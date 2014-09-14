@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.Show;
 
 /**
@@ -25,14 +26,15 @@ import de.outstare.kinosim.schedule.Show;
 class ShowGui {
 	private final Show	show;
 	private JComponent	ui;
+	private JLabel		label;
 
 	ShowGui(final Show show) {
 		this.show = show;
 	}
 
 	JComponent createUi() {
-		final JLabel label = new JLabel();
-		updateLabel(label);
+		label = new JLabel();
+		updateLabel();
 
 		final JPanel panel = new JPanel(new GridLayout(2, 1));
 		panel.add(label);
@@ -42,6 +44,18 @@ class ShowGui {
 		ui.setBackground(Color.YELLOW);
 		ui.setBorder(new LineBorder(Color.BLACK));
 
+		return ui;
+	}
+
+	/**
+	 * Register a mouse listener and change the start time of the show when dragged.
+	 *
+	 * Note: Must be called after {@link #createUi()}!
+	 *
+	 * @param schedule
+	 *            for collision detection with other shows
+	 */
+	void moveInside(final Schedule schedule) {
 		final AtomicInteger lastX = new AtomicInteger(-1);
 		ui.addMouseMotionListener(new MouseMotionAdapter() {
 
@@ -60,28 +74,30 @@ class ShowGui {
 				if (difference == 0) {
 					return;
 				}
-				lastX.set(newX);
 				// move
 				final double pixelPerMinute = ui.getWidth() / (double) show.getDuration().toMinutes();
 				final long movedMinutes = (long) (difference / pixelPerMinute);
 				final LocalTime newStart = show.getStart().plusMinutes(movedMinutes);
-				show.setStart(newStart);
-				updateLabel(label);
-				updateBounds();
+				if (schedule.isFreeFor(show.getHall(), newStart, show)) {
+					lastX.set(newX);
+					show.setStart(newStart);
+					updateLabel();
+					updateBounds();
+				}
 				// done
 				e.consume();
 			}
 		});
+
 		ui.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(final MouseEvent e) {
 				lastX.set(-1);
 			}
 		});
-		return ui;
 	}
 
-	private void updateLabel(final JLabel label) {
+	private void updateLabel() {
 		label.setText(show.getStart().toString());
 	}
 
