@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.Show;
+import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A ScheduleGui displays all scheduled {@link Show}s in a single row (shows may overlap!).
@@ -43,8 +44,11 @@ class ScheduleGui {
 															};
 														};
 
-	ScheduleGui(final Schedule schedule) {
+	private final TimeRange				visibleTime;
+
+	ScheduleGui(final Schedule schedule, final TimeRange visibleTime) {
 		this.schedule = schedule;
+		this.visibleTime = visibleTime;
 	}
 
 	JComponent createUi() {
@@ -81,8 +85,8 @@ class ScheduleGui {
 		for (final Show show : schedule) {
 			final ShowGui showGui = new ShowGui(show);
 			hallRow.add(showGui.createUi());
-			showGui.moveInside(schedule);
-			showGui.updateBounds();
+			showGui.moveInside(schedule, visibleTime);
+			showGui.updateBounds(visibleTime);
 			showGuis.add(showGui);
 		}
 
@@ -90,7 +94,7 @@ class ScheduleGui {
 			@Override
 			public void componentResized(final ComponentEvent e) {
 				for (final ShowGui showGui : showGuis) {
-					showGui.updateBounds();
+					showGui.updateBounds(visibleTime);
 				}
 			}
 		});
@@ -99,7 +103,7 @@ class ScheduleGui {
 				final int oldX = dropPreview == null ? -1 : dropPreview.x;
 				final int dropX = ((Rectangle) evt.getNewValue()).x;
 				final long dropWithInMinutes = ((Rectangle) evt.getNewValue()).width;
-				final int width = ShowGui.minutesToPixels(dropWithInMinutes, hallRow);
+				final int width = ShowGui.minutesToPixels(dropWithInMinutes, hallRow, visibleTime.getDuration());
 				dropPreview = new Rectangle(dropX, 0, width, hallRow.getHeight());
 				if (oldX != dropX) {
 					hallRow.repaint();

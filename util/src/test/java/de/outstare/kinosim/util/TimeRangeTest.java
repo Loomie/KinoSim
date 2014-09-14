@@ -2,20 +2,18 @@ package de.outstare.kinosim.util;
 
 import static org.junit.Assert.*;
 
-import java.time.LocalTime;
-
 import org.junit.Test;
 
 public class TimeRangeTest {
 
 	@Test
 	public void testNotOverlaps() {
-		final TimeRange oneTwo = createRange(1, 2);
-		final TimeRange twoFour = createRange(2, 4);
-		final TimeRange threeFive = createRange(3, 5);
-		final TimeRange oneSix = createRange(1, 6);
-		final TimeRange wrapping1 = createRange(23, 2);
-		final TimeRange wrapping2 = createRange(22, 1);
+		final TimeRange oneTwo = TimeRange.of(1, 2);
+		final TimeRange twoFour = TimeRange.of(2, 4);
+		final TimeRange threeFive = TimeRange.of(3, 5);
+		final TimeRange oneSix = TimeRange.of(1, 6);
+		final TimeRange wrapping1 = TimeRange.of(23, 2);
+		final TimeRange wrapping2 = TimeRange.of(22, 1);
 
 		assertNotOverlaps(oneTwo, threeFive);
 		assertOverlaps(oneTwo, twoFour);
@@ -37,8 +35,12 @@ public class TimeRangeTest {
 		assertFalse(second.overlaps(first));
 	}
 
-	private TimeRange createRange(final int startHour, final int endHour) {
-		return new TimeRange(LocalTime.of(startHour, 0), LocalTime.of(endHour, 0));
-	}
+	@Test
+	public void testToHours() {
+		final TimeRange oneSix = TimeRange.of(1, 6);
+		final TimeRange wrapping = TimeRange.of(23, 2);
 
+		assertEquals(5, oneSix.toHours());
+		assertEquals(3, wrapping.toHours());
+	}
 }

@@ -13,6 +13,12 @@ public class TimeRange {
 	private final LocalTime	start;
 	private final LocalTime	end;
 
+	public static TimeRange of(final int startHour, final int endHour) {
+		final LocalTime startTime = LocalTime.of(startHour % 24, 0);
+		final LocalTime endTime = LocalTime.of(endHour % 24, 0);
+		return new TimeRange(startTime, endTime);
+	}
+
 	public TimeRange(final LocalTime start, final Duration length) {
 		this(start, start.plus(length));
 	}
@@ -20,6 +26,14 @@ public class TimeRange {
 	public TimeRange(final LocalTime start, final LocalTime end) {
 		this.start = start;
 		this.end = end;
+	}
+
+	public LocalTime getStart() {
+		return start;
+	}
+
+	public LocalTime getEnd() {
+		return end;
 	}
 
 	public boolean overlaps(final TimeRange other) {
@@ -48,6 +62,22 @@ public class TimeRange {
 		return start.isAfter(end);
 	}
 
+	public Duration getDuration() {
+		final Duration duration = Duration.between(start, end);
+		if (duration.isNegative()) {
+			return duration.plusDays(1);
+		}
+		return duration;
+	}
+
+	public int toHours() {
+		return (int) getDuration().toHours();
+	}
+
+	public int toMinutes() {
+		return (int) getDuration().toMinutes();
+	}
+
 	@Override
 	public boolean equals(final Object obj) {
 		if (obj == this) {
@@ -58,16 +88,16 @@ public class TimeRange {
 		}
 		final TimeRange other = (TimeRange) obj;
 		return new EqualsBuilder()
-		.append(start, other.start)
-		.append(end, other.end)
-		.isEquals();
+				.append(start, other.start)
+				.append(end, other.end)
+				.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(75527, 21559)
-		.append(start)
-		.append(end)
-		.toHashCode();
+				.append(start)
+				.append(end)
+				.toHashCode();
 	}
 }

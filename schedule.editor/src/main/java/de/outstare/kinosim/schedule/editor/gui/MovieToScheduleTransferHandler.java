@@ -6,7 +6,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 
 import javax.swing.JComponent;
 import javax.swing.JList;
@@ -18,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.schedule.editor.ScheduleEditor;
+import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A MovieToScheduleTransferHandler creates a new show for movies dropped on a {@link ScheduleGui}.
@@ -56,20 +56,22 @@ class MovieToScheduleTransferHandler extends TransferHandler {
 
 	private final ScheduleEditor	editor;
 	private final CinemaHall		hallForNewMovies;
+	private final TimeRange			editableTime;
 
 	/**
 	 * Create a drag only transfer handler
 	 */
 	MovieToScheduleTransferHandler() {
-		this(null, null);
+		this(null, null, null);
 	}
 
 	/**
 	 * Create a drag and drop handler for movies
 	 */
-	MovieToScheduleTransferHandler(final ScheduleEditor editor, final CinemaHall hallForNewMovies) {
+	MovieToScheduleTransferHandler(final ScheduleEditor editor, final CinemaHall hallForNewMovies, final TimeRange editableTime) {
 		this.editor = editor;
 		this.hallForNewMovies = hallForNewMovies;
+		this.editableTime = editableTime;
 	}
 
 	@Override
@@ -140,8 +142,8 @@ class MovieToScheduleTransferHandler extends TransferHandler {
 		final int dropX = support.getDropLocation().getDropPoint().x;
 		final double dropRatio = dropX / (double) width;
 
-		final long totalWithMinutes = ChronoUnit.DAYS.getDuration().toMinutes();
+		final long totalWithMinutes = editableTime.toMinutes();
 		final long dayMinutes = (long) (dropRatio * totalWithMinutes);
-		return LocalTime.ofSecondOfDay(dayMinutes * 60);
+		return editableTime.getStart().plusMinutes(dayMinutes);
 	}
 }

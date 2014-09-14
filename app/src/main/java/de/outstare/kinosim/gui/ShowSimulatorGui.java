@@ -31,6 +31,7 @@ import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
 import de.outstare.kinosim.schedule.editor.ScheduleEditor;
 import de.outstare.kinosim.schedule.editor.gui.SchedulerGui;
+import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A ShowSimulatorGui shows a {@link ScheduleEditor}, a button for simulating and a {@link GuestsDayReport} for the simulation result.
@@ -38,6 +39,7 @@ import de.outstare.kinosim.schedule.editor.gui.SchedulerGui;
 public class ShowSimulatorGui {
 	private final ScheduleEditor	editor;
 	private final ShowSimulator		simulator;
+	private final TimeRange			editableTime;
 
 	/**
 	 * @param editor
@@ -45,14 +47,15 @@ public class ShowSimulatorGui {
 	 * @param simulator
 	 *            that shares the same schedule as the editor!
 	 */
-	public ShowSimulatorGui(final ScheduleEditor editor, final ShowSimulator simulator) {
+	public ShowSimulatorGui(final ScheduleEditor editor, final ShowSimulator simulator, final TimeRange editableTime) {
 		this.editor = editor;
 		this.simulator = simulator;
+		this.editableTime = editableTime;
 	}
 
 	public JComponent createUi() {
 		final JPanel panel = new JPanel();
-		final SchedulerGui editorUi = new SchedulerGui(editor);
+		final SchedulerGui editorUi = new SchedulerGui(editor, editableTime);
 		final JButton simulate = new JButton("simulate");
 		simulate.setAction(new AbstractAction("simulate") {
 			private static final long	serialVersionUID	= -219059695783807057L;
@@ -110,14 +113,17 @@ public class ShowSimulatorGui {
 			movies.add(movieGenerator.generate());
 		}
 		final Random r = new Random();
+		final int minStartHour = 13;
+		final int maxStartHour = 24;
 		for (int i = 0; i < 4; i++) {
-			schedule.add(new Show(LocalTime.of(r.nextInt(24), 0), movies.get(r.nextInt(movies.size())), halls.get(r.nextInt(halls.size())),
-					AdBlock.NONE, 0));
+			final LocalTime showStart = LocalTime.of(minStartHour + r.nextInt(maxStartHour - minStartHour), 0);
+			schedule.add(new Show(showStart, movies.get(r.nextInt(movies.size())), halls
+					.get(r.nextInt(halls.size())), AdBlock.NONE, 0));
 		}
 		final ScheduleEditor testEditor = new ScheduleEditor(schedule, halls, movies);
 
 		final ShowSimulator testSimulator = new ShowSimulator(schedule, GuestCalculator.createRandom(), LocalDate.now());
-		final ShowSimulatorGui editorGui = new ShowSimulatorGui(testEditor, testSimulator);
+		final ShowSimulatorGui editorGui = new ShowSimulatorGui(testEditor, testSimulator, TimeRange.of(minStartHour, maxStartHour + 2));
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
 		SwingUtilities.invokeLater(() -> createAndShowGUI(editorGui));

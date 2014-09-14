@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,6 +20,7 @@ import javax.swing.border.LineBorder;
 
 import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.Show;
+import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A ShowGui displays a {@link Show} graphically.
@@ -55,7 +57,7 @@ class ShowGui {
 	 * @param schedule
 	 *            for collision detection with other shows
 	 */
-	void moveInside(final Schedule schedule) {
+	void moveInside(final Schedule schedule, final TimeRange visibleTime) {
 		final AtomicInteger lastX = new AtomicInteger(-1);
 		ui.addMouseMotionListener(new MouseMotionAdapter() {
 
@@ -82,7 +84,7 @@ class ShowGui {
 					lastX.set(newX);
 					show.setStart(newStart);
 					updateLabel();
-					updateBounds();
+					updateBounds(visibleTime);
 				}
 				// done
 				e.consume();
@@ -104,9 +106,9 @@ class ShowGui {
 	/**
 	 * Sets position and width according to start and length of show relative to parent.
 	 */
-	void updateBounds() {
-		final long totalSecs = ChronoUnit.DAYS.getDuration().toMinutes() * 60;
-		final long startInSec = show.getStart().toSecondOfDay();
+	void updateBounds(final TimeRange visibleTime) {
+		final long totalSecs = visibleTime.getDuration().getSeconds();
+		final long startInSec = visibleTime.getStart().until(show.getStart(), ChronoUnit.SECONDS);
 		final long lengthInMins = show.getDuration().toMinutes();
 		final double relativeStart = startInSec / (double) totalSecs;
 
@@ -115,14 +117,14 @@ class ShowGui {
 		parentSize.setSize(parentSize.width - insets.left - insets.right, parentSize.height - insets.top - insets.bottom);
 		final int x = (int) (parentSize.width * relativeStart);
 		final int y = insets.top;
-		final int width = minutesToPixels(lengthInMins, ui.getParent());
+		final int width = minutesToPixels(lengthInMins, ui.getParent(), visibleTime.getDuration());
 		final int height = parentSize.height;
 		ui.setBounds(x, y, width, height);
 		ui.validate();
 	}
 
-	static int minutesToPixels(final long minutes, final Container parent) {
-		final long totalMins = ChronoUnit.DAYS.getDuration().toMinutes();
+	static int minutesToPixels(final long minutes, final Container parent, final Duration visibleTime) {
+		final long totalMins = visibleTime.toMinutes();
 		final double relativeLength = minutes / (double) totalMins;
 
 		final int parentWidth = (parent == null) ? 100 : parent.getWidth();

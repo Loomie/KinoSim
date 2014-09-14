@@ -27,6 +27,7 @@ import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
 import de.outstare.kinosim.schedule.editor.ScheduleEditor;
+import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A ScheduleEditorGui is the graphical user interface for a {@link ScheduleEditor}. It lets the user manipulate a schedule by moving {@link Movie}s
@@ -36,18 +37,22 @@ import de.outstare.kinosim.schedule.editor.ScheduleEditor;
  */
 public class ScheduleEditorGui {
 	private final ScheduleEditor	editor;
+	private final TimeRange			editableTime;
 	private JPanel					rows;
 
-	public ScheduleEditorGui(final ScheduleEditor editor) {
+	public ScheduleEditorGui(final ScheduleEditor editor, final TimeRange editableTime) {
 		this.editor = editor;
+		this.editableTime = editableTime;
 		editor.addChangeListener(() -> updateHallSchedules());
 	}
 
 	public JComponent createUi() {
 		final JPanel timeline = new JPanel();
-		timeline.setLayout(new GridLayout(1, 24));
-		for (int i = 0; i < 24; i++) {
-			timeline.add(new JLabel(String.valueOf(i)));
+		final int hours = editableTime.toHours();
+		final int startHour = editableTime.getStart().getHour();
+		timeline.setLayout(new GridLayout(1, hours));
+		for (int i = 0; i < hours; i++) {
+			timeline.add(new JLabel(String.valueOf((startHour + i) % 24)));
 		}
 
 		// we use a list for the rows and paint the columns inside
@@ -88,9 +93,9 @@ public class ScheduleEditorGui {
 		rows.setLayout(new GridLayout(halls.size(), 1, 0, 4));
 
 		for (final CinemaHall hall : halls) {
-			final ScheduleGui cinemaGui = new ScheduleGui(editor.getHallSchedule(hall));
+			final ScheduleGui cinemaGui = new ScheduleGui(editor.getHallSchedule(hall), editableTime);
 			final JComponent editorPanel = cinemaGui.createUi();
-			editorPanel.setTransferHandler(new MovieToScheduleTransferHandler(editor, hall));
+			editorPanel.setTransferHandler(new MovieToScheduleTransferHandler(editor, hall, editableTime));
 			rows.add(editorPanel);
 		}
 
@@ -133,12 +138,14 @@ public class ScheduleEditorGui {
 			movies.add(movieGenerator.generate());
 		}
 		final Random r = new Random();
+		final int minStartHour = 13;
+		final int maxStartHour = 24;
 		for (int i = 0; i < 10; i++) {
-			schedule.add(new Show(LocalTime.of(r.nextInt(24), 0), movies.get(r.nextInt(movies.size())), halls.get(r.nextInt(halls.size())),
-					AdBlock.NONE, 0));
+			schedule.add(new Show(LocalTime.of(minStartHour + r.nextInt(maxStartHour - minStartHour), 0), movies.get(r.nextInt(movies.size())), halls
+					.get(r.nextInt(halls.size())), AdBlock.NONE, 0));
 		}
 		final ScheduleEditor testEditor = new ScheduleEditor(schedule, halls, movies);
-		final ScheduleEditorGui editorGui = new ScheduleEditorGui(testEditor);
+		final ScheduleEditorGui editorGui = new ScheduleEditorGui(testEditor, TimeRange.of(minStartHour, maxStartHour + 2));
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
 		SwingUtilities.invokeLater(() -> createAndShowGUI(editorGui));
