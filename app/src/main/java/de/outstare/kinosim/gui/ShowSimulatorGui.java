@@ -116,9 +116,15 @@ public class ShowSimulatorGui {
 		final int minStartHour = 13;
 		final int maxStartHour = 24;
 		for (int i = 0; i < 4; i++) {
-			final LocalTime showStart = LocalTime.of(minStartHour + r.nextInt(maxStartHour - minStartHour), 0);
-			schedule.add(new Show(showStart, movies.get(r.nextInt(movies.size())), halls
-					.get(r.nextInt(halls.size())), AdBlock.NONE, 0));
+			final Movie movie = movies.get(r.nextInt(movies.size()));
+			final CinemaHall hall = halls.get(r.nextInt(halls.size()));
+			LocalTime showStart;
+			int loops = 10;
+			do {
+				showStart = LocalTime.of(minStartHour + r.nextInt(maxStartHour - minStartHour), 0);
+				loops--;
+			} while (!schedule.isFree(hall, new TimeRange(showStart, movie.getDuration())) && loops > 0);
+			schedule.add(new Show(showStart, movie, hall, AdBlock.NONE, 0));
 		}
 		final ScheduleEditor testEditor = new ScheduleEditor(schedule, halls, movies);
 
