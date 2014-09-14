@@ -32,11 +32,11 @@ public class DistributionsTest {
 		Range<Integer> range = Range.closed(25, 75);
 		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 24, range), 0.0);
 		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 25, range), 0.00001);
-		assertEquals(0.48, Distributions.getDifferenceRatio(expectedValue, 33, range), 0.002);
-		assertEquals(0.73, Distributions.getDifferenceRatio(expectedValue, 38, range), 0.002);
+		assertEquals(0.232, Distributions.getDifferenceRatio(expectedValue, 33, range), 0.001);
+		assertEquals(0.531, Distributions.getDifferenceRatio(expectedValue, 38, range), 0.001);
 		assertEquals(1.0, Distributions.getDifferenceRatio(expectedValue, expectedValue, range), 0.0);
-		assertEquals(0.73, Distributions.getDifferenceRatio(expectedValue, 62, range), 0.002);
-		assertEquals(0.48, Distributions.getDifferenceRatio(expectedValue, 67, range), 0.002);
+		assertEquals(0.531, Distributions.getDifferenceRatio(expectedValue, 62, range), 0.001);
+		assertEquals(0.232, Distributions.getDifferenceRatio(expectedValue, 67, range), 0.001);
 		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 75, range), 0.00001);
 		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 76, range), 0.0);
 
@@ -44,15 +44,17 @@ public class DistributionsTest {
 		expectedValue = 75;
 		range = Range.closed(0, 100);
 		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, -1, range), 0.0);
-		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 0, range), 0.00001);
-		assertEquals(0.5, Distributions.getDifferenceRatio(expectedValue, 25, range), 0.002);
-		assertEquals(0.867, Distributions.getDifferenceRatio(expectedValue, 50, range), 0.002);
-		assertEquals(0.937, Distributions.getDifferenceRatio(expectedValue, 58, range), 0.002);
-		assertEquals(0.96858, Distributions.getDifferenceRatio(expectedValue, 63, range), 0.00002);
+		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 0, range), 0.0);
+		assertEquals(0.25, Distributions.getDifferenceRatio(expectedValue, 25, range), 0.00001);
+		assertEquals(0.75, Distributions.getDifferenceRatio(expectedValue, 50, range), 0.0);
+		assertEquals(0.878, Distributions.getDifferenceRatio(expectedValue, 58, range), 0.001);
+		assertEquals(0.938, Distributions.getDifferenceRatio(expectedValue, 63, range), 0.001);
 		assertEquals(1.0, Distributions.getDifferenceRatio(expectedValue, expectedValue, range), 0.0);
-		assertEquals(0.73, Distributions.getDifferenceRatio(expectedValue, 87, range), 0.002);
-		assertEquals(0.48, Distributions.getDifferenceRatio(expectedValue, 92, range), 0.002);
-		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 100, range), 0.00001);
+		assertEquals(0.531, Distributions.getDifferenceRatio(expectedValue, 87, range), 0.001);
+		assertEquals(0.232, Distributions.getDifferenceRatio(expectedValue, 92, range), 0.001);
+		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 100, range), 0.0);
 		assertEquals(0.0, Distributions.getDifferenceRatio(expectedValue, 101, range), 0.0);
+		expectedValue = 50;
+		assertEquals(0.259, Distributions.getDifferenceRatio(expectedValue, 17, range), 0.001);
 	}
 }

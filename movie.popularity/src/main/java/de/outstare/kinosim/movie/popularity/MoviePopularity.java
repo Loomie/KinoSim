@@ -1,5 +1,8 @@
 package de.outstare.kinosim.movie.popularity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Range;
 
 import de.outstare.kinosim.movie.Rating;
@@ -8,10 +11,12 @@ import de.outstare.kinosim.population.Audience;
 import de.outstare.kinosim.util.Distributions;
 
 /**
- * A MoviePopularity holds all factors and the resulting popularity of a movie.
+ * A MoviePopularity holds all factors and the resulting popularity of a movie (deterministic).
  */
 public class MoviePopularity {
-	private final Rating	rating;
+	private static final Logger	LOG	= LoggerFactory.getLogger(MoviePopularity.class);
+
+	private final Rating		rating;
 
 	// private final Set<Genre> genres;
 	// private final int guestsPerWeek; // estimated if the movie is not yet running, else last full week
@@ -34,6 +39,7 @@ public class MoviePopularity {
 		for (final RatingCategory category : categories) {
 			total += getCategoryPopularity(audiencePrefs, category);
 		}
+		LOG.info("popularity for {} of {} is {}", audience, rating, total);
 		return total;
 	}
 
@@ -44,7 +50,7 @@ public class MoviePopularity {
 		final int usedRangeMin = expectedValue - Rating.MAX_VALUE / 2;
 		final int usedRangeMax = expectedValue + Rating.MAX_VALUE / 2;
 		final double ratio = Distributions.getDifferenceRatio(expectedValue, currentValue, Range.closed(usedRangeMin, usedRangeMax));
-		// and weight it with the priority
+		LOG.debug("{} of {} {} is a ratio of {} for {}", currentValue, expectedValue, category, ratio, audience);
 		return ratio * audience.getPriorityRatio(category);
 	}
 }

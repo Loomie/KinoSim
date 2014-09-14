@@ -27,19 +27,21 @@ public class Distributions {
 	}
 
 	/**
-	 * Gives the ratio of the difference of the given value to the expected value in relation to the half range of values (half range, because values
-	 * of the other side are too far away to be of any value). The ratio is weighted towards the expected value by a cosine function. Therefore values
-	 * near the expected value will have a high ratio.
+	 * Gives the ratio of the difference of the given value to the expected value in relation to the given range of values. The ratio is weighted
+	 * towards the expected value by a cosine function. Therefore values near the expected value will have a high ratio.
 	 *
-	 * Example1: We have values ranging from 0 to 100. We expect a 75 but got a 50. The range of accepted values is 25 to 100 (75 +- 100/2 capped by
-	 * range). In this range of accepted values the 50 is exactly in the middle of the left half. Because the ratio is based on a cosine the ratio is
-	 * cos(-0.5) instead of 0.5.
+	 * Example1: We have values ranging from 0 to 100. We expect the middle which is 50, but got a 17. In the range of values the 17 is almost the one
+	 * third of the left half, so it's two thrid away from the expected value. Because the ratio is based on a cosine the ratio is cos(-0.66 * pi)
+	 * instead of 0.34. And because cosine returns values from -1 to +1, but we want a ratio from 0 to 1 the value is scaled accordingly. In this case
+	 * the cosine returns -0.48 which is scaled to 0.26 (that's 8 percent off the linear value).
 	 *
 	 * <pre>
-	 *  1.0  _
-	 *  0.5 / \
-	 *  0.0|   |
-	 *    -1 0 1
+	 *   1.0    -
+	 *   0.5   / \
+	 *   0.0  |   |
+	 *  -0.5 /     \
+	 *  -1.0-       -
+	 *     -1   0   1 <- relative distance from expected value
 	 * </pre>
 	 *
 	 * Example2: We have values ranging from 0 to 100. We expect a 75 but got a 10. Because it is more than half-range away the ratio is 0;
@@ -65,9 +67,10 @@ public class Distributions {
 		final double relativeDiff = diff / valueCount;
 		assert -1.0 <= relativeDiff && relativeDiff <= 1.0 : "difference ration must be max. +/-1.0, but was " + relativeDiff;
 		// we use a cosinus curve for weighting the difference (preferred value is at zero)
-		final double x = relativeDiff * Math.PI / 2; // +/- half pi = full pi
-		final double y = Math.cos(x);
-		assert 0 <= y && y <= 1 : "expect value between 0-1 for x between -pi/2 and +pi/2. Was " + y + " for cos(" + x + ")";
-		return y;
+		final double x = relativeDiff * Math.PI; // +/- pi = full curve
+		final double y = Math.cos(x); // -1.0 to +1.0
+		final double ratio = (y + 1) / 2.0;
+		assert 0 <= ratio && ratio <= 1 : "expect value between 0-1 for x between -pi and +pi. Was " + ratio + " for cos(" + x + ")";
+		return ratio;
 	}
 }

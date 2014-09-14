@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * A Rating determines the objective weight of {@link RatingCategory} for a movie. The objectiveness might come from a representative number of
  * critics.
@@ -54,5 +56,10 @@ public class Rating {
 			ratingPerCategory.put(cat, r.nextInt(MAX_VALUE + 1));
 		}
 		return create(ratingPerCategory);
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

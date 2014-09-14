@@ -24,13 +24,13 @@ public class MoviePopularityTest {
 		result = testObject.getPopularity(Audience.ADULTS);
 		assertEquals(0, result, 0);
 		result = testObject.getPopularity(Audience.KIDS);
-		assertEquals(0.6990884350293445, result, 0);
+		assertEquals(0.6533813728906053, result, 0);
 		result = testObject.getPopularity(Audience.SENIORS);
-		assertEquals(0.08816778784387098, result, 0);
+		assertEquals(0.05182372542187895, result, 0);
 		result = testObject.getPopularity(Audience.TEENS);
-		assertEquals(0.39721359549995794, result, 0);
+		assertEquals(0.24409830056250528, result, 0);
 		result = testObject.getPopularity(Audience.TWENS);
-		assertEquals(1.83697019872103E-17, result, 0);
+		assertEquals(0, result, 0);
 	}
 
 	@Test
@@ -39,15 +39,15 @@ public class MoviePopularityTest {
 		final MoviePopularity testObject = new MoviePopularity(createRating(max, max, max, max, max));
 		double result;
 		result = testObject.getPopularity(Audience.ADULTS);
-		assertEquals(0.390837117337661, result, 0);
+		assertEquals(0.16571783483984953, result, 0);
 		result = testObject.getPopularity(Audience.KIDS);
-		assertEquals(0.15225424859373685, result, 0);
+		assertEquals(0.1077254248593737, result, 0);
 		result = testObject.getPopularity(Audience.SENIORS);
-		assertEquals(0.34540506296910767, result, 0);
+		assertEquals(0.2209220259843842, result, 0);
 		result = testObject.getPopularity(Audience.TEENS);
-		assertEquals(1.2246467991473533E-17, result, 0);
+		assertEquals(0, result, 0);
 		result = testObject.getPopularity(Audience.TWENS);
-		assertEquals(0.399942373437721, result, 0);
+		assertEquals(0.25364745084375795, result, 0);
 	}
 
 	@Test
@@ -56,15 +56,15 @@ public class MoviePopularityTest {
 		final MoviePopularity testObject = new MoviePopularity(createRating(medium, medium, medium, medium, medium));
 		double result;
 		result = testObject.getPopularity(Audience.ADULTS);
-		assertEquals(0.9116876901488806, result, 0);
+		assertEquals(0.8342821651601505, result, 0);
 		result = testObject.getPopularity(Audience.KIDS);
-		assertEquals(0.4429130110463495, result, 0);
+		assertEquals(0.23889320225002106, result, 0);
 		result = testObject.getPopularity(Audience.SENIORS);
-		assertEquals(0.8441887218542157, result, 0);
+		assertEquals(0.7272542485937369, result, 0);
 		result = testObject.getPopularity(Audience.TEENS);
-		assertEquals(0.8518638338353186, result, 0);
+		assertEquals(0.7559016994374947, result, 0);
 		result = testObject.getPopularity(Audience.TWENS);
-		assertEquals(0.8504734520300096, result, 0);
+		assertEquals(0.7463525491562422, result, 0);
 	}
 
 	@Test
