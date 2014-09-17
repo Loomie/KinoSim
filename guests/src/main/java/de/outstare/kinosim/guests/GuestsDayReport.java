@@ -13,6 +13,7 @@ import de.outstare.kinosim.population.Audience;
 import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
+import de.outstare.kinosim.util.Randomness;
 
 /**
  * A GuestsDayReport holds all {@link GuestsShowReport}s of a day.
@@ -26,7 +27,10 @@ public class GuestsDayReport implements Iterable<GuestsShowReport> {
 		for (final Show show : schedule) {
 			final Map<Audience, Integer> guests = new HashMap<>();
 			for (final Audience audience : Audience.values()) {
-				final int guestCount = calculator.calculateAudienceGuests(show, date, audience);
+				// ideal guests (deterministic)
+				final int normalGuestCount = calculator.calculateAudienceGuests(show, date, audience);
+				// real guests (random)
+				final int guestCount = Randomness.getGaussianAround(normalGuestCount);
 				guests.put(audience, guestCount);
 			}
 
