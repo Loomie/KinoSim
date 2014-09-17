@@ -1,5 +1,7 @@
 package de.outstare.kinosim.guests.gui;
 
+import java.awt.Component;
+import java.awt.Font;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -11,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +33,19 @@ public class GuestsDayReportGui {
 	}
 
 	public JComponent createUi() {
-		final JTable table = new JTable(createModel());
+		final JTable table = new JTable(createModel()) {
+			private static final long	serialVersionUID	= 1954725414916757784L;
+
+			@Override
+			public Component prepareRenderer(final TableCellRenderer renderer, final int row, final int column) {
+				final Component renderComponent = super.prepareRenderer(renderer, row, column);
+				if (row == 0 && renderComponent instanceof JLabel) {
+					final JLabel label = (JLabel) renderComponent;
+					label.setFont(label.getFont().deriveFont(Font.BOLD));
+				}
+				return renderComponent;
+			}
+		};
 		table.getColumnModel().getColumn(0).setPreferredWidth(200);
 		table.getColumnModel().getColumn(2).setPreferredWidth(200);
 		table.setAutoCreateRowSorter(true);
@@ -50,7 +65,7 @@ public class GuestsDayReportGui {
 
 			@Override
 			public int getRowCount() {
-				return report.getShowCount();
+				return report.getShowCount() + 1;
 			}
 
 			@Override
@@ -81,7 +96,18 @@ public class GuestsDayReportGui {
 
 			@Override
 			public Object getValueAt(final int rowIndex, final int columnIndex) {
-				final GuestsShowReport showReport = report.getShowReport(rowIndex);
+				if (rowIndex == 0) {
+					// first row is sum
+					switch (columnIndex) {
+					case 0:
+						return "Total";
+					case 8:
+						return report.getTotalGuests();
+					default:
+						return StringUtils.EMPTY;
+					}
+				}
+				final GuestsShowReport showReport = report.getShowReport(rowIndex - 1);
 
 				Object value = StringUtils.EMPTY;
 				switch (columnIndex) {
