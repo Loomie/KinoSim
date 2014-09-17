@@ -12,6 +12,7 @@ import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.FixedSizeCinemaHall;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.SimpleMovie;
+import de.outstare.kinosim.util.Randomness;
 
 /**
  * A Show is a single scheduled presentation. It defines at which time (when) a movie (what) runs in which hall (where). Additionally advertisements
@@ -114,7 +115,7 @@ public class Show {
 	}
 
 	public static Show createRandom() {
-		final Random r = new Random();
+		final Random r = Randomness.getRandom();
 		final LocalTime aStart = LocalTime.of(12 + r.nextInt(12), 15 * r.nextInt(4));
 		final Movie aFilm = SimpleMovie.createRandom();
 		final CinemaHall aHall = new FixedSizeCinemaHall(50 + r.nextInt(450), 100 + r.nextInt(400));

@@ -1,9 +1,9 @@
 package de.outstare.kinosim.population;
 
-import java.util.Random;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.outstare.kinosim.util.Randomness;
 
 /**
  * A PopulationPyramid holds the age distribution of the population. This implementation uses a linear pyramid form.
@@ -39,7 +39,6 @@ public class PopulationPyramid {
 	}
 
 	public static PopulationPyramid createRandom() {
-		final Random r = new Random();
-		return new PopulationPyramid(500 + r.nextInt(1000), 50 + r.nextInt(70));
+		return new PopulationPyramid(500 + Randomness.nextInt(1000), 50 + Randomness.nextInt(70));
 	}
 }

@@ -22,6 +22,7 @@ import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
 import de.outstare.kinosim.schedule.editor.ScheduleEditor;
+import de.outstare.kinosim.util.Randomness;
 import de.outstare.kinosim.util.TimeRange;
 
 /**
@@ -78,7 +79,7 @@ public class SchedulerGui {
 		for (int i = 0; i < 13; i++) {
 			movies.add(movieGenerator.generate());
 		}
-		final Random r = new Random();
+		final Random r = Randomness.getRandom();
 		final int minStartHour = 13;
 		final int maxStartHour = 24;
 		for (int i = 0; i < 10; i++) {

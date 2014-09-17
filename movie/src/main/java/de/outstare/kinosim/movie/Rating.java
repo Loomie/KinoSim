@@ -4,9 +4,10 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import de.outstare.kinosim.util.Randomness;
 
 /**
  * A Rating determines the objective weight of {@link RatingCategory} for a movie. The objectiveness might come from a representative number of
@@ -50,10 +51,9 @@ public class Rating {
 	}
 
 	public static Rating createRandom() {
-		final Random r = new Random();
 		final Map<RatingCategory, Integer> ratingPerCategory = new HashMap<>();
 		for (final RatingCategory cat : RatingCategory.values()) {
-			ratingPerCategory.put(cat, r.nextInt(MAX_VALUE + 1));
+			ratingPerCategory.put(cat, Randomness.nextInt(MAX_VALUE + 1));
 		}
 		return create(ratingPerCategory);
 	}

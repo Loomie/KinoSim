@@ -13,43 +13,44 @@ import org.slf4j.LoggerFactory;
 
 import de.outstare.kinosim.cinema.WorkSpace;
 import de.outstare.kinosim.util.NumberRange;
+import de.outstare.kinosim.util.Randomness;
 
 public class WorkSpacePainter extends JPanel {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 7465300551424675824L;
+	private static final long	serialVersionUID		= 7465300551424675824L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(WorkSpacePainter.class);
+	private static final Logger	LOG						= LoggerFactory.getLogger(WorkSpacePainter.class);
 
-	private static final double WORKPLACE_AREA_HEIGHT = 4;
-	private static final double WORKPLACE_AREA_WIDTH = 2;
-	private static final Color COLOR_BACKGROUND = new Color(200, 150, 26);
-	private WorkSpace workspace;
-	private int pixelsPerMeter;
+	private static final double	WORKPLACE_AREA_HEIGHT	= 4;
+	private static final double	WORKPLACE_AREA_WIDTH	= 2;
+	private static final Color	COLOR_BACKGROUND		= new Color(200, 150, 26);
+	private final WorkSpace		workspace;
+	private final int			pixelsPerMeter;
 
-	private int rows;
+	private int					rows;
 
-	private Random rand;
+	private final Random		rand;
 
-	private int startCorner;
+	private final int			startCorner;
 
-	private double workplacesPerRow;
+	private double				workplacesPerRow;
 
-	private final double workspacesAreaWidth;
+	private final double		workspacesAreaWidth;
 
-	private final double workspacesAreaHeight;
+	private final double		workspacesAreaHeight;
 
-	private final double backgroundHeight;
+	private final double		backgroundHeight;
 
-	private final double backgroundWidth;
+	private final double		backgroundWidth;
 
 	public WorkSpacePainter(final WorkSpace workspace, final int pixelsPerMeter) {
 		LOG.debug("The workplace to be painted: " + workspace.toString());
 		this.workspace = workspace;
 		this.pixelsPerMeter = pixelsPerMeter;
-		rand = new Random();
+		rand = Randomness.getRandom();
 		rows = 1;
 		final int maxWorkplacesPerRow = (int) new NumberRange(7, 10).getRandomValue();
 		workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
@@ -80,11 +81,8 @@ public class WorkSpacePainter extends JPanel {
 		LOG.debug("workspacesAreaHeight: " + workspacesAreaHeight);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics) */
 	@Override
 	protected void paintComponent(final Graphics g) {
 		paintBackground(mToPixels(backgroundWidth), mToPixels(backgroundHeight), g);
