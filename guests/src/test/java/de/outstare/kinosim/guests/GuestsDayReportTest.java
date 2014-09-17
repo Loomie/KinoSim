@@ -40,7 +40,7 @@ public class GuestsDayReportTest {
 		// mocks for faked calculations
 		final Schedule schedule = mock(Schedule.class);
 		when(schedule.iterator()).thenReturn(shows.iterator());
-		final LocalDate date = null;
+		final LocalDate date = LocalDate.now();
 		final GuestCalculator calculator = mock(GuestCalculator.class);
 		when(calculator.calculateAudienceGuests(show1, date, Audience.ADULTS)).thenReturn(1);
 		when(calculator.calculateAudienceGuests(show1, date, Audience.KIDS)).thenReturn(2);
@@ -54,17 +54,29 @@ public class GuestsDayReportTest {
 
 		final GuestsDayReport report = new GuestsDayReport(calculator, schedule, date);
 
-		assertEquals(108, report.getTotalGuests());
+		assertAround(108, report.getTotalGuests());
 
 		int i = 0;
 		for (final GuestsShowReport subReport : report) {
-			assertEquals("show " + i, 6 + i * 30, subReport.getTotalGuests());
-			assertEquals("show " + i, 1 + i * 10, subReport.getGuests(Audience.ADULTS));
-			assertEquals("show " + i, 2 + i * 10, subReport.getGuests(Audience.KIDS));
-			assertEquals("show " + i, 3 + i * 10, subReport.getGuests(Audience.SENIORS));
+			assertAround("show " + i, 6 + i * 30, subReport.getTotalGuests());
+			assertAround("show " + i, 1 + i * 10, subReport.getGuests(Audience.ADULTS));
+			assertAround("show " + i, 2 + i * 10, subReport.getGuests(Audience.KIDS));
+			assertAround("show " + i, 3 + i * 10, subReport.getGuests(Audience.SENIORS));
 			i++;
 		}
 		assertEquals(i, 3);
+	}
+
+	private void assertAround(final int expected, final int actual) {
+		assertAround("", expected, actual);
+	}
+
+	private void assertAround(String message, final int expected, final int actual) {
+		// up to 40% tolerance
+		final double min = Math.floor(expected * 0.6);
+		final double max = Math.ceil(expected * 1.4);
+		message += ": expected " + min + " to " + max + " but was " + actual;
+		assertTrue(message, min <= actual && actual <= max);
 	}
 
 	private static class TestMovie implements Movie {
