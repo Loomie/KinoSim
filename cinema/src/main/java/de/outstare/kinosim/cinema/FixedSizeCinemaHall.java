@@ -1,5 +1,8 @@
 package de.outstare.kinosim.cinema;
 
+/**
+ * Note: this class has a natural ordering that is inconsistent with equals.
+ */
 public class FixedSizeCinemaHall extends SimpleRoom implements CinemaHall {
 	private final int	capacity;
 

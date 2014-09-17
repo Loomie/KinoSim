@@ -109,7 +109,7 @@ public class GuestsDayReportGui {
 				}
 				final GuestsShowReport showReport = report.getShowReport(rowIndex - 1);
 
-				Object value = StringUtils.EMPTY;
+				Object value;
 				switch (columnIndex) {
 				case 0:
 					value = showReport.getShow().getFilm().getTitle();
@@ -130,6 +130,8 @@ public class GuestsDayReportGui {
 				case 8:
 					value = showReport.getTotalGuests();
 					break;
+				default:
+					value = StringUtils.EMPTY;
 				}
 				return value;
 			}

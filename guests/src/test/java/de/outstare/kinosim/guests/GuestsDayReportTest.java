@@ -3,22 +3,20 @@ package de.outstare.kinosim.guests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Test;
 
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.FixedSizeCinemaHall;
-import de.outstare.kinosim.movie.Genre;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
+import de.outstare.kinosim.movie.SimpleMovie;
 import de.outstare.kinosim.population.Audience;
 import de.outstare.kinosim.schedule.AdBlock;
 import de.outstare.kinosim.schedule.Schedule;
@@ -29,8 +27,8 @@ public class GuestsDayReportTest {
 	@Test
 	public void testGetTotalGuests() {
 		// real objects for ease of data holding and sorting
-		final TestMovie film1 = new TestMovie("Test 1", 20);
-		final TestMovie film2 = new TestMovie("Test 2", 80);
+		final Movie film1 = newTestMovie("Test 1", 20);
+		final Movie film2 = newTestMovie("Test 2", 80);
 		final CinemaHall hall1 = new FixedSizeCinemaHall(1, 100);
 		final CinemaHall hall2 = new FixedSizeCinemaHall(2, 200);
 		final Show show1 = new Show(LocalTime.of(1, 0), film1, hall1, AdBlock.NONE, 0);
@@ -79,48 +77,9 @@ public class GuestsDayReportTest {
 		assertTrue(message, min <= actual && actual <= max);
 	}
 
-	private static class TestMovie implements Movie {
-		private final String	title;
-		private final Rating	rating;
-
-		TestMovie(final String title, final int rating) {
-			this.title = title;
-			this.rating = Rating.create(Collections.singletonMap(RatingCategory.SERIOUSITY, rating));
-		}
-
-		@Override
-		public int compareTo(final Movie o) {
-			return title.compareTo(((TestMovie) o).title);
-		}
-
-		@Override
-		public String getTitle() {
-			return title;
-		}
-
-		@Override
-		public Duration getDuration() {
-			return null;
-		}
-
-		@Override
-		public int getAgeRating() {
-			return 0;
-		}
-
-		@Override
-		public String getDistributor() {
-			return null;
-		}
-
-		@Override
-		public Set<Genre> getGenres() {
-			return null;
-		}
-
-		@Override
-		public Rating getRating() {
-			return rating;
-		}
+	private Movie newTestMovie(final String title, final int rating) {
+		final Rating aRating = Rating.create(Collections.singletonMap(RatingCategory.SERIOUSITY, rating));
+		return new SimpleMovie(title, null, 0, null, null, aRating);
 	}
+
 }

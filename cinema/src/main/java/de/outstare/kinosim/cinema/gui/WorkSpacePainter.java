@@ -17,9 +17,6 @@ import de.outstare.kinosim.util.Randomness;
 
 public class WorkSpacePainter extends JPanel {
 
-	/**
-	 *
-	 */
 	private static final long	serialVersionUID		= 7465300551424675824L;
 
 	private static final Logger	LOG						= LoggerFactory.getLogger(WorkSpacePainter.class);
@@ -34,7 +31,7 @@ public class WorkSpacePainter extends JPanel {
 
 	private final Random		rand;
 
-	private final int			startCorner;
+	private final Corner		startCorner;
 
 	private double				workplacesPerRow;
 
@@ -66,7 +63,7 @@ public class WorkSpacePainter extends JPanel {
 			rows--;
 			workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		}
-		startCorner = rand.nextInt(4);
+		startCorner = Corner.getRandom();
 		workspacesAreaWidth = WORKPLACE_AREA_WIDTH * workplacesPerRow;
 		workspacesAreaHeight = WORKPLACE_AREA_HEIGHT * rows;
 		backgroundHeight = Math.sqrt((workspace.getAllocatedSpace() * workspacesAreaHeight) / workspacesAreaWidth);
@@ -94,25 +91,25 @@ public class WorkSpacePainter extends JPanel {
 			final ArrayList<Direction> walls = new ArrayList<>();
 			final int col = (int) (w % workplacesPerRow);
 			switch (startCorner) {
-			case 0: // top left
+			case TOP_LEFT:
 				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.N, Direction.W);
 				break;
-			case 1: // top right
+			case TOP_RIGHT:
 				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.N, Direction.E);
 				break;
-			case 2: // bottom right
+			case BOTTOM_RIGHT:
 				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.S, Direction.E);
 				break;
-			case 3: // bottom left
+			case BOTTOM_LEFT:
 				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.S, Direction.W);
 				x = mToPixels(col * WORKPLACE_AREA_WIDTH);
 			}
-			if (startCorner == 0 || startCorner == 3) {
+			if (startCorner.isLeft) {
 				x = mToPixels(col * WORKPLACE_AREA_WIDTH);
 			} else {
 				x = mToPixels(backgroundWidth - WORKPLACE_AREA_WIDTH * (col + 1));
 			}
-			if (startCorner == 1 || startCorner == 0) {
+			if (startCorner.isTop) {
 				y = mToPixels(row * WORKPLACE_AREA_HEIGHT);
 			} else {
 				y = mToPixels(backgroundHeight - (row + 1) * WORKPLACE_AREA_HEIGHT);

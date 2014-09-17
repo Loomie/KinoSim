@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.movie.Movie;
+import de.outstare.kinosim.util.Randomness;
 import de.outstare.kinosim.util.TimeRange;
 
 /**
@@ -106,7 +107,7 @@ public class ScheduleImpl implements Schedule {
 
 	public static Schedule createRandom() {
 		final Schedule s = new ScheduleImpl();
-		final int showCount = (int) (Math.random() * 18) + 3;
+		final int showCount = Randomness.nextInt(18) + 3;
 		for (int i = 0; i < showCount; i++) {
 			s.add(Show.createRandom());
 		}

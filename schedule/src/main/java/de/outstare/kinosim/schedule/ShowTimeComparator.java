@@ -1,11 +1,13 @@
 package de.outstare.kinosim.schedule;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  * A ShowTimeComparator orders {@link Show}s by their start time. Same times will be sorted by halls, then by movie title.
  */
-public class ShowTimeComparator implements Comparator<Show> {
+public class ShowTimeComparator implements Comparator<Show>, Serializable {
+	private static final long	serialVersionUID	= -1757069728558005175L;
 
 	@Override
 	public int compare(final Show o1, final Show o2) {

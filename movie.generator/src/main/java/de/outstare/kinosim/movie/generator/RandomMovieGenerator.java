@@ -10,12 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import de.outstare.kinosim.movie.Genre;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
+import de.outstare.kinosim.movie.SimpleMovie;
+import de.outstare.kinosim.util.Randomness;
 
 public class RandomMovieGenerator implements MovieGenerator {
 
@@ -28,54 +29,7 @@ public class RandomMovieGenerator implements MovieGenerator {
 
 	@Override
 	public Movie generate() {
-		return new Movie() {
-			final String		title		= createTitle();
-			final Rating		rating		= createRating();
-			final Set<Genre>	genres		= createGenres();
-			final Duration		duration	= createDuration();
-			final String		distributor	= createDistributor();
-			final int			ageRating	= createAgeRating();
-
-			@Override
-			public String getTitle() {
-				return title;
-			}
-
-			@Override
-			public Rating getRating() {
-				return rating;
-			}
-
-			@Override
-			public Set<Genre> getGenres() {
-				return genres;
-			}
-
-			@Override
-			public Duration getDuration() {
-				return duration;
-			}
-
-			@Override
-			public String getDistributor() {
-				return distributor;
-			}
-
-			@Override
-			public int getAgeRating() {
-				return ageRating;
-			}
-
-			@Override
-			public String toString() {
-				return ToStringBuilder.reflectionToString(this);
-			}
-
-			@Override
-			public int compareTo(final Movie o) {
-				return getTitle().compareTo(o.getTitle());
-			}
-		};
+		return new SimpleMovie(createTitle(), createDuration(), createAgeRating(), createDistributor(), createGenres(), createRating());
 	}
 
 	private String createTitle() {
@@ -86,7 +40,7 @@ public class RandomMovieGenerator implements MovieGenerator {
 	private Rating createRating() {
 		final Map<RatingCategory, Integer> ratingPerCategory = new HashMap<>();
 		for (final RatingCategory category : RatingCategory.values()) {
-			ratingPerCategory.put(category, (int) (Math.random() * Rating.MAX_VALUE));
+			ratingPerCategory.put(category, Randomness.nextInt(Rating.MAX_VALUE));
 		}
 		return Rating.create(ratingPerCategory);
 	}
