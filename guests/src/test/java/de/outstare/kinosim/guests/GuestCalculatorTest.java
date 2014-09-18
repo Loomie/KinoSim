@@ -114,6 +114,6 @@ public class GuestCalculatorTest {
 		ratingPerCategory.put(RatingCategory.REALITY, real);
 		ratingPerCategory.put(RatingCategory.SERIOUSITY, serious);
 		final Rating rating = Rating.create(ratingPerCategory);
-		return new SimpleMovie(null, null, 0, null, null, rating, null);
+		return new SimpleMovie(null, null, 0, null, null, rating, LocalDate.now());
 	}
 }

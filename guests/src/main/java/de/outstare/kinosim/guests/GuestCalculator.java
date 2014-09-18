@@ -50,7 +50,7 @@ public class GuestCalculator {
 
 	int calculateAudienceGuests(final Show show, final LocalDate date, final Audience audience) {
 		final double populationPart = population.getPopulationOfAudience(audience) * 0.012;
-		final double movieFactor = new MoviePopularity(show.getFilm().getRating()).getPopularity(audience);
+		final double movieFactor = MoviePopularity.getPopularity(audience, show.getFilm());
 		final double startFactor = startTimeFactor(show, audience);
 		final double averageWeightedFactor = (5.0 * movieFactor + 1.0 * startFactor) / 6;
 		final int guests = (int) (populationPart * averageWeightedFactor * dateFactor(date));

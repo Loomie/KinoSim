@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Range;
 
+import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.Rating;
 import de.outstare.kinosim.movie.RatingCategory;
 import de.outstare.kinosim.population.Audience;
@@ -13,37 +14,41 @@ import de.outstare.kinosim.util.Distributions;
 /**
  * A MoviePopularity holds all factors and the resulting popularity of a movie (deterministic).
  */
-public class MoviePopularity {
+public abstract class MoviePopularity {
 	private static final Logger	LOG	= LoggerFactory.getLogger(MoviePopularity.class);
 
-	private final Rating		rating;
-
-	// private final Set<Genre> genres;
-	// private final int guestsPerWeek; // estimated if the movie is not yet running, else last full week
-	// private final int guestsPerWeekend; // estimated if the movie is not yet running, else last full weekend
-
-	public MoviePopularity(final Rating rating) {
-		this.rating = rating;
+	private MoviePopularity() {
+		// no instances
 	}
 
 	/**
 	 * Get the popularity for the given audience.
 	 *
 	 * @param audience
+	 * @param rating
+	 * @param weeksSinceRelease
 	 * @return the ratio of people who want to watch the movie (0.0 - 1.0)
 	 */
-	public double getPopularity(final Audience audience) {
+	public static double getPopularity(final Audience audience, final Movie movie) {
+		final Rating rating = movie.getRating();
 		final AudienceMoviePrefs audiencePrefs = AudienceMoviePrefs.forAudience(audience);
 		double total = 0;
 		final RatingCategory[] categories = RatingCategory.values();
 		for (final RatingCategory category : categories) {
-			total += getCategoryPopularity(audiencePrefs, category);
+			total += getCategoryPopularity(audiencePrefs, category, rating);
 		}
-		LOG.info("popularity for {} of {} is {}", audience, rating, total);
+		final int weeksSinceRelease = movie.getWeeksSinceRelease();
+		if (weeksSinceRelease > 0) {
+			// older movie are not that popular (1 by square root of weeks running) TODO move function to audience, so seniors like historic movies
+			// also (or even more?)
+			final double timeFactor = Math.pow(weeksSinceRelease, -0.5);
+			total *= timeFactor;
+		}
+		LOG.info("popularity for {} of {} after {} weeks is {}", audience, rating, weeksSinceRelease, total);
 		return total;
 	}
 
-	private double getCategoryPopularity(final AudienceMoviePrefs audience, final RatingCategory category) {
+	private static double getCategoryPopularity(final AudienceMoviePrefs audience, final RatingCategory category, final Rating rating) {
 		final int expectedValue = audience.getPreferredValue(category);
 		final int currentValue = rating.getValue(category);
 		// more than half range away is worth nothing

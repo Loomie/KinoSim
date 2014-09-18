@@ -1,13 +1,16 @@
 package de.outstare.kinosim.movie.generator;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -85,9 +88,7 @@ public class RandomMovieGenerator implements MovieGenerator {
 	}
 
 	private LocalDate createReleaseDate() {
-		final int year = 1934 + Randomness.nextInt(80);
-		final int month = 1 + Randomness.nextInt(12);
-		final int day = 1 + Randomness.nextInt(31);
-		return LocalDate.of(year, month, day);
+		final Random r = Randomness.getRandom();
+		return LocalDate.now().minusWeeks(r.nextInt(8)).with(ChronoField.DAY_OF_WEEK, DayOfWeek.THURSDAY.getLong(ChronoField.DAY_OF_WEEK));
 	}
 }

@@ -1,11 +1,11 @@
 package de.outstare.kinosim.movie;
 
+import java.text.Collator;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -91,8 +91,8 @@ public class SimpleMovie implements Movie {
 	}
 
 	@Override
-	public Period getTimeSinceRelease() {
-		return release.until(LocalDate.now());
+	public int getWeeksSinceRelease() {
+		return (int) ChronoUnit.WEEKS.between(release, LocalDate.now());
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class SimpleMovie implements Movie {
 	 */
 	@Override
 	public int compareTo(final Movie o) {
-		return getTitle().compareTo(o.getTitle());
+		return Collator.getInstance().compare(getTitle(), o.getTitle());
 	}
 
 	@Override
@@ -156,7 +156,6 @@ public class SimpleMovie implements Movie {
 		final Rating aRating = Rating.createRandom();
 		final LocalDate aRelease = LocalDate.now().minusWeeks(r.nextInt(8))
 				.with(ChronoField.DAY_OF_WEEK, DayOfWeek.THURSDAY.getLong(ChronoField.DAY_OF_WEEK));
-		System.out.println("SimpleMovie.createRandom() " + aRelease.format(DateTimeFormatter.ISO_WEEK_DATE));
 		return new SimpleMovie(aTitle, aDuration, age, aDistributor, aGenres, aRating, aRelease);
 	}
 

@@ -47,7 +47,7 @@ public class GuestsDayReportGui {
 			}
 		};
 		table.getColumnModel().getColumn(0).setPreferredWidth(200);
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(3).setPreferredWidth(200);
 		table.setAutoCreateRowSorter(true);
 
 		final JPanel panel = new JPanel();
@@ -70,7 +70,7 @@ public class GuestsDayReportGui {
 
 			@Override
 			public int getColumnCount() {
-				return 9;
+				return 10;
 			}
 
 			@Override
@@ -79,16 +79,18 @@ public class GuestsDayReportGui {
 				case 0:
 					return "Movie";
 				case 1:
-					return "Time";
+					return "Week";
 				case 2:
-					return "Hall";
+					return "Time";
 				case 3:
+					return "Hall";
 				case 4:
 				case 5:
 				case 6:
 				case 7:
-					return Audience.values()[column - 3].toString();
 				case 8:
+					return Audience.values()[column - 4].toString();
+				case 9:
 					return "Total";
 				}
 				return super.getColumnName(column);
@@ -101,10 +103,10 @@ public class GuestsDayReportGui {
 					switch (columnIndex) {
 					case 0:
 						return "Total";
-					case 8:
+					case 9:
 						return report.getTotalGuests();
 					default:
-						return StringUtils.EMPTY;
+						return getColumnClass(columnIndex) == Integer.class ? 0 : StringUtils.EMPTY;
 					}
 				}
 				final GuestsShowReport showReport = report.getShowReport(rowIndex - 1);
@@ -115,19 +117,22 @@ public class GuestsDayReportGui {
 					value = showReport.getShow().getFilm().getTitle();
 					break;
 				case 1:
-					value = showReport.getShow().getStart();
+					value = showReport.getShow().getFilm().getWeeksSinceRelease() + 1;
 					break;
 				case 2:
-					value = showReport.getShow().getHall();
+					value = showReport.getShow().getStart();
 					break;
 				case 3:
+					value = showReport.getShow().getHall();
+					break;
 				case 4:
 				case 5:
 				case 6:
 				case 7:
-					value = showReport.getGuests(Audience.values()[columnIndex - 3]);
-					break;
 				case 8:
+					value = showReport.getGuests(Audience.values()[columnIndex - 4]);
+					break;
+				case 9:
 					value = showReport.getTotalGuests();
 					break;
 				default:
@@ -138,10 +143,10 @@ public class GuestsDayReportGui {
 
 			@Override
 			public Class<?> getColumnClass(final int columnIndex) {
-				if (columnIndex == 1) {
+				if (columnIndex == 2) {
 					return LocalDate.class;
 				}
-				if (3 <= columnIndex && columnIndex <= 8) {
+				if (columnIndex == 1 || 3 <= columnIndex && columnIndex <= 8) {
 					return Integer.class;
 				}
 				return super.getColumnClass(columnIndex);
