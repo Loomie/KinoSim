@@ -1,6 +1,7 @@
 package de.outstare.kinosim.movie;
 
 import java.time.Duration;
+import java.time.Period;
 import java.util.Set;
 
 /**
@@ -36,4 +37,9 @@ public interface Movie extends Comparable<Movie> {
 	 * @return what this movie means to people
 	 */
 	Rating getRating();
+
+	/**
+	 * @return the amount of time since the first release of this movie
+	 */
+	Period getTimeSinceRelease();
 }

@@ -1,6 +1,7 @@
 package de.outstare.kinosim.movie.generator;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,11 +30,12 @@ public class RandomMovieGenerator implements MovieGenerator {
 
 	@Override
 	public Movie generate() {
-		return new SimpleMovie(createTitle(), createDuration(), createAgeRating(), createDistributor(), createGenres(), createRating());
+		return new SimpleMovie(createTitle(), createDuration(), createAgeRating(), createDistributor(), createGenres(), createRating(),
+				createReleaseDate());
 	}
 
 	private String createTitle() {
-		final int length = (int) (4 + Math.random() * 8);
+		final int length = (int) (4 + Randomness.nextDouble() * 8);
 		return RandomStringUtils.randomAlphabetic(length);
 	}
 
@@ -59,15 +61,15 @@ public class RandomMovieGenerator implements MovieGenerator {
 	}
 
 	private int getRandomIndex(final List<?> available) {
-		return (int) (Math.random() * available.size());
+		return Randomness.nextInt(available.size());
 	}
 
 	private Duration createDuration() {
-		return Duration.ofMinutes((int) (60 + Math.random() * 90));
+		return Duration.ofMinutes(60 + Randomness.nextInt(90));
 	}
 
 	private String createDistributor() {
-		final double random = Math.random();
+		final double random = Randomness.nextDouble();
 		if (random > 0.8) {
 			return "Foo Production";
 		} else if (random > 0.5) {
@@ -79,7 +81,13 @@ public class RandomMovieGenerator implements MovieGenerator {
 	}
 
 	private int createAgeRating() {
-		return (int) Math.round(18 * Math.random());
+		return 1 + Randomness.nextInt(18);
 	}
 
+	private LocalDate createReleaseDate() {
+		final int year = 1934 + Randomness.nextInt(80);
+		final int month = 1 + Randomness.nextInt(12);
+		final int day = 1 + Randomness.nextInt(31);
+		return LocalDate.of(year, month, day);
+	}
 }

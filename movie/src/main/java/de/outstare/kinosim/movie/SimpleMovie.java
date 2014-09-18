@@ -1,6 +1,11 @@
 package de.outstare.kinosim.movie;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -23,15 +28,17 @@ public class SimpleMovie implements Movie {
 	private final String		distributor;
 	private final Set<Genre>	genres;
 	private final Rating		rating;
+	private final LocalDate		release;
 
 	public SimpleMovie(final String title, final Duration duration, final int ageRating, final String distributor, final Set<Genre> genres,
-			final Rating rating) {
+			final Rating rating, final LocalDate release) {
 		this.title = title;
 		this.duration = duration;
 		this.ageRating = ageRating;
 		this.distributor = distributor;
 		this.genres = genres;
 		this.rating = rating;
+		this.release = release;
 
 	}
 
@@ -83,6 +90,11 @@ public class SimpleMovie implements Movie {
 		return rating;
 	}
 
+	@Override
+	public Period getTimeSinceRelease() {
+		return release.until(LocalDate.now());
+	}
+
 	/**
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
@@ -112,6 +124,7 @@ public class SimpleMovie implements Movie {
 				.append(distributor, other.distributor)
 				.append(genres, other.genres)
 				.append(rating, other.rating)
+				.append(release, other.release)
 				.isEquals();
 	}
 
@@ -124,6 +137,7 @@ public class SimpleMovie implements Movie {
 				.append(distributor)
 				.append(genres)
 				.append(rating)
+				.append(release)
 				.toHashCode();
 	}
 
@@ -140,7 +154,10 @@ public class SimpleMovie implements Movie {
 			aGenres.add(randomGenre);
 		}
 		final Rating aRating = Rating.createRandom();
-		return new SimpleMovie(aTitle, aDuration, age, aDistributor, aGenres, aRating);
+		final LocalDate aRelease = LocalDate.now().minusWeeks(r.nextInt(8))
+				.with(ChronoField.DAY_OF_WEEK, DayOfWeek.THURSDAY.getLong(ChronoField.DAY_OF_WEEK));
+		System.out.println("SimpleMovie.createRandom() " + aRelease.format(DateTimeFormatter.ISO_WEEK_DATE));
+		return new SimpleMovie(aTitle, aDuration, age, aDistributor, aGenres, aRating, aRelease);
 	}
 
 	private static String randomWord() {

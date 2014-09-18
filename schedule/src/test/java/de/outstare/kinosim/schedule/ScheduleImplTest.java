@@ -32,9 +32,9 @@ public class ScheduleImplTest {
 		hall1 = new FixedSizeCinemaHall(1, 100);
 		hall2 = new FixedSizeCinemaHall(1, 50);
 		hall3 = new FixedSizeCinemaHall(1, 10);
-		movie1 = new SimpleMovie("a", null, 0, null, null, null);
-		movie2 = new SimpleMovie("b", null, 0, null, null, null);
-		movie3 = new SimpleMovie("x", null, 0, null, null, null);
+		movie1 = new SimpleMovie("a", null, 0, null, null, null, null);
+		movie2 = new SimpleMovie("b", null, 0, null, null, null, null);
+		movie3 = new SimpleMovie("x", null, 0, null, null, null, null);
 		show1 = mockShow(LocalTime.MIN, hall3, movie3);
 		show2 = mockShow(LocalTime.NOON, hall1, movie3);
 		show3 = mockShow(LocalTime.NOON, hall2, movie1);

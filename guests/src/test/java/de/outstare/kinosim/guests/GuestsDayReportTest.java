@@ -79,7 +79,7 @@ public class GuestsDayReportTest {
 
 	private Movie newTestMovie(final String title, final int rating) {
 		final Rating aRating = Rating.create(Collections.singletonMap(RatingCategory.SERIOUSITY, rating));
-		return new SimpleMovie(title, null, 0, null, null, aRating);
+		return new SimpleMovie(title, null, 0, null, null, aRating, null);
 	}
 
 }
