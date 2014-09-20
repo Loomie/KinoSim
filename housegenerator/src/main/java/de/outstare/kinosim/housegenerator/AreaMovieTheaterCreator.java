@@ -11,14 +11,15 @@ import de.outstare.kinosim.cinema.FixedSizeCinemaHall;
 import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.cinema.Room;
 import de.outstare.kinosim.cinema.RoomType;
+import de.outstare.kinosim.util.Randomness;
 
 /**
  * A AreaMovieTheaterCreator generates a {@link MovieTheater} for a given area of land (an estate).
  */
 public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
-	private static final Logger LOG = LoggerFactory.getLogger(AreaMovieTheaterCreator.class);
+	private static final Logger	LOG	= LoggerFactory.getLogger(AreaMovieTheaterCreator.class);
 
-	private final int area; // in square meters
+	private final int			area;															// in square meters
 
 	public AreaMovieTheaterCreator(final int areaInSquareMeters) {
 		area = areaInSquareMeters;
@@ -42,10 +43,15 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 		// Implementation: Use a decreasing curve of x^(-1/2)
 		int hallNo = 1;
 		int actualSeats = 0;
-		LOG.debug("Calculated seats: " + calculatedSeats);
+		final double maxSeats = Math.min(Randomness.getGaussianAround(900), calculatedSeats / 3.0);
+		LOG.debug("Calculated seats: " + calculatedSeats + ", max seats per hall: " + maxSeats);
 		while (usedSpace < usableArea) {
-			final int seatsForHall = (int) (calculatedSeats / 3.0 * Math.pow(hallNo, -0.5));
+			final int seatsForHall = (int) (maxSeats * Math.pow(hallNo, -0.5));
 			final double spaceForHall = cinemaAreaPerSeat * seatsForHall;
+			if (usedSpace + spaceForHall > usableArea) {
+				// no more space
+				break;
+			}
 			rooms.add(new FixedSizeCinemaHall(spaceForHall, seatsForHall));
 			LOG.debug("Hall " + hallNo + " has " + seatsForHall + " seats and an area of " + spaceForHall + " m²");
 			usedSpace += spaceForHall;
