@@ -1,12 +1,14 @@
 package de.outstare.kinosim.cinema.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
@@ -31,8 +33,6 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 
 	private int rows;
 
-	private final Random rand;
-
 	private final Corner startCorner;
 
 	private double workplacesPerRow;
@@ -41,19 +41,28 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 
 	private final double workspacesAreaHeight;
 
+	/**
+	 * Height of the background in meters
+	 */
 	private final double backgroundHeight;
 
+	/**
+	 * Width of the background in meters
+	 */
 	private final double backgroundWidth;
+
+	private final List<GraphicalArea> areas;
+
+	private int oldPixelsPerMeter;
 
 	public WorkSpacePainter(final WorkSpace workspace, final int pixelsPerMeter) {
 		LOG.debug("The workplace to be painted: " + workspace.toString());
 		this.workspace = workspace;
 		this.pixelsPerMeter = pixelsPerMeter;
-		rand = Randomness.getRandom();
 		rows = 1;
 		final int maxWorkplacesPerRow = (int) new NumberRange(7, 10).getRandomValue();
 		workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
-		if (workspace.getWorkplaceCount() > 2 && rand.nextDouble() >= 0.5d) {
+		if (workspace.getWorkplaceCount() > 2 && Randomness.getRandom().nextDouble() >= 0.5d) {
 			rows = 2;
 			workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		}
@@ -70,8 +79,11 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 		workspacesAreaHeight = WORKPLACE_AREA_HEIGHT * rows;
 		backgroundHeight = Math.sqrt((workspace.getAllocatedSpace() * workspacesAreaHeight) / workspacesAreaWidth);
 		backgroundWidth = workspacesAreaWidth * (backgroundHeight / workspacesAreaHeight);
+		areas = generateAreas();
 		setSize(mToPixels(backgroundWidth), mToPixels(backgroundHeight));
 		setPreferredSize(getSize());
+		setMinimumSize(new Dimension((int) backgroundWidth, (int) backgroundHeight));
+		oldPixelsPerMeter = pixelsPerMeter;
 		LOG.debug("Will paint " + workspace.getWorkplaceCount() + " tables in " + rows + " rows starting in corner " + startCorner);
 		LOG.debug("The area of the office is " + backgroundWidth + " x " + backgroundHeight + "m, in pixels: " + mToPixels(backgroundWidth) + " x "
 				+ mToPixels(backgroundHeight));
@@ -82,19 +94,13 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 		addComponentListener(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
-	@Override
-	protected void paintComponent(final Graphics g) {
-		paintBackground(mToPixels(backgroundWidth), mToPixels(backgroundHeight), g);
+	private List<GraphicalArea> generateAreas() {
+		final ArrayList<GraphicalArea> areas = new ArrayList<>();
+		// Generate areas for the Workplaces
 		int row = 0;
 		for (int w = 0; w < workspace.getWorkplaceCount(); w++) {
 			int x = 0;
 			int y = 0;
-			final GraphicalArea newArea;
 			final ArrayList<Direction> walls = new ArrayList<>();
 			final int col = (int) (w % workplacesPerRow);
 			switch (startCorner) {
@@ -122,18 +128,30 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 				y = mToPixels(backgroundHeight - (row + 1) * WORKPLACE_AREA_HEIGHT);
 			}
 			final Point areaCorner = new Point(x, y);
-			newArea = new GraphicalArea(areaCorner, mToPixels(WORKPLACE_AREA_WIDTH), mToPixels(WORKPLACE_AREA_HEIGHT), false, walls);
-			paintWorkplace(g, newArea);
+			areas.add(new GraphicalArea(areaCorner, mToPixels(WORKPLACE_AREA_WIDTH), mToPixels(WORKPLACE_AREA_HEIGHT), false, walls));
 			if ((w + 1) % workplacesPerRow == 0) {
 				row++;
 			}
 		}
-		// Calculate and fill the free areas left
 
-		// TEST/DEBUG
-		final String debug = workspace.getWorkplaceCount() + ", " + rows;
-		g.setColor(Color.YELLOW);
-		g.drawString(debug, 5, 10);
+		// TODO: Calculate and fill the free areas left
+
+		return areas;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
+	@Override
+	protected void paintComponent(final Graphics g) {
+		paintBackground(mToPixels(backgroundWidth), mToPixels(backgroundHeight), g);
+		for (final GraphicalArea area : areas) {
+			if (!area.isFreeArea()) {
+				paintWorkplace(g, area);
+			}
+		}
 	}
 
 	private void paintWorkplace(final Graphics g, final GraphicalArea workplaceArea) {
@@ -154,6 +172,12 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 
 		g.fillRect(chairPosX, chairPosY, chairWidth, chairHeight);
 		g.drawRect(offset.x, offset.y, workplaceArea.getLength(), workplaceArea.getHeight());
+
+		for (final Entry<Point, PaintableObject> i : workplaceArea.getObjects().entrySet()) {
+			final Point relativePos = i.getKey();
+			i.getValue().paint(g, new Point(relativePos.x + offset.x, relativePos.y + offset.y), pixelsPerMeter);
+		}
+
 	}
 
 	private void paintBackground(final int backgroundWidth, final int backgroundHeight, final Graphics g) {
@@ -176,8 +200,26 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 
 	@Override
 	public void componentResized(final ComponentEvent e) {
+		oldPixelsPerMeter = pixelsPerMeter;
 		pixelsPerMeter = (int) (getWidth() / (double) getHeight() < backgroundWidth / backgroundHeight ? getWidth() / backgroundWidth : getHeight()
 				/ backgroundHeight);
+		if (pixelsPerMeter < backgroundHeight || pixelsPerMeter < backgroundWidth) {
+			pixelsPerMeter = oldPixelsPerMeter;
+		}
+		relocateAreas();
+	}
+
+	private void relocateAreas() {
+		for (final GraphicalArea area : areas) {
+			int x = area.getPosition().x;
+			int y = area.getPosition().y;
+			area.setPosition(new Point((int) (Math.rint((x / (double) oldPixelsPerMeter) * pixelsPerMeter)), (int) (Math.rint((y / (double) oldPixelsPerMeter)
+					* pixelsPerMeter))));
+			x = area.getLength();
+			y = area.getHeight();
+			area.setSize((int) (Math.rint((x / (double) oldPixelsPerMeter) * pixelsPerMeter)),
+					(int) (Math.rint((y / (double) oldPixelsPerMeter) * pixelsPerMeter)));
+		}
 	}
 
 	@Override

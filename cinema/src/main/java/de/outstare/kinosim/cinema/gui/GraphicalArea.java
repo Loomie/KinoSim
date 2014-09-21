@@ -1,7 +1,10 @@
 package de.outstare.kinosim.cinema.gui;
 
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * An aera to be printed. All values are in pixels (pos and size).
@@ -10,13 +13,14 @@ import java.util.List;
  *
  */
 public class GraphicalArea {
-	private Point position;
+	private Point position = new Point();
 	private int length, height;
 	/**
 	 * indicates if this area has to be filled with stuff
 	 */
 	private boolean freeArea;
 	private List<Direction> walls;
+	private Map<Point, PaintableObject> objects;
 
 	/**
 	 * @param position
@@ -28,11 +32,26 @@ public class GraphicalArea {
 	 */
 	public GraphicalArea(final Point position, final int length, final int height, final boolean freeArea, final List<Direction> walls) {
 		super();
-		this.position = position;
+		setPosition(position);
 		this.length = length;
 		this.height = height;
 		this.freeArea = freeArea;
 		this.walls = walls;
+		objects = new HashMap<>(0);
+		if (!freeArea) {
+			final Random r = new Random();
+			if (r.nextDouble() > 0.7) {
+				final PaintableObject o = PaintableObject.PLANT;
+				objects.put(new Point(0, 0), o);
+			}
+		}
+	}
+
+	/**
+	 * @return the objects
+	 */
+	public Map<Point, PaintableObject> getObjects() {
+		return objects;
 	}
 
 	/**
@@ -72,4 +91,24 @@ public class GraphicalArea {
 		return walls;
 	}
 
+	/**
+	 * Sets the position
+	 *
+	 * @param newPosition
+	 *            the new position may not be null, else the position does not change
+	 */
+	public void setPosition(final Point newPosition) {
+		if (newPosition != null) {
+			position = newPosition;
+		}
+	}
+
+	/**
+	 * @param newLength
+	 * @param newHeight
+	 */
+	public void setSize(final int newLength, final int newHeight) {
+		length = newLength;
+		height = newHeight;
+	}
 }
