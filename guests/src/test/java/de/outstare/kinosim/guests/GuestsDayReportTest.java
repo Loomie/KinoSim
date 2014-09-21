@@ -29,8 +29,8 @@ public class GuestsDayReportTest {
 		// real objects for ease of data holding and sorting
 		final Movie film1 = newTestMovie("Test 1", 20);
 		final Movie film2 = newTestMovie("Test 2", 80);
-		final CinemaHall hall1 = new FixedSizeCinemaHall(1, 100);
-		final CinemaHall hall2 = new FixedSizeCinemaHall(2, 200);
+		final CinemaHall hall1 = new FixedSizeCinemaHall("1", 1, 100);
+		final CinemaHall hall2 = new FixedSizeCinemaHall("2", 2, 200);
 		final Show show1 = new Show(LocalTime.of(1, 0), film1, hall1, AdBlock.NONE, 0);
 		final Show show2 = new Show(LocalTime.of(1, 0), film2, hall2, AdBlock.NONE, 0);
 		final Show show3 = new Show(LocalTime.of(2, 0), film1, hall1, AdBlock.NONE, 0);

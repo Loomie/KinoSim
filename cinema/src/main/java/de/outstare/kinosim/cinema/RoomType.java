@@ -11,7 +11,7 @@ public enum RoomType {
 		public CinemaHall createRoom(final int seats) {
 			final double space = spacePerUnit.getRandomValue();
 			final double allocatedSpace = space * seats;
-			return new FixedSizeCinemaHall(allocatedSpace, seats);
+			return new FixedSizeCinemaHall(String.valueOf(seats), allocatedSpace, seats);
 		}
 	},
 	Office(false, 9, 25, SpaceUnit.PerWorkplace, new NumberRange(1, 4)),

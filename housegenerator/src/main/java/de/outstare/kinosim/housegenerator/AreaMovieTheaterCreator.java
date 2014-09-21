@@ -52,8 +52,9 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 				// no more space
 				break;
 			}
-			rooms.add(new FixedSizeCinemaHall(spaceForHall, seatsForHall));
-			LOG.debug("Hall " + hallNo + " has " + seatsForHall + " seats and an area of " + spaceForHall + " m²");
+			final String name = "Hall " + hallNo;
+			rooms.add(new FixedSizeCinemaHall(name, spaceForHall, seatsForHall));
+			LOG.debug(name + " has " + seatsForHall + " seats and an area of " + spaceForHall + " m²");
 			usedSpace += spaceForHall;
 			actualSeats += seatsForHall;
 			hallNo++;

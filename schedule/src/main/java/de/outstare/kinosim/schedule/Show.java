@@ -118,7 +118,8 @@ public class Show {
 		final Random r = Randomness.getRandom();
 		final LocalTime aStart = LocalTime.of(12 + r.nextInt(12), 15 * r.nextInt(4));
 		final Movie aFilm = SimpleMovie.createRandom();
-		final CinemaHall aHall = new FixedSizeCinemaHall(50 + r.nextInt(450), 100 + r.nextInt(400));
+		final int seats = 100 + r.nextInt(400);
+		final CinemaHall aHall = new FixedSizeCinemaHall(String.valueOf(seats), 50 + r.nextInt(450), seats);
 		final AdBlock adblock = new AdBlock(Duration.ofMinutes(r.nextInt(20)));
 		final int breakTime = r.nextDouble() > 0.8 ? 5 + r.nextInt(25) : 0;
 		return new Show(aStart, aFilm, aHall, adblock, breakTime);

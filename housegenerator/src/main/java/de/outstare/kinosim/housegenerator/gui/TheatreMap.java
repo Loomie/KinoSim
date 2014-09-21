@@ -17,6 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.cinema.Room;
 import de.outstare.kinosim.cinema.RoomType;
@@ -62,7 +63,13 @@ public class TheatreMap {
 				for (final Entry<Room, Double> room : roomSquares.entrySet()) {
 					final Rectangle2D.Double scaled = scale(room.getValue());
 					g2.draw(scaled);
-					g2.drawString(room.getKey().getType().toString(), (float) (scaled.x + 5), (float) (scaled.y + 15));
+					String label;
+					if (room.getKey().getType() == RoomType.CinemaHall) {
+						label = ((CinemaHall) room.getKey()).getName();
+					} else {
+						label = room.getKey().getType().toString();
+					}
+					g2.drawString(label, (float) (scaled.x + 5), (float) (scaled.y + 15));
 					g2.drawString(String.valueOf((int) room.getKey().getAllocatedSpace()) + " m²", (float) (scaled.x + 5), (float) (scaled.y + 35));
 				}
 			}

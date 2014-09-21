@@ -5,7 +5,9 @@ package de.outstare.kinosim.cinema;
  */
 public interface CinemaHall extends Room, Comparable<CinemaHall> {
 	/**
-	 * @return the number of people who can enjoy a film in this cinema
+	 * @return the number of people who can enjoy a film in this hall
 	 */
 	int getCapacity();
+
+	String getName();
 }

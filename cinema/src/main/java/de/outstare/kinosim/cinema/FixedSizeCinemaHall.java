@@ -4,12 +4,19 @@ package de.outstare.kinosim.cinema;
  * Note: this class has a natural ordering that is inconsistent with equals.
  */
 public class FixedSizeCinemaHall extends SimpleRoom implements CinemaHall {
-	private final int	capacity;
+	private final String	name;
+	private final int		capacity;
 
-	public FixedSizeCinemaHall(final double allocatedSpace, final int capacity) {
+	public FixedSizeCinemaHall(final String name, final double allocatedSpace, final int capacity) {
 		super(RoomType.CinemaHall, allocatedSpace);
+		this.name = name;
 		this.capacity = capacity;
 
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override
@@ -25,6 +32,6 @@ public class FixedSizeCinemaHall extends SimpleRoom implements CinemaHall {
 
 	@Override
 	public String toString() {
-		return super.toString() + " " + getCapacity() + " seats";
+		return getName() + " " + super.toString() + " " + getCapacity() + " seats";
 	}
 }
