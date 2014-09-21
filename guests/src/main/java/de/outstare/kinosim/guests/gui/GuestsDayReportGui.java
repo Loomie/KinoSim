@@ -16,8 +16,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
-import org.apache.commons.lang3.StringUtils;
-
 import de.outstare.kinosim.guests.GuestsDayReport;
 import de.outstare.kinosim.guests.GuestsShowReport;
 import de.outstare.kinosim.population.Audience;
@@ -106,7 +104,7 @@ public class GuestsDayReportGui {
 					case 9:
 						return report.getTotalGuests();
 					default:
-						return getColumnClass(columnIndex) == Integer.class ? 0 : StringUtils.EMPTY;
+						return null;
 					}
 				}
 				final GuestsShowReport showReport = report.getShowReport(rowIndex - 1);
@@ -123,7 +121,7 @@ public class GuestsDayReportGui {
 					value = showReport.getShow().getStart();
 					break;
 				case 3:
-					value = showReport.getShow().getHall();
+					value = showReport.getShow().getHall().getName();
 					break;
 				case 4:
 				case 5:
@@ -136,7 +134,7 @@ public class GuestsDayReportGui {
 					value = showReport.getTotalGuests();
 					break;
 				default:
-					value = StringUtils.EMPTY;
+					value = null;
 				}
 				return value;
 			}
