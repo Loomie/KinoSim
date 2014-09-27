@@ -60,9 +60,14 @@ public class GuestCalculator {
 
 	private double startTimeFactor(final Show show, final Audience audience) {
 		final int preferredTime = audience.preferredStartTime.toSecondOfDay();
-		final int startTime = show.getStart().toSecondOfDay();
-		final int secondsOfDay = (int) ChronoUnit.DAYS.getDuration().toMinutes() * 60;
-		return Distributions.getDifferenceRatio(preferredTime, startTime, Range.closed(0, secondsOfDay));
+		int startTime = show.getStart().toSecondOfDay();
+		final int secondsOfDay = (int) ChronoUnit.DAYS.getDuration().getSeconds();
+		final Range<Integer> range = Range.closed(preferredTime - secondsOfDay / 2, preferredTime + secondsOfDay / 2);
+		if (startTime < range.lowerEndpoint()) {
+			// start at next day will be treated for example as 26:00 instead of 2:00 because it must be within a 12 hour interval
+			startTime += secondsOfDay;
+		}
+		return Distributions.getDifferenceRatio(preferredTime, startTime, range);
 	}
 
 	/**

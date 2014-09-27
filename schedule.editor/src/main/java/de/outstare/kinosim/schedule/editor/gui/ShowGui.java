@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import de.outstare.kinosim.schedule.Show;
-import de.outstare.kinosim.schedule.editor.gui.dnd.StartDragMoveMouseListener;
 import de.outstare.kinosim.schedule.editor.gui.dnd.ShowDragTransferHandler;
 import de.outstare.kinosim.schedule.editor.gui.dnd.ShowProvider;
+import de.outstare.kinosim.schedule.editor.gui.dnd.StartDragMoveMouseListener;
 import de.outstare.kinosim.util.TimeRange;
 
 /**
@@ -64,7 +64,11 @@ class ShowGui implements ShowProvider {
 	 */
 	void updateBounds(final TimeRange visibleTime) {
 		final long totalSecs = visibleTime.getDuration().getSeconds();
-		final long startInSec = visibleTime.getStart().until(show.getStart(), ChronoUnit.SECONDS);
+		long startInSec = visibleTime.getStart().until(show.getStart(), ChronoUnit.SECONDS);
+		if (startInSec < 0) {
+			// start is on next day
+			startInSec += ChronoUnit.DAYS.getDuration().getSeconds();
+		}
 		final long lengthInMins = show.getDuration().toMinutes();
 		final double relativeStart = startInSec / (double) totalSecs;
 
