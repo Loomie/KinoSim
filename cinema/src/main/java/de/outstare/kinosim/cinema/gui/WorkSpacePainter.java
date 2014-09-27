@@ -21,39 +21,39 @@ import de.outstare.kinosim.util.Randomness;
 
 public class WorkSpacePainter extends JPanel implements ComponentListener {
 
-	private static final long serialVersionUID = 7465300551424675824L;
+	private static final long	serialVersionUID		= 7465300551424675824L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(WorkSpacePainter.class);
+	private static final Logger	LOG						= LoggerFactory.getLogger(WorkSpacePainter.class);
 
-	private static final double WORKPLACE_AREA_HEIGHT = 4;
-	private static final double WORKPLACE_AREA_WIDTH = 2;
-	private static final Color COLOR_BACKGROUND = new Color(200, 150, 26);
-	private final WorkSpace workspace;
-	private int pixelsPerMeter;
+	private static final double	WORKPLACE_AREA_HEIGHT	= 4;
+	private static final double	WORKPLACE_AREA_WIDTH	= 2;
+	private static final Color	COLOR_BACKGROUND		= new Color(200, 150, 26);
+	private final WorkSpace		workspace;
+	private int					pixelsPerMeter;
 
-	private int rows;
+	private int					rows;
 
-	private final Corner startCorner;
+	private final Corner		startCorner;
 
-	private double workplacesPerRow;
+	private double				workplacesPerRow;
 
-	private final double workspacesAreaWidth;
+	private final double		workspacesAreaWidth;
 
-	private final double workspacesAreaHeight;
+	private final double		workspacesAreaHeight;
 
 	/**
 	 * Height of the background in meters
 	 */
-	private final double backgroundHeight;
+	private final double		backgroundHeight;
 
 	/**
 	 * Width of the background in meters
 	 */
-	private final double backgroundWidth;
+	private final double		backgroundWidth;
 
-	private final List<GraphicalArea> areas;
+	private final List<Area>	areas;
 
-	private int oldPixelsPerMeter;
+	private int					oldPixelsPerMeter;
 
 	public WorkSpacePainter(final WorkSpace workspace, final int pixelsPerMeter) {
 		LOG.debug("The workplace to be painted: " + workspace.toString());
@@ -94,8 +94,8 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 		addComponentListener(this);
 	}
 
-	private List<GraphicalArea> generateAreas() {
-		final ArrayList<GraphicalArea> areas = new ArrayList<>();
+	private List<Area> generateAreas() {
+		final ArrayList<Area> areas = new ArrayList<>();
 		// Generate areas for the Workplaces
 		int row = 0;
 		for (int w = 0; w < workspace.getWorkplaceCount(); w++) {
@@ -128,7 +128,7 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 				y = mToPixels(backgroundHeight - (row + 1) * WORKPLACE_AREA_HEIGHT);
 			}
 			final Point areaCorner = new Point(x, y);
-			areas.add(new GraphicalArea(areaCorner, mToPixels(WORKPLACE_AREA_WIDTH), mToPixels(WORKPLACE_AREA_HEIGHT), false, walls));
+			areas.add(new Area(areaCorner, mToPixels(WORKPLACE_AREA_WIDTH), mToPixels(WORKPLACE_AREA_HEIGHT), false, walls, pixelsPerMeter));
 			if ((w + 1) % workplacesPerRow == 0) {
 				row++;
 			}
@@ -139,22 +139,19 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 		return areas;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics) */
 	@Override
 	protected void paintComponent(final Graphics g) {
 		paintBackground(mToPixels(backgroundWidth), mToPixels(backgroundHeight), g);
-		for (final GraphicalArea area : areas) {
+		for (final Area area : areas) {
 			if (!area.isFreeArea()) {
 				paintWorkplace(g, area);
 			}
 		}
 	}
 
-	private void paintWorkplace(final Graphics g, final GraphicalArea workplaceArea) {
+	private void paintWorkplace(final Graphics g, final Area workplaceArea) {
 		final int tableWidth = mToPixels(0.75);
 		final int tableHeight = mToPixels(2);
 		final int chairWidth = mToPixels(0.5);
@@ -210,11 +207,12 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 	}
 
 	private void relocateAreas() {
-		for (final GraphicalArea area : areas) {
+		for (final Area area : areas) {
 			int x = area.getPosition().x;
 			int y = area.getPosition().y;
-			area.setPosition(new Point((int) (Math.rint((x / (double) oldPixelsPerMeter) * pixelsPerMeter)), (int) (Math.rint((y / (double) oldPixelsPerMeter)
-					* pixelsPerMeter))));
+			area.setPosition(new Point((int) (Math.rint((x / (double) oldPixelsPerMeter) * pixelsPerMeter)), (int) (Math
+					.rint((y / (double) oldPixelsPerMeter)
+							* pixelsPerMeter))));
 			x = area.getLength();
 			y = area.getHeight();
 			area.setSize((int) (Math.rint((x / (double) oldPixelsPerMeter) * pixelsPerMeter)),
