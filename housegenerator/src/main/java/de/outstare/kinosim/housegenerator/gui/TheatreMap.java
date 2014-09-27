@@ -28,6 +28,7 @@ import de.outstare.kinosim.util.Randomness;
  * A TheatreMap visualizes the outline of a {@link MovieTheater}.
  */
 public class TheatreMap {
+
 	private final MovieTheater	theater;
 
 	public TheatreMap(final MovieTheater theater) {
@@ -63,6 +64,13 @@ public class TheatreMap {
 				for (final Entry<Room, Double> room : roomSquares.entrySet()) {
 					final Rectangle2D.Double scaled = scale(room.getValue());
 					g2.draw(scaled);
+					g2.setColor(getColor(room.getKey().getType()));
+					scaled.x++;
+					scaled.y++;
+					scaled.width -= 1;
+					scaled.height -= 1;
+					g2.fill(scaled);
+					g2.setColor(Color.BLACK);
 					String label;
 					if (room.getKey().getType() == RoomType.CinemaHall) {
 						label = ((CinemaHall) room.getKey()).getName();
@@ -147,6 +155,29 @@ public class TheatreMap {
 		} else {
 			// used some space on bottom (raising lower bound)
 			return new Point2D.Double(minY, rowMinY);
+		}
+	}
+
+	private static Color getColor(final RoomType roomType) {
+		switch (roomType) {
+		case CinemaHall:
+			return new Color(0xffd5a8);// 0xffca8e
+		case CashDesk:
+			return new Color(0xa8eaba);
+		case Counter:
+			return new Color(0xcdefab);
+		case Foyer:
+			return Color.WHITE;
+		case Office:
+			return new Color(0xabcdef);
+		case StaffRoom:
+			return new Color(0x9fd0ea);
+		case Storage:
+			return new Color(0xcccce0);
+		case Toilet:
+			return new Color(0xeaccd8);
+		default:
+			return Color.MAGENTA;
 		}
 	}
 
