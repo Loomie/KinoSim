@@ -33,8 +33,15 @@ public abstract class Randomness {
 	 * @return a normally distributed number around the given number (in average +- 8%)
 	 */
 	public static int getGaussianAround(final int number) {
-		final double factor = 1 + RANDOM.nextGaussian() / 10; // yields +- 8 % with peaks up to 30-40 %
-		return (int) (number * factor);
+		return (int) (getGaussianAround((double) number));
+	}
+
+	/**
+	 * @return a normally distributed number around the given number (in average +- 8%)
+	 */
+	public static double getGaussianAround(final double number) {
+		final double factor = 1 + RANDOM.nextGaussian() / 10.0; // yields +- 8 % with peaks up to 30-40 %
+		return number * factor;
 	}
 
 	/** test for getGaussianAround **/

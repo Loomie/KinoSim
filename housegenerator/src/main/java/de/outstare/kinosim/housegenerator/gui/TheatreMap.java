@@ -113,10 +113,12 @@ public class TheatreMap {
 				continue;
 			}
 
-			final double edgeLength = Math.sqrt(room.getAllocatedSpace());
+			final double squareEdgeLength = Math.sqrt(room.getAllocatedSpace());
+			final double width = Randomness.getGaussianAround(squareEdgeLength);
+			final double height = room.getAllocatedSpace() / width;
 
-			final double x = (room.getType().isPublicAccessible() ^ publicTopLeft) ? rightXInMeters - edgeLength : leftXInMeters;
-			if (x < leftXInMeters || x + edgeLength > rightXInMeters + 0.01) { // allow some double incorrectness
+			final double x = (room.getType().isPublicAccessible() ^ publicTopLeft) ? rightXInMeters - width : leftXInMeters;
+			if (x < leftXInMeters || x + width > rightXInMeters + 0.01) { // allow some double incorrectness
 				roomsBySize.add(room);
 				break;
 			}
@@ -125,18 +127,18 @@ public class TheatreMap {
 			if (publicTopLeft) {
 				y = minY;
 			} else {
-				y = maxY - edgeLength;
+				y = maxY - height;
 			}
 
-			final Rectangle2D.Double square = new Double(x, y, edgeLength, edgeLength);
+			final Rectangle2D.Double square = new Double(x, y, width, height);
 			roomOutlines.put(room, square);
 			rowMinY = Math.min(square.y, rowMinY);
 			rowMaxY = Math.max(square.y + square.height, rowMaxY);
 
 			if (room.getType().isPublicAccessible() ^ publicTopLeft) {
-				rightXInMeters -= edgeLength;
+				rightXInMeters -= width;
 			} else {
-				leftXInMeters += edgeLength;
+				leftXInMeters += width;
 			}
 		}
 		if (publicTopLeft) {
