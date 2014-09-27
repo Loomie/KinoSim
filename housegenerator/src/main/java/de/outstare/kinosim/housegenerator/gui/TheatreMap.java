@@ -28,8 +28,9 @@ import de.outstare.kinosim.util.Randomness;
  * A TheatreMap visualizes the outline of a {@link MovieTheater}.
  */
 public class TheatreMap {
+	private static final boolean	DEBUG	= false;
 
-	private final MovieTheater	theater;
+	private final MovieTheater		theater;
 
 	public TheatreMap(final MovieTheater theater) {
 		super();
@@ -78,7 +79,10 @@ public class TheatreMap {
 						label = room.getKey().getType().toString();
 					}
 					g2.drawString(label, (float) (scaled.x + 5), (float) (scaled.y + 15));
-					g2.drawString(String.valueOf((int) room.getKey().getAllocatedSpace()) + " m²", (float) (scaled.x + 5), (float) (scaled.y + 35));
+					if (DEBUG) {
+						g2.drawString(String.valueOf((int) room.getKey().getAllocatedSpace()) + " m²", (float) (scaled.x + 5),
+								(float) (scaled.y + 35));
+					}
 				}
 			}
 
