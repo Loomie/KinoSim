@@ -18,14 +18,13 @@ import javax.swing.JPanel;
 
 import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.Show;
+import de.outstare.kinosim.schedule.editor.gui.dnd.ScheduleDropTransferHandler;
 import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A ScheduleGui displays all scheduled {@link Show}s in a single row (shows may overlap!).
  */
 class ScheduleGui {
-	public static final String			DROP_AREA_PROP	= "dropRectangle";
-
 	private final Schedule				schedule;
 	private final Collection<ShowGui>	showGuis		= new ArrayList<>();
 	private Rectangle					dropPreview		= null;
@@ -85,7 +84,6 @@ class ScheduleGui {
 		for (final Show show : schedule) {
 			final ShowGui showGui = new ShowGui(show);
 			hallRow.add(showGui.createUi());
-			showGui.moveInside(schedule, visibleTime);
 			showGui.updateBounds(visibleTime);
 			showGuis.add(showGui);
 		}
@@ -98,7 +96,7 @@ class ScheduleGui {
 				}
 			}
 		});
-		hallRow.addPropertyChangeListener(DROP_AREA_PROP, evt -> {
+		hallRow.addPropertyChangeListener(ScheduleDropTransferHandler.DROP_AREA_PROPERTY, evt -> {
 			if (evt.getNewValue() instanceof Rectangle) {
 				final int oldX = dropPreview == null ? -1 : dropPreview.x;
 				final int dropX = ((Rectangle) evt.getNewValue()).x;

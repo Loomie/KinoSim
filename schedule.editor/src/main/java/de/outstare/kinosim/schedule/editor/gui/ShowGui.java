@@ -5,33 +5,35 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.Show;
+import de.outstare.kinosim.schedule.editor.gui.dnd.StartDragMoveMouseListener;
+import de.outstare.kinosim.schedule.editor.gui.dnd.ShowDragTransferHandler;
+import de.outstare.kinosim.schedule.editor.gui.dnd.ShowProvider;
 import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A ShowGui displays a {@link Show} graphically.
  */
-class ShowGui {
+class ShowGui implements ShowProvider {
 	private final Show	show;
 	private JComponent	ui;
 	private JLabel		label;
 
 	ShowGui(final Show show) {
 		this.show = show;
+	}
+
+	@Override
+	public Show getShow() {
+		return show;
 	}
 
 	JComponent createUi() {
@@ -46,57 +48,11 @@ class ShowGui {
 		ui.setBackground(Color.YELLOW);
 		ui.setBorder(new LineBorder(Color.BLACK));
 
+		// drag
+		ui.setTransferHandler(new ShowDragTransferHandler(this));
+		ui.addMouseListener(new StartDragMoveMouseListener());
+
 		return ui;
-	}
-
-	/**
-	 * Register a mouse listener and change the start time of the show when dragged.
-	 *
-	 * Note: Must be called after {@link #createUi()}!
-	 *
-	 * @param schedule
-	 *            for collision detection with other shows
-	 */
-	void moveInside(final Schedule schedule, final TimeRange visibleTime) {
-		final AtomicInteger lastX = new AtomicInteger(-1);
-		ui.addMouseMotionListener(new MouseMotionAdapter() {
-
-			@Override
-			public void mouseDragged(final MouseEvent e) {
-				if (e.getSource() != ui) {
-					return;
-				}
-				// calculate
-				final int newX = e.getXOnScreen();
-				if (lastX.get() == -1) {
-					lastX.set(newX);
-					return;
-				}
-				final int difference = newX - lastX.get();
-				if (difference == 0) {
-					return;
-				}
-				// move
-				final double pixelPerMinute = ui.getWidth() / (double) show.getDuration().toMinutes();
-				final long movedMinutes = (long) (difference / pixelPerMinute);
-				final LocalTime newStart = show.getStart().plusMinutes(movedMinutes);
-				if (schedule.isFreeFor(show.getHall(), newStart, show)) {
-					lastX.set(newX);
-					show.setStart(newStart);
-					updateLabel();
-					updateBounds(visibleTime);
-				}
-				// done
-				e.consume();
-			}
-		});
-
-		ui.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(final MouseEvent e) {
-				lastX.set(-1);
-			}
-		});
 	}
 
 	private void updateLabel() {

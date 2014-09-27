@@ -58,14 +58,10 @@ public class ScheduleEditor {
 		add(newShow);
 	}
 
-	public Show moveToHall(final Show show, final CinemaHall hall) {
+	public void moveToTimeInHall(final Show show, final LocalTime start, final CinemaHall hall) {
 		final Show newShow = show.copyWithOtherHall(hall);
+		newShow.setStart(start);
 		replace(show, newShow);
-		return newShow;
-	}
-
-	public void moveToTime(final Show show, final LocalTime start) {
-		show.setStart(start);
 		changed();
 	}
 
@@ -109,6 +105,10 @@ public class ScheduleEditor {
 
 	public boolean isFree(final CinemaHall hallForNewMovies, final LocalTime startTime, final Duration duration) {
 		final TimeRange newRange = new TimeRange(startTime, duration);
-		return getHallSchedule(hallForNewMovies).isFree(hallForNewMovies, newRange);
+		return schedule.isFree(hallForNewMovies, newRange);
+	}
+
+	public boolean isFreeFor(final CinemaHall hallForNewMovies, final LocalTime startTime, final Show show) {
+		return schedule.isFreeFor(hallForNewMovies, startTime, show);
 	}
 }

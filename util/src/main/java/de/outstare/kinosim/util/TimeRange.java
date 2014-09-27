@@ -43,7 +43,7 @@ public class TimeRange {
 		if (other.endsNextDay()) {
 			return other.overlapsDayEnd(this);
 		}
-		assert start.isBefore(end) : "start must be less than end!";
+		assert start.isBefore(end) : "start '" + start + "' must be less than end '" + end + "'!";
 		assert other.start.isBefore(other.end) : "other start must be less than other end!";
 		return !start.isAfter(other.end) && !end.isBefore(other.start);
 	}
@@ -52,7 +52,7 @@ public class TimeRange {
 		// check rest of this day and start of next day separately
 		final TimeRange firstPart = new TimeRange(start, LocalTime.MAX);
 		final TimeRange secondPart = new TimeRange(LocalTime.MIN, end);
-		return firstPart.overlaps(other) || secondPart.overlaps(other);
+		return firstPart.overlaps(other) || secondPart.getDuration().isZero() || secondPart.overlaps(other);
 	}
 
 	/**

@@ -27,6 +27,7 @@ import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
 import de.outstare.kinosim.schedule.editor.ScheduleEditor;
+import de.outstare.kinosim.schedule.editor.gui.dnd.ScheduleDropTransferHandler;
 import de.outstare.kinosim.util.Randomness;
 import de.outstare.kinosim.util.TimeRange;
 
@@ -96,7 +97,7 @@ public class ScheduleEditorGui {
 		for (final CinemaHall hall : halls) {
 			final ScheduleGui cinemaGui = new ScheduleGui(editor.getHallSchedule(hall), editableTime);
 			final JComponent editorPanel = cinemaGui.createUi();
-			editorPanel.setTransferHandler(new MovieToScheduleTransferHandler(editor, hall, editableTime));
+			editorPanel.setTransferHandler(new ScheduleDropTransferHandler(editor, hall, editableTime));
 			rows.add(editorPanel);
 		}
 

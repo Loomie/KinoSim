@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.generator.RandomMovieGenerator;
+import de.outstare.kinosim.schedule.editor.gui.dnd.MovieDragFromListTransferHandler;
 
 /**
  * A MovieListGui is a graphical list of {@link Movie}s. It shows a summary of each movie. Movies can be dragged from this list.
@@ -51,7 +52,7 @@ public class MovieListGui implements ListCellRenderer<Movie> {
 		final JList<Movie> list = new JList<>(model);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setDragEnabled(true);
-		list.setTransferHandler(new MovieToScheduleTransferHandler());
+		list.setTransferHandler(new MovieDragFromListTransferHandler());
 		list.setCellRenderer(this);
 
 		return new JScrollPane(list);
