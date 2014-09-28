@@ -25,6 +25,23 @@ public enum PaintableObject {
 			g.fillOval((int) (0.39 * pixelsPerMeter) + pos.x, (int) (0. * pixelsPerMeter) + pos.y, (int) (0.22 * pixelsPerMeter), (int) (0.4 * pixelsPerMeter));
 			g.fillOval((int) (0.39 * pixelsPerMeter) + pos.x, (int) (0.6 * pixelsPerMeter) + pos.y, (int) (0.22 * pixelsPerMeter), (int) (0.4 * pixelsPerMeter));
 		}
+	},
+	TABLE(0.75, 2.) {
+		@Override
+		public void paint(final Graphics g, final Point pos, final int pixelsPerMeter) {
+			g.setColor(Color.BLACK);
+			g.fillRect(pos.x, pos.y, (int) (getWidthInMeters() * pixelsPerMeter), (int) (getHeightInMeters() * pixelsPerMeter));
+		}
+	},
+	CHAIR(0.5, 0.75) {
+		@Override
+		public void paint(final Graphics g, final Point pos, final int pixelsPerMeter) {
+			g.setColor(Color.BLACK);
+			g.fillRect(pos.x, pos.y, (int) (getWidthInMeters() * pixelsPerMeter), (int) (getHeightInMeters() * pixelsPerMeter));
+			g.setColor(Color.GRAY);
+			g.fillRect(pos.x, (int) (pos.y + getHeightInMeters() * 0.1 * pixelsPerMeter), (int) (getWidthInMeters() * pixelsPerMeter * 0.8),
+					(int) (getHeightInMeters() * pixelsPerMeter * 0.9));
+		}
 	};
 
 	private double widthInMeters;

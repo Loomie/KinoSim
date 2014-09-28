@@ -39,6 +39,10 @@ public class Area {
 		this.freeArea = freeArea;
 		this.walls = walls;
 		objects = new HashMap<>();
+		final PaintableObject table = PaintableObject.TABLE;
+		objects.put(new Position(0, calculatePositionOnAxisPartCenter(getHeight(), table.getHeightInMeters(), 1, 1)), table);
+		final PaintableObject chair = PaintableObject.CHAIR;
+		objects.put(new Position(table.getWidthInMeters() + 0.25, calculatePositionOnAxisPartCenter(getHeight(), chair.getHeightInMeters(), 1, 1)), chair);
 		if (!freeArea) {
 			final Random r = new Random();
 			if (r.nextDouble() > 0.7) {

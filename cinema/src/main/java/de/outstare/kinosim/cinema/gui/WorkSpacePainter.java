@@ -142,7 +142,7 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
@@ -156,22 +156,9 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 	}
 
 	private void paintWorkplace(final Graphics g, final Area workplaceArea) {
-		final double tableWidth = 0.75;
-		final double tableHeight = 2.;
-		final double chairWidth = 0.5;
-		final double chairHeight = 0.75;
-
 		final Position offset = workplaceArea.getPosition();
-		final int tablePosY = mToPixels(offset.getY() + (workplaceArea.getHeight() / 2 - tableHeight / 2));
-		final int tablePosX = mToPixels(offset.getX() + 0);
-
+		// Draw a border just for testing purposes
 		g.setColor(Color.BLACK);
-		g.fillRect(tablePosX, tablePosY, mToPixels(tableWidth), mToPixels(tableHeight));
-
-		final int chairPosY = mToPixels(offset.getY() + (workplaceArea.getHeight() / 2 - chairHeight / 2));
-		final int chairPosX = mToPixels(offset.getX() + tableWidth + 0.25);
-
-		g.fillRect(chairPosX, chairPosY, mToPixels(chairWidth), mToPixels(chairHeight));
 		g.drawRect(mToPixels(offset.getX()), mToPixels(offset.getY()), mToPixels(workplaceArea.getLength()), mToPixels(workplaceArea.getHeight()));
 
 		for (final Entry<Position, PaintableObject> i : workplaceArea.getObjects().entrySet()) {
