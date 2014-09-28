@@ -144,7 +144,7 @@ public class GuestsDayReportGui {
 				if (columnIndex == 2) {
 					return LocalDate.class;
 				}
-				if (columnIndex == 1 || 3 <= columnIndex && columnIndex <= 8) {
+				if (columnIndex == 1 || 3 <= columnIndex && columnIndex <= 9) {
 					return Integer.class;
 				}
 				return super.getColumnClass(columnIndex);

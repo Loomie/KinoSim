@@ -1,19 +1,24 @@
 package de.outstare.kinosim.schedule.editor.gui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.net.URL;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.SortedSet;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import de.outstare.kinosim.cinema.CinemaHall;
@@ -27,6 +32,7 @@ import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
 import de.outstare.kinosim.schedule.editor.ScheduleEditor;
+import de.outstare.kinosim.schedule.editor.gui.dnd.RemoveShowDropTransferHandler;
 import de.outstare.kinosim.schedule.editor.gui.dnd.ScheduleDropTransferHandler;
 import de.outstare.kinosim.util.Randomness;
 import de.outstare.kinosim.util.TimeRange;
@@ -57,7 +63,6 @@ public class ScheduleEditorGui {
 			timeline.add(new JLabel(String.valueOf((startHour + i) % 24)));
 		}
 
-		// we use a list for the rows and paint the columns inside
 		rows = new JPanel();
 		updateHallSchedules();
 
@@ -66,6 +71,13 @@ public class ScheduleEditorGui {
 		for (final CinemaHall hall : halls) {
 			cinemaLabels.add(new JLabel("" + hall.getCapacity()));
 		}
+
+		String iconPath = "trash.png";
+		final ImageIcon icon = loadIcon(iconPath);
+		final JLabel recycleBin = new JLabel(icon, SwingConstants.CENTER);
+		recycleBin.setOpaque(true);
+		recycleBin.setBackground(Color.LIGHT_GRAY);
+		recycleBin.setTransferHandler(new RemoveShowDropTransferHandler(editor));
 
 		final JPanel editor = new JPanel(new GridBagLayout());
 		final GridBagConstraints constraints = new GridBagConstraints();
@@ -85,7 +97,21 @@ public class ScheduleEditorGui {
 		constraints.fill = GridBagConstraints.BOTH;
 		editor.add(rows, constraints);
 
+		constraints.weighty = 0;
+		constraints.weightx = 0;
+		constraints.gridy++;
+		constraints.gridx = 1;
+		constraints.insets = new Insets(2, 0, 2, 0);
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		editor.add(recycleBin, constraints);
+
 		return editor;
+	}
+
+	private ImageIcon loadIcon(String filename) {
+		final URL iconLocation = getClass().getClassLoader().getResource("icons/" + filename);
+		final ImageIcon icon = new ImageIcon(iconLocation);
+		return icon;
 	}
 
 	private void updateHallSchedules() {
