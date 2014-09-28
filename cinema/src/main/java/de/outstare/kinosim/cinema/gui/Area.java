@@ -1,26 +1,27 @@
 package de.outstare.kinosim.cinema.gui;
 
-import java.awt.Point;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import de.outstare.kinosim.util.Position;
+
 /**
- * An aera to be printed. All values are in pixels (pos and size).
+ * An aera to be printed. All values are in meters (pos and size).
  *
  * @author Baret
  *
  */
 public class Area {
-	private Point position = new Point();
-	private int length, height;
+	private Position position;
+	private double length, height;
 	/**
 	 * indicates if this area has to be filled with stuff (or else has a table)
 	 */
 	private boolean freeArea;
 	private List<Direction> walls;
-	private Map<Point, PaintableObject> objects;
+	private Map<Position, PaintableObject> objects;
 
 	/**
 	 * @param position
@@ -29,11 +30,10 @@ public class Area {
 	 * @param freeArea
 	 *            is this area free and will be filled up?
 	 * @param walls
-	 * @param pixelsPerMeter
 	 */
-	public Area(final Point position, final int length, final int height, final boolean freeArea, final List<Direction> walls, final int pixelsPerMeter) {
+	public Area(final Position position, final double length, final double height, final boolean freeArea, final List<Direction> walls) {
 		super();
-		setPosition(position);
+		this.position = position;
 		this.length = length;
 		this.height = height;
 		this.freeArea = freeArea;
@@ -43,9 +43,9 @@ public class Area {
 			final Random r = new Random();
 			if (r.nextDouble() > 0.7) {
 				final PaintableObject o = PaintableObject.PLANT;
-				final int x = (int) Math.rint(calculatePositionOnAxisPartCenter(length, o.getWidthInMeters() * pixelsPerMeter, 2, 2));
-				final int y = (int) Math.rint(calculatePositionOnAxisPartCenter(height, o.getHeightInMeters() * pixelsPerMeter, 4, 1));
-				objects.put(new Point(x, y), o);
+				final double x = calculatePositionOnAxisPartCenter(length, o.getWidthInMeters(), 2, 2);
+				final double y = calculatePositionOnAxisPartCenter(height, o.getHeightInMeters(), 4, 1);
+				objects.put(new Position(x, y), o);
 			}
 		}
 	}
@@ -81,28 +81,28 @@ public class Area {
 	/**
 	 * @return the objects
 	 */
-	public Map<Point, PaintableObject> getObjects() {
+	public Map<Position, PaintableObject> getObjects() {
 		return objects;
 	}
 
 	/**
 	 * @return the position
 	 */
-	public Point getPosition() {
+	public Position getPosition() {
 		return position;
 	}
 
 	/**
 	 * @return the length
 	 */
-	public int getLength() {
+	public double getLength() {
 		return length;
 	}
 
 	/**
 	 * @return the height
 	 */
-	public int getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
@@ -120,26 +120,5 @@ public class Area {
 	 */
 	public List<Direction> getWalls() {
 		return walls;
-	}
-
-	/**
-	 * Sets the position
-	 *
-	 * @param newPosition
-	 *            the new position may not be null, else the position does not change
-	 */
-	public void setPosition(final Point newPosition) {
-		if (newPosition != null) {
-			position = newPosition;
-		}
-	}
-
-	/**
-	 * @param newLength
-	 * @param newHeight
-	 */
-	public void setSize(final int newLength, final int newHeight) {
-		length = newLength;
-		height = newHeight;
 	}
 }
