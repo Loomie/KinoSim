@@ -1,6 +1,7 @@
 package de.outstare.kinosim.movie;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -38,7 +39,7 @@ public interface Movie extends Comparable<Movie> {
 	Rating getRating();
 
 	/**
-	 * @return the number of weeks since the release of this movie
+	 * @return the number of full weeks since the release of this movie (first week returns zero)
 	 */
-	int getWeeksSinceRelease();
+	int getWeeksSinceRelease(LocalDate ingameNow);
 }

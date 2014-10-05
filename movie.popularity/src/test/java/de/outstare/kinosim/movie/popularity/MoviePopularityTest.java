@@ -77,44 +77,6 @@ public class MoviePopularityTest {
 	}
 
 	@Test
-	public void testGetPopularityMediumOld() {
-		final int medium = Rating.MAX_VALUE / 2;
-		final Rating rating = createRating(medium, medium, medium, medium, medium);
-		final LocalDate release = LocalDate.now().minusWeeks(8);
-		final Movie movie = new SimpleMovie(null, null, 0, null, null, rating, release);
-		double result;
-		result = MoviePopularity.getPopularity(Audience.ADULTS, movie);
-		assertEquals(0.29496328820386886, result, 0);
-		result = MoviePopularity.getPopularity(Audience.KIDS, movie);
-		assertEquals(0.08446150164517965, result, 0);
-		result = MoviePopularity.getPopularity(Audience.SENIORS, movie);
-		assertEquals(0.2571232054136793, result, 0);
-		result = MoviePopularity.getPopularity(Audience.TEENS, movie);
-		assertEquals(0.267251608791344, result, 0);
-		result = MoviePopularity.getPopularity(Audience.TWENS, movie);
-		assertEquals(0.26387547433212244, result, 0);
-	}
-
-	@Test
-	public void testGetPopularityMediumVeryOld() {
-		final int medium = Rating.MAX_VALUE / 2;
-		final Rating rating = createRating(medium, medium, medium, medium, medium);
-		final LocalDate release = LocalDate.now().minusWeeks(4 * 52);
-		final Movie movie = new SimpleMovie(null, null, 0, null, null, rating, release);
-		double result;
-		result = MoviePopularity.getPopularity(Audience.ADULTS, movie);
-		assertEquals(0.05784706009019307, result, 0);
-		result = MoviePopularity.getPopularity(Audience.KIDS, movie);
-		assertEquals(0.016564263270620005, result, 0);
-		result = MoviePopularity.getPopularity(Audience.SENIORS, movie);
-		assertEquals(0.050426009300072176, result, 0);
-		result = MoviePopularity.getPopularity(Audience.TEENS, movie);
-		assertEquals(0.052412352625620315, result, 0);
-		result = MoviePopularity.getPopularity(Audience.TWENS, movie);
-		assertEquals(0.05175023818377094, result, 0);
-	}
-
-	@Test
 	public void testGetPopularityPerfect() {
 		double result;
 		Rating rating;

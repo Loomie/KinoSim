@@ -91,8 +91,8 @@ public class SimpleMovie implements Movie {
 	}
 
 	@Override
-	public int getWeeksSinceRelease() {
-		return (int) ChronoUnit.WEEKS.between(release, LocalDate.now());
+	public int getWeeksSinceRelease(final LocalDate ingameNow) {
+		return (int) ChronoUnit.WEEKS.between(release, ingameNow);
 	}
 
 	/**

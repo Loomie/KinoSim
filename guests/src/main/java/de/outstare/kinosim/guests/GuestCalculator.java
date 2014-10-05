@@ -51,11 +51,25 @@ public class GuestCalculator {
 	int calculateAudienceGuests(final Show show, final LocalDate date, final Audience audience) {
 		final double populationPart = population.getPopulationOfAudience(audience) * 0.012;
 		final double movieFactor = MoviePopularity.getPopularity(audience, show.getFilm());
-		final double startFactor = startTimeFactor(show, audience);
-		final double averageWeightedFactor = (5.0 * movieFactor + 1.0 * startFactor) / 6;
-		final int guests = (int) (populationPart * averageWeightedFactor * dateFactor(date));
+		final double startTimeFactor = startTimeFactor(show, audience);
+		final double averageWeightedFactor = (5.0 * movieFactor + 1.0 * startTimeFactor) / 6.0;
+		final double releaseDateFactor = getReleaseFactor(show, date);
+		final int guests = (int) (populationPart * averageWeightedFactor * releaseDateFactor * dateFactor(date));
 		LOG.debug("{} {} on {} for {}", guests, audience, date, show);
 		return guests;
+	}
+
+	private double getReleaseFactor(final Show show, final LocalDate date) {
+		final double timeFactor;
+		final int runningWeeks = show.getFilm().getWeeksSinceRelease(date) + 1;
+		if (runningWeeks < 1) {
+			timeFactor = 1.3; // previews are very popular
+		} else {
+			// older movie are not that popular (1 by square root of weeks running) TODO move function to audience, so seniors like historic movies
+			// also (or even more?)
+			timeFactor = Math.pow(runningWeeks, -0.5);
+		}
+		return timeFactor;
 	}
 
 	private double startTimeFactor(final Show show, final Audience audience) {

@@ -37,14 +37,7 @@ public abstract class MoviePopularity {
 		for (final RatingCategory category : categories) {
 			total += getCategoryPopularity(audiencePrefs, category, rating);
 		}
-		final int weeksSinceRelease = movie.getWeeksSinceRelease();
-		if (weeksSinceRelease > 0) {
-			// older movie are not that popular (1 by square root of weeks running) TODO move function to audience, so seniors like historic movies
-			// also (or even more?)
-			final double timeFactor = Math.pow(weeksSinceRelease, -0.5);
-			total *= timeFactor;
-		}
-		LOG.info("popularity for {} of {} after {} weeks is {}", audience, rating, weeksSinceRelease, total);
+		LOG.info("popularity for {} of {} is {}", audience, rating, total);
 		return total;
 	}
 

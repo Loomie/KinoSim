@@ -115,7 +115,7 @@ public class GuestsDayReportGui {
 					value = showReport.getShow().getFilm().getTitle();
 					break;
 				case 1:
-					value = showReport.getShow().getFilm().getWeeksSinceRelease() + 1;
+					value = showReport.getShow().getFilm().getWeeksSinceRelease(report.getDay()) + 1;
 					break;
 				case 2:
 					value = showReport.getShow().getStart();
