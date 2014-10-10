@@ -36,7 +36,7 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 
 	private final Corner startCorner;
 
-	private double workplacesPerRow;
+	private int workplacesPerRow;
 
 	private final double workspacesAreaWidth;
 
@@ -62,18 +62,18 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 		this.pixelsPerMeter = pixelsPerMeter;
 		rows = 1;
 		final int maxWorkplacesPerRow = (int) new NumberRange(7, 10).getRandomValue();
-		workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
+		workplacesPerRow = (int) Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		if (workspace.getWorkplaceCount() > 2 && Randomness.getRandom().nextDouble() >= 0.5d) {
 			rows = 2;
-			workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
+			workplacesPerRow = (int) Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		}
 		while (workplacesPerRow > maxWorkplacesPerRow) {
 			rows++;
-			workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
+			workplacesPerRow = (int) Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		}
 		while (rows * WORKPLACE_AREA_HEIGHT * workplacesPerRow * WORKPLACE_AREA_WIDTH > workspace.getAllocatedSpace()) {
 			rows--;
-			workplacesPerRow = Math.ceil(workspace.getWorkplaceCount() / (double) rows);
+			workplacesPerRow = (int) Math.ceil(workspace.getWorkplaceCount() / (double) rows);
 		}
 		startCorner = Corner.getRandom();
 		workspacesAreaWidth = WORKPLACE_AREA_WIDTH * workplacesPerRow;
@@ -96,26 +96,106 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 	}
 
 	private List<Area> generateAreas() {
-		final ArrayList<Area> areas = new ArrayList<>();
+		final List<Area> areas = new ArrayList<>();
 		// Generate areas for the Workplaces
+		areas.addAll(generateWorkplaceAreas());
+
+		// TODO: Calculate and fill the free areas left
+		areas.addAll(generateFreeAreas(areas));
+
+		return areas;
+	}
+
+	/**
+	 * Calculates the three areas not covered by the workplace areas
+	 *
+	 * @param usedAreas
+	 *            A List of areas used by the workplaces
+	 * @return
+	 */
+	private List<Area> generateFreeAreas(final List<Area> usedAreas) {
+		final ArrayList<Area> freeAreas = new ArrayList<>();
+		final double w2 = workspacesAreaWidth - (workplacesPerRow * rows - workspace.getWorkplaceCount()) * WORKPLACE_AREA_WIDTH;
+		final double h2 = workspace.getWorkplaceCount() % rows == 0 ? rows * WORKPLACE_AREA_HEIGHT : (rows - 1) * WORKPLACE_AREA_HEIGHT;
+
+		final double x1 = backgroundWidth - workspacesAreaWidth;
+		final double x2 = backgroundWidth - w2;
+		final double y1 = backgroundHeight - h2;
+		final double y2 = backgroundHeight - workspacesAreaHeight;
+
+		double p1x, p1y, p2x, p2y, p3x, p3y;
+		final List<Direction> walls1 = new ArrayList<Direction>();
+		final List<Direction> walls2 = new ArrayList<Direction>();
+		final List<Direction> walls3 = new ArrayList<Direction>();
+		if (startCorner.isLeft) {
+			walls1.add(Direction.E);
+			walls2.add(Direction.E);
+			walls3.add(Direction.W);
+
+			p1x = workspacesAreaWidth;
+			p2x = w2;
+			p3x = 0;
+		} else {
+			walls1.add(Direction.W);
+			walls2.add(Direction.W);
+			walls3.add(Direction.E);
+
+			p1x = 0;
+			p2x = 0;
+			p3x = x2;
+		}
+		if (startCorner.isTop) {
+			walls1.add(Direction.N);
+			walls2.add(Direction.S);
+			walls3.add(Direction.S);
+
+			p1y = 0;
+			p2y = h2;
+			p3y = workspacesAreaHeight;
+		} else {
+			walls1.add(Direction.S);
+			walls2.add(Direction.N);
+			walls3.add(Direction.N);
+
+			p1y = y1;
+			p2y = 0;
+			p3y = 0;
+		}
+		final Area a1 = new Area(new Position(p1x, p1y), x1, h2, true, walls1);
+		LOG.debug(a1.toString());
+		freeAreas.add(a1);
+		final Area a2 = new Area(new Position(p2x, p2y), x2, y1, true, walls2);
+		LOG.debug(a2.toString());
+		freeAreas.add(a2);
+		final Area a3 = new Area(new Position(p3x, p3y), w2, y2, true, walls3);
+		LOG.debug(a3.toString());
+		freeAreas.add(a3);
+		return freeAreas;
+	}
+
+	/**
+	 * @param areas
+	 */
+	private List<Area> generateWorkplaceAreas() {
+		final List<Area> areas = new ArrayList<>();
 		int row = 0;
 		for (int w = 0; w < workspace.getWorkplaceCount(); w++) {
 			double x = 0;
 			double y = 0;
 			final ArrayList<Direction> walls = new ArrayList<>();
-			final int col = (int) (w % workplacesPerRow);
+			final int col = w % workplacesPerRow;
 			switch (startCorner) {
 			case TOP_LEFT:
-				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.N, Direction.W);
+				addDirecionsToWalls(col, row, walls, Direction.N, Direction.W);
 				break;
 			case TOP_RIGHT:
-				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.N, Direction.E);
+				addDirecionsToWalls(col, row, walls, Direction.N, Direction.E);
 				break;
 			case BOTTOM_RIGHT:
-				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.S, Direction.E);
+				addDirecionsToWalls(col, row, walls, Direction.S, Direction.E);
 				break;
 			case BOTTOM_LEFT:
-				addDirecionsToWalls(workplacesPerRow, w, row, walls, Direction.S, Direction.W);
+				addDirecionsToWalls(col, row, walls, Direction.S, Direction.W);
 				x = col * WORKPLACE_AREA_WIDTH;
 			}
 			if (startCorner.isLeft) {
@@ -134,9 +214,6 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 				row++;
 			}
 		}
-
-		// TODO: Calculate and fill the free areas left
-
 		return areas;
 	}
 
@@ -149,19 +226,49 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 	protected void paintComponent(final Graphics g) {
 		paintBackground(mToPixels(backgroundWidth), mToPixels(backgroundHeight), g);
 		for (final Area area : areas) {
-			if (!area.isFreeArea()) {
-				paintWorkplace(g, area);
-			}
+			paintArea(g, area);
 		}
 	}
 
-	private void paintWorkplace(final Graphics g, final Area workplaceArea) {
-		final Position offset = workplaceArea.getPosition();
+	private void paintArea(final Graphics g, final Area area) {
+		final Position offset = area.getPosition();
 		// Draw a border just for testing purposes
 		g.setColor(Color.BLACK);
-		g.drawRect(mToPixels(offset.getX()), mToPixels(offset.getY()), mToPixels(workplaceArea.getLength()), mToPixels(workplaceArea.getHeight()));
+		g.draw3DRect(mToPixels(offset.getX()), mToPixels(offset.getY()), mToPixels(area.getLength()), mToPixels(area.getHeight()), true);
 
-		for (final Entry<Position, PaintableObject> i : workplaceArea.getObjects().entrySet()) {
+		// Draw the walls of the area, also for testing
+		final int trX = mToPixels(offset.getX() + area.getLength()) - 1;
+		final int trY = mToPixels(offset.getY()) + 1;
+
+		final int tlX = mToPixels(offset.getX()) + 1;
+		final int tlY = mToPixels(offset.getY()) + 1;
+
+		final int blX = mToPixels(offset.getX()) + 1;
+		final int blY = mToPixels(offset.getY() + area.getHeight()) - 1;
+
+		final int brX = mToPixels(offset.getX() + area.getLength()) - 1;
+		final int brY = mToPixels(offset.getY() + area.getHeight()) - 1;
+		for (final Direction d : area.getWalls()) {
+			g.setColor(Color.RED);
+			if (d == Direction.E || d == Direction.NE || d == Direction.SE) {
+				g.drawLine(trX, trY, brX, brY);
+			}
+			if (d == Direction.S || d == Direction.SE || d == Direction.SW) {
+				g.drawLine(brX, brY, blX, blY);
+			}
+			if (d == Direction.W || d == Direction.NW || d == Direction.SW) {
+				g.drawLine(blX, blY, tlX, tlY);
+			}
+			if (d == Direction.N || d == Direction.NE || d == Direction.NW) {
+				g.drawLine(tlX, tlY, trX, trY);
+			}
+		}
+		g.setColor(Color.CYAN);
+		g.drawLine(tlX, tlY, brX, brY);
+		g.drawLine(trX, trY, blX, blY);
+
+		// Draw the objects of the area
+		for (final Entry<Position, PaintableObject> i : area.getObjects().entrySet()) {
 			final Position relativePos = i.getKey();
 			i.getValue().paint(g, new Point(mToPixels(relativePos.getX() + offset.getX()), mToPixels(relativePos.getY() + offset.getY())), pixelsPerMeter);
 		}
@@ -173,11 +280,12 @@ public class WorkSpacePainter extends JPanel implements ComponentListener {
 		g.fillRect(0, 0, backgroundWidth, backgroundHeight);
 	}
 
-	private void addDirecionsToWalls(final double workplacesPerRow, final int w, final int r, final ArrayList<Direction> walls,
-			final Direction firstRowDirection, final Direction firstColDirection) {
-		if (r == 0) {
+	private void addDirecionsToWalls(final int col, final int row, final ArrayList<Direction> walls, final Direction firstRowDirection,
+			final Direction firstColDirection) {
+		if (row == 0) {
 			walls.add(firstRowDirection);
-		} else if ((w + 1) % workplacesPerRow == 0) {
+		}
+		if (col == 0) {
 			walls.add(firstColDirection);
 		}
 	}

@@ -26,4 +26,14 @@ public class Position {
 	public double getY() {
 		return y;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "(" + x + "|" + y + ")";
+	}
 }

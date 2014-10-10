@@ -1,5 +1,6 @@
 package de.outstare.kinosim.cinema.gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +40,12 @@ public class Area {
 		this.freeArea = freeArea;
 		this.walls = walls;
 		objects = new HashMap<>();
-		final PaintableObject table = PaintableObject.TABLE;
-		objects.put(new Position(0, calculatePositionOnAxisPartCenter(getHeight(), table.getHeightInMeters(), 1, 1)), table);
-		final PaintableObject chair = PaintableObject.CHAIR;
-		objects.put(new Position(table.getWidthInMeters() + 0.25, calculatePositionOnAxisPartCenter(getHeight(), chair.getHeightInMeters(), 1, 1)), chair);
+		final List<Position> positions = new ArrayList<Position>();
 		if (!freeArea) {
+			final PaintableObject table = PaintableObject.TABLE;
+			objects.put(new Position(0, calculatePositionOnAxisPartCenter(getHeight(), table.getHeightInMeters(), 1, 1)), table);
+			final PaintableObject chair = PaintableObject.CHAIR;
+			objects.put(new Position(table.getWidthInMeters() + 0.25, calculatePositionOnAxisPartCenter(getHeight(), chair.getHeightInMeters(), 1, 1)), chair);
 			final Random r = new Random();
 			if (r.nextDouble() > 0.7) {
 				final PaintableObject o = PaintableObject.PLANT;
@@ -51,6 +53,11 @@ public class Area {
 				final double y = calculatePositionOnAxisPartCenter(height, o.getHeightInMeters(), 4, 1);
 				objects.put(new Position(x, y), o);
 			}
+		} else {
+			final PaintableObject o = PaintableObject.PLANT;
+			// objects.put(
+			// new Position(calculatePositionOnAxisPartCenter(length, o.getWidthInMeters(), 1, 1), calculatePositionOnAxisPartCenter(height,
+			// o.getHeightInMeters(), 1, 1)), o);
 		}
 	}
 
@@ -124,5 +131,15 @@ public class Area {
 	 */
 	public List<Direction> getWalls() {
 		return walls;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return (freeArea ? "" : "Non-") + "free area at " + position + ", width = " + length + ", height = " + height;
 	}
 }
