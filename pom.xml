@@ -26,6 +26,7 @@
 		<module>app</module>
 		<module>guests</module>
 		<module>population</module>
+		<module>finance</module>
 	</modules>
 	<build>
 		<plugins>
