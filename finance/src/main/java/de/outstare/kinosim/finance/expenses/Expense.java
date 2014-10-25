@@ -4,14 +4,16 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import de.outstare.kinosim.finance.Cents;
+
 /**
  * An Expense is an amount of money we spent.
  */
 public class Expense {
-	public final int	amount;
+	public final Cents	amount;
 	public final String	name;
 
-	public Expense(final int amount, final String name) {
+	public Expense(final Cents amount, final String name) {
 		this.amount = amount;
 		this.name = name;
 	}

@@ -18,4 +18,9 @@ public interface MovieTheater {
 	 * @return
 	 */
 	Collection<Room> getRooms();
+
+	/**
+	 * @return number of square meters (m²) the estate covers.
+	 */
+	double getEstateSpace();
 }

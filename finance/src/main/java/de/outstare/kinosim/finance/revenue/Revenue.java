@@ -4,14 +4,16 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import de.outstare.kinosim.finance.Cents;
+
 /**
  * An Revenue is an amount of money we got.
  */
 public class Revenue {
-	public final int	amount;
+	public final Cents	amount;
 	public final String	name;
 
-	public Revenue(final int amount, final String name) {
+	public Revenue(final Cents amount, final String name) {
 		this.amount = amount;
 		this.name = name;
 	}

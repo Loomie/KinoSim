@@ -44,22 +44,22 @@ public class IncomeStatement {
 		return expenses;
 	}
 
-	public int sumOfRevenues() {
-		return revenues.values().stream().mapToInt(revenue -> revenue.amount).sum();
+	public Cents sumOfRevenues() {
+		return Cents.of(revenues.values().stream().mapToLong(revenue -> revenue.amount.getValue()).sum());
 	}
 
-	public int sumOfExpenses() {
-		return expenses.values().stream().mapToInt(expense -> expense.amount).sum();
+	public Cents sumOfExpenses() {
+		return Cents.of(expenses.values().stream().mapToLong(expense -> expense.amount.getValue()).sum());
 	}
 
 	public Revenue getProfit() {
-		final int profit = Math.max(sumOfRevenues() - sumOfExpenses(), 0);
-		return new Revenue(profit, "Profit");
+		final long profit = Math.max(sumOfRevenues().getValue() - sumOfExpenses().getValue(), 0);
+		return new Revenue(Cents.of(profit), "Profit");
 	}
 
 	public Expense getDeficit() {
-		final int deficit = Math.max(sumOfExpenses() - sumOfRevenues(), 0);
-		return new Expense(deficit, "Deficit");
+		final long deficit = Math.max(sumOfExpenses().getValue() - sumOfRevenues().getValue(), 0);
+		return new Expense(Cents.of(deficit), "Deficit");
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class IncomeStatement {
 		text.append('\n');
 	}
 
-	private void addLine(final StringBuilder text, String name, final int amount) {
+	private void addLine(final StringBuilder text, String name, final Cents amount) {
 		final int textWidth = 20;
 		final int numberWidth = 8;
 		if (name.length() > textWidth) {
@@ -119,7 +119,7 @@ public class IncomeStatement {
 		for (int i = name.length(); i < textWidth; i++) {
 			text.append(' ');
 		}
-		final String number = String.valueOf(amount);
+		final String number = String.valueOf(amount.getValue());
 		for (int i = 0; i < numberWidth - number.length(); i++) {
 			text.append(' ');
 		}

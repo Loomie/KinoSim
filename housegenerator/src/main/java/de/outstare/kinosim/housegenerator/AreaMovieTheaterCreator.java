@@ -71,6 +71,11 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 			public int getNumberOfSeats() {
 				return totalCapacity;
 			}
+
+			@Override
+			public double getEstateSpace() {
+				return area;
+			}
 		};
 	}
 
