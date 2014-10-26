@@ -7,12 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.outstare.kinosim.finance.Cents;
+import de.outstare.kinosim.finance.revenue.Revenue;
 import de.outstare.kinosim.finance.revenue.TicketPriceCategory;
+import de.outstare.kinosim.finance.revenue.TicketSales;
 import de.outstare.kinosim.guests.GuestsDayReport;
 import de.outstare.kinosim.guests.GuestsShowReport;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.popularity.MoviePopularity;
-import de.outstare.kinosim.population.Audience;
 
 /**
  * A MovieRental describes the {@link Expense}s for {@link Movie}s.
@@ -38,11 +39,8 @@ public class MovieRental {
 			final double increase = MoviePopularity.getPopularity(movie);
 			final double ratio = MIN_RATIO + (MAX_RATIO - MIN_RATIO) * increase;
 
-			long sales = 0;
-			for (final Audience audience : Audience.values()) {
-				sales += showReport.getGuests(audience) * price.getPrice(audience).getValue();
-			}
-			final Cents costs = Cents.of(Math.round(sales * ratio));
+			final Revenue sales = new TicketSales(showReport, price).getRevenue();
+			final Cents costs = Cents.of(Math.round(sales.amount.getValue() * ratio));
 			LOG.debug("movie rental is {} at {} for {} with {} guests", costs, ratio, showReport.getShow(), showReport.getTotalGuests());
 			final String distributor = movie.getDistributor();
 			Expense old;
