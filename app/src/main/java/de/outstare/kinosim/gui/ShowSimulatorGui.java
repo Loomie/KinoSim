@@ -1,5 +1,6 @@
 package de.outstare.kinosim.gui;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,15 +14,18 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 import de.outstare.kinosim.ShowSimulator;
 import de.outstare.kinosim.cinema.CinemaHall;
+import de.outstare.kinosim.cinema.MovieTheater;
+import de.outstare.kinosim.cinema.Room;
 import de.outstare.kinosim.guests.GuestCalculator;
 import de.outstare.kinosim.guests.GuestsDayReport;
 import de.outstare.kinosim.guests.gui.GuestsDayReportGui;
-import de.outstare.kinosim.housegenerator.hall.CinemaHallGenerator;
-import de.outstare.kinosim.housegenerator.hall.RandomCinemaHallGenerator;
+import de.outstare.kinosim.housegenerator.AreaMovieTheaterCreator;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.generator.MovieGenerator;
 import de.outstare.kinosim.movie.generator.RandomMovieGenerator;
@@ -65,16 +69,26 @@ public class ShowSimulatorGui {
 			public void actionPerformed(final ActionEvent e) {
 				simulator.nextDay();
 
+				panel.remove(3);
 				panel.remove(2);
 				panel.add(createReportUi());
+				panel.add(createBalanceUi());
 				panel.validate();
 			}
 		});
+
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.add(editorUi.createUi());
 		panel.add(simulate);
 		panel.add(createReportUi());
+		panel.add(createBalanceUi());
 		return panel;
+	}
+
+	private JComponent createBalanceUi() {
+		final JTextArea balanceUi = new JTextArea(simulator.getBalance().prettyPrint(), 10, 120);
+		balanceUi.setFont(Font.decode(Font.MONOSPACED));
+		return new JScrollPane(balanceUi);
 	}
 
 	private JComponent createReportUi() {
@@ -103,10 +117,12 @@ public class ShowSimulatorGui {
 	/** Test **/
 	public static void main(final String[] args) {
 		final Schedule schedule = new ScheduleImpl();
-		final CinemaHallGenerator hallGenerator = new RandomCinemaHallGenerator();
+		final MovieTheater theater = new AreaMovieTheaterCreator(Randomness.getGaussianAround(1000)).createTheater();
 		final List<CinemaHall> halls = new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
-			halls.add(hallGenerator.createHall());
+		for (final Room aRoom : theater.getRooms()) {
+			if (aRoom instanceof CinemaHall) {
+				halls.add((CinemaHall) aRoom);
+			}
 		}
 		final MovieGenerator movieGenerator = new RandomMovieGenerator();
 		final List<Movie> movies = new ArrayList<>();

@@ -7,10 +7,13 @@ import de.outstare.kinosim.finance.Cents;
  * A Leasehold describes the {@link Expense}s for the estate and building of the movie theater.
  */
 public class Leasehold {
-	public final Expense	monthlyRate;
+	private final long	rent;
 
 	public Leasehold(final MovieTheater theater, final Cents rentPerSquareMeter) {
-		final long rent = Math.round(theater.getEstateSpace() * rentPerSquareMeter.getValue());
-		monthlyRate = new Expense(Cents.of(rent), "leasehold");
+		rent = Math.round(theater.getEstateSpace() * rentPerSquareMeter.getValue());
+	}
+
+	public Expense getMonthlyRate() {
+		return new Expense(Cents.of(rent), "leasehold");
 	}
 }
