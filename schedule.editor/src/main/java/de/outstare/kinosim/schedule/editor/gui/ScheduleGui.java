@@ -1,6 +1,8 @@
 package de.outstare.kinosim.schedule.editor.gui;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.dnd.DropTarget;
@@ -77,6 +79,29 @@ class ScheduleGui {
 						e.printStackTrace();
 					}
 				}
+			}
+
+			@Override
+			public Dimension getMinimumSize() {
+				final int minWidth = visibleTime.toHours() * 10;
+				int minHeight = 0;
+				for (final Component child : getComponents()) {
+					final Dimension childMinSize = child.getMinimumSize();
+					minHeight = Math.max(minHeight, childMinSize.height);
+				}
+				return new Dimension(minWidth, minHeight);
+			}
+
+			@Override
+			public Dimension getPreferredSize() {
+				int minWidth = 0;
+				int minHeight = 0;
+				for (final Component child : getComponents()) {
+					final Dimension childMinSize = child.getPreferredSize();
+					minWidth += childMinSize.width;
+					minHeight = Math.max(minHeight, childMinSize.height);
+				}
+				return new Dimension(minWidth, minHeight);
 			}
 		};
 		hallRow.setBackground(Color.LIGHT_GRAY);
