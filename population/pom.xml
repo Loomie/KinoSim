@@ -3,14 +3,14 @@
   <parent>
     <groupId>de.outstare.kinosim</groupId>
     <artifactId>parent</artifactId>
-    <version>0.1.4-SNAPSHOT</version>
+    <version>0.1.3-SNAPSHOT</version>
   </parent>
   <artifactId>population</artifactId>
   <dependencies>
   	<dependency>
   		<groupId>de.outstare.kinosim</groupId>
   		<artifactId>util</artifactId>
-  		<version>0.1.4-SNAPSHOT</version>
+  		<version>0.1.3-SNAPSHOT</version>
   	</dependency>
   </dependencies>
 </project>
