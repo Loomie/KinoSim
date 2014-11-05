@@ -118,11 +118,7 @@ public class ShowSimulatorGui {
 		final Schedule schedule = new ScheduleImpl();
 		final MovieTheater theater = new AreaMovieTheaterCreator(Randomness.getGaussianAround(1000)).createTheater();
 		final List<CinemaHall> halls = theater.getHalls();
-		final MovieGenerator movieGenerator = new RandomMovieGenerator();
-		final List<Movie> movies = new ArrayList<>();
-		for (int i = 0; i < 13; i++) {
-			movies.add(movieGenerator.generate());
-		}
+		final List<Movie> movies = generateMovieList();
 		final Random r = Randomness.getRandom();
 		final int minStartHour = 13;
 		final int maxStartHour = 24;
@@ -144,5 +140,14 @@ public class ShowSimulatorGui {
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
 		SwingUtilities.invokeLater(() -> createAndShowGUI(editorGui));
+	}
+
+	static List<Movie> generateMovieList() {
+		final MovieGenerator movieGenerator = new RandomMovieGenerator();
+		final List<Movie> movies = new ArrayList<>();
+		for (int i = 0; i < 13; i++) {
+			movies.add(movieGenerator.generate());
+		}
+		return movies;
 	}
 }

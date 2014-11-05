@@ -1,7 +1,10 @@
 package de.outstare.kinosim.gui;
 
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.time.LocalDate;
+import java.util.Collection;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
@@ -12,13 +15,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import de.outstare.kinosim.ShowSimulator;
 import de.outstare.kinosim.TheaterChooserListener;
 import de.outstare.kinosim.TheaterList;
 import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.finance.Cents;
 import de.outstare.kinosim.finance.expenses.Leasehold;
+import de.outstare.kinosim.guests.GuestCalculator;
 import de.outstare.kinosim.housegenerator.gui.TheatreMap;
+import de.outstare.kinosim.movie.Movie;
+import de.outstare.kinosim.population.PopulationPyramid;
+import de.outstare.kinosim.schedule.Schedule;
+import de.outstare.kinosim.schedule.ScheduleImpl;
+import de.outstare.kinosim.schedule.editor.ScheduleEditor;
 import de.outstare.kinosim.util.Randomness;
+import de.outstare.kinosim.util.TimeRange;
 
 /**
  * A TheaterChooser allows to choose one of multiple {@link MovieTheater}.
@@ -48,9 +59,11 @@ public class TheaterChooser {
 		ChooserButton(final MovieTheater theater) {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
+			final PopulationPyramid population = PopulationPyramid.createRandom();
 			addLabel(theater);
+			add(new JLabel(String.format("Population: %,d", population.getTotal())));
 			addMap(theater);
-			addButton(theater);
+			addButton(theater, population);
 		}
 
 		private void addLabel(final MovieTheater theater) {
@@ -64,17 +77,16 @@ public class TheaterChooser {
 			add(theaterMap.createUi());
 		}
 
-		private void addButton(final MovieTheater theater) {
+		private void addButton(final MovieTheater theater, final PopulationPyramid population) {
 			final Leasehold lease = new Leasehold(theater, Cents.of(Randomness.getGaussianAround(600)));
-			final long perMonth = lease.getMonthlyRate().amount.getValue() / 100;
 			final JButton button = new JButton();
-			button.setAction(new AbstractAction(String.format("select for %d $/month", perMonth)) {
+			button.setAction(new AbstractAction(String.format("select for %s /month", lease.getMonthlyRate().amount.formatted())) {
 				private static final long	serialVersionUID	= -5485389946391952277L;
 
 				@Override
 				public void actionPerformed(final ActionEvent e) {
 					if (listener != null) {
-						listener.theaterChoosen(theater, lease);
+						listener.theaterChoosen(theater, lease, population);
 					}
 				}
 			});
@@ -98,11 +110,21 @@ public class TheaterChooser {
 		frame.setSize(1000, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 	}
 
 	public static void main(final String[] args) {
 		final TheaterChooser chooser = new TheaterChooser();
-		chooser.setListener((theater, lease) -> System.exit(0));
+		chooser.setListener((theater, lease, population) -> {
+			final Schedule schedule = new ScheduleImpl();
+			final ShowSimulator simulator = new ShowSimulator(schedule, new GuestCalculator(population), LocalDate.now());
+			final Collection<Movie> movieList = ShowSimulatorGui.generateMovieList();
+			final ScheduleEditor scheduleEditor = new ScheduleEditor(schedule, theater.getHalls(), movieList);
+			final ShowSimulatorGui showSimulatorGui = new ShowSimulatorGui(scheduleEditor, simulator, TimeRange.of(14, 26));
+			final JFrame frame = (JFrame) Frame.getFrames()[0];
+			frame.setContentPane(showSimulatorGui.createUi());
+			frame.setExtendedState(Frame.NORMAL);
+		});
 		// Schedule a job for the event-dispatching thread:
 		SwingUtilities.invokeLater(() -> showGUI(chooser.createUi()));
 	}
