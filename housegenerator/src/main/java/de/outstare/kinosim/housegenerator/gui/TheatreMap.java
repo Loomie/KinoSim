@@ -21,6 +21,7 @@ import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.cinema.Room;
 import de.outstare.kinosim.cinema.RoomType;
+import de.outstare.kinosim.cinema.WorkSpace;
 import de.outstare.kinosim.housegenerator.AreaMovieTheaterCreator;
 import de.outstare.kinosim.util.Randomness;
 
@@ -62,10 +63,11 @@ public class TheatreMap {
 				g.setColor(Color.BLACK);
 				g.drawRect(0, 0, getWidth(), getHeight());
 				final Graphics2D g2 = (Graphics2D) g;
-				for (final Entry<Room, Double> room : roomSquares.entrySet()) {
-					final Rectangle2D.Double scaled = scale(room.getValue());
+				for (final Entry<Room, Double> roomSquares : roomSquares.entrySet()) {
+					final Room room = roomSquares.getKey();
+					final Rectangle2D.Double scaled = scale(roomSquares.getValue());
 					g2.draw(scaled);
-					g2.setColor(getColor(room.getKey().getType()));
+					g2.setColor(getColor(room.getType()));
 					scaled.x++;
 					scaled.y++;
 					scaled.width -= 1;
@@ -73,15 +75,22 @@ public class TheatreMap {
 					g2.fill(scaled);
 					g2.setColor(Color.BLACK);
 					String label;
-					if (room.getKey().getType() == RoomType.CinemaHall) {
-						label = ((CinemaHall) room.getKey()).getName();
+					String size;
+					if (room.getType() == RoomType.CinemaHall) {
+						label = ((CinemaHall) room).getName();
+						size = ((CinemaHall) room).getCapacity() + " seats";
 					} else {
-						label = room.getKey().getType().toString();
+						label = room.getType().toString();
+						if (room instanceof WorkSpace) {
+							size = ((WorkSpace) room).getWorkplaceCount() + " worker";
+						} else {
+							size = "";
+						}
 					}
 					g2.drawString(label, (float) (scaled.x + 5), (float) (scaled.y + 15));
+					g2.drawString(size, (float) (scaled.x + 5), (float) (scaled.y + 15 + g2.getFontMetrics().getHeight()));
 					if (DEBUG) {
-						g2.drawString(String.valueOf((int) room.getKey().getAllocatedSpace()) + " m²", (float) (scaled.x + 5),
-								(float) (scaled.y + 35));
+						g2.drawString(String.valueOf((int) room.getAllocatedSpace()) + " m²", (float) (scaled.x + 5), (float) (scaled.y + 35));
 					}
 				}
 			}
