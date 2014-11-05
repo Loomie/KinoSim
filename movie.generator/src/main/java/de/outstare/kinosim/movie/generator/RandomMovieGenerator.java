@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
 import de.outstare.kinosim.movie.Genre;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.Rating;
@@ -23,6 +21,7 @@ import de.outstare.kinosim.movie.SimpleMovie;
 import de.outstare.kinosim.util.Randomness;
 
 public class RandomMovieGenerator implements MovieGenerator {
+	private final FakeTitleGenerator	titleGen	= new FakeTitleGenerator();
 
 	public static void main(final String[] args) {
 		final MovieGenerator gen = new RandomMovieGenerator();
@@ -38,8 +37,9 @@ public class RandomMovieGenerator implements MovieGenerator {
 	}
 
 	private String createTitle() {
-		final int length = (int) (4 + Randomness.nextDouble() * 8);
-		return RandomStringUtils.randomAlphabetic(length);
+		return titleGen.generateTitle();
+		// final int length = (int) (4 + Randomness.nextDouble() * 8);
+		// return RandomStringUtils.randomAlphabetic(length);
 	}
 
 	private Rating createRating() {
