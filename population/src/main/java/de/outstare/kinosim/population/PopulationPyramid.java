@@ -22,10 +22,19 @@ public class PopulationPyramid {
 		LOG.info("population with {} new borns and a max age of {}", newBorns, maxAge);
 	}
 
-	public int getPopulationOfAudience(final Audience ageGroup) {
-		final int allAges = getPeopleByAge(ageGroup.maxAge);
-		final int youngsters = getPeopleByAge(ageGroup.minAge);
-		final int years = ageGroup.maxAge - ageGroup.minAge;
+	/**
+	 * @param ageGroup
+	 *            for which the number of people in this population is to be determined
+	 * @param minimumAge
+	 *            which further restricts which part of the given audience will be considered
+	 * @return the number of people in this population with the given age
+	 */
+	public int getPopulationOfAudience(final Audience ageGroup, final int minimumAge) {
+		final int partMinAge = Math.max(ageGroup.minAge, minimumAge);
+		final int partMaxAge = Math.max(ageGroup.maxAge, minimumAge);
+		final int allAges = getPeopleByAge(partMaxAge);
+		final int youngsters = getPeopleByAge(partMinAge);
+		final int years = partMaxAge - partMinAge;
 		// rectangle between min and max of height f(max)
 		int total = years * allAges;
 		// triangle above it h = f(min) - f(max)
@@ -40,5 +49,13 @@ public class PopulationPyramid {
 
 	public static PopulationPyramid createRandom() {
 		return new PopulationPyramid(500 + Randomness.nextInt(1000), 50 + Randomness.nextInt(70));
+	}
+
+	public int getTotal() {
+		int sum = 0;
+		for (final Audience audience : Audience.values()) {
+			sum += getPopulationOfAudience(audience, 0);
+		}
+		return sum;
 	}
 }

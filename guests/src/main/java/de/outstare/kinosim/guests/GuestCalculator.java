@@ -49,7 +49,8 @@ public class GuestCalculator {
 	}
 
 	int calculateAudienceGuests(final Show show, final LocalDate date, final Audience audience) {
-		final double populationPart = population.getPopulationOfAudience(audience) * 0.012; // 12 seats per 1000 inhabitants
+		final int ageRating = show.getFilm().getAgeRating();
+		final double populationPart = population.getPopulationOfAudience(audience, ageRating) * 0.012; // 12 seats per 1000 inhabitants
 		final double movieFactor = MoviePopularity.getPopularity(audience, show.getFilm());
 		final double startTimeFactor = startTimeFactor(show, audience);
 		final double averageWeightedFactor = (5.0 * movieFactor + 1.0 * startTimeFactor) / 6.0;
