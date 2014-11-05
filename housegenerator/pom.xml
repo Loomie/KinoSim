@@ -10,13 +10,13 @@
 		<dependency>
 			<groupId>de.outstare.kinosim</groupId>
 			<artifactId>cinema</artifactId>
-			<version>0.1.3</version>
+			<version>0.1.4-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<parent>
 		<groupId>de.outstare.kinosim</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.1.3</version>
+		<version>0.1.4-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 </project>
