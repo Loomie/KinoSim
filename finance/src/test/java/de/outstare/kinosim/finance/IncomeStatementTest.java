@@ -17,18 +17,18 @@ public class IncomeStatementTest {
 	public void setUp() {
 		testObject = new IncomeStatement();
 
-		testObject.getExpenses().put(ExpenseCategory.CostOfProduction, new Expense(Cents.of(1000), "production part1"));
-		testObject.getExpenses().put(ExpenseCategory.CostOfProduction, new Expense(Cents.of(200), "production part2"));
-		testObject.getExpenses().put(ExpenseCategory.CostOfProduction, new Expense(Cents.of(300), "production part3"));
-		testObject.getExpenses().put(ExpenseCategory.StaffCosts, new Expense(Cents.of(50), "staff part1"));
-		testObject.getExpenses().put(ExpenseCategory.StaffCosts, new Expense(Cents.of(25), "staff part2"));
-		testObject.getExpenses().put(ExpenseCategory.OtherOperativeExpenses, new Expense(Cents.of(4), "other part1"));
-		testObject.getExpenses().put(ExpenseCategory.OtherOperativeExpenses, new Expense(Cents.of(8), "other part1"));
+		testObject.addExpense(ExpenseCategory.CostOfProduction, new Expense(Cents.of(1000), "production part1"));
+		testObject.addExpense(ExpenseCategory.CostOfProduction, new Expense(Cents.of(200), "production part2"));
+		testObject.addExpense(ExpenseCategory.CostOfProduction, new Expense(Cents.of(300), "production part3"));
+		testObject.addExpense(ExpenseCategory.StaffCosts, new Expense(Cents.of(50), "staff part1"));
+		testObject.addExpense(ExpenseCategory.StaffCosts, new Expense(Cents.of(25), "staff part2"));
+		testObject.addExpense(ExpenseCategory.OtherOperativeExpenses, new Expense(Cents.of(4), "other part1"));
+		testObject.addExpense(ExpenseCategory.OtherOperativeExpenses, new Expense(Cents.of(8), "other part1"));
 
-		testObject.getRevenues().put(RevenueCategory.Revenues, new Revenue(Cents.of(2000), "revenues part1"));
-		testObject.getRevenues().put(RevenueCategory.Revenues, new Revenue(Cents.of(700), "revenues part2"));
-		testObject.getRevenues().put(RevenueCategory.StockChange, new Revenue(Cents.of(128), "stock part1"));
-		testObject.getRevenues().put(RevenueCategory.StockChange, new Revenue(Cents.of(256), "stock part2"));
+		testObject.addRevenue(RevenueCategory.Revenues, new Revenue(Cents.of(2000), "revenues part1"));
+		testObject.addRevenue(RevenueCategory.Revenues, new Revenue(Cents.of(700), "revenues part2"));
+		testObject.addRevenue(RevenueCategory.StockChange, new Revenue(Cents.of(128), "stock part1"));
+		testObject.addRevenue(RevenueCategory.StockChange, new Revenue(Cents.of(256), "stock part2"));
 
 		System.out.println(testObject);
 	}
@@ -47,7 +47,7 @@ public class IncomeStatementTest {
 	public void testGetProfit() {
 		assertEquals(new Revenue(Cents.of(3084 - 1587), "Profit"), testObject.getProfit());
 
-		testObject.getExpenses().put(ExpenseCategory.OtherOperativeExpenses, new Expense(Cents.of(4444), "going into minus"));
+		testObject.addExpense(ExpenseCategory.OtherOperativeExpenses, new Expense(Cents.of(4444), "going into minus"));
 
 		assertEquals(new Revenue(Cents.of(0), "Profit"), testObject.getProfit());
 	}
@@ -56,8 +56,44 @@ public class IncomeStatementTest {
 	public void testGetDeficit() {
 		assertEquals(new Expense(Cents.of(0), "Deficit"), testObject.getDeficit());
 
-		testObject.getExpenses().put(ExpenseCategory.OtherOperativeExpenses, new Expense(Cents.of(4444), "going into minus"));
+		testObject.addExpense(ExpenseCategory.OtherOperativeExpenses, new Expense(Cents.of(4444), "going into minus"));
 
 		assertEquals(new Expense(Cents.of(2947), "Deficit"), testObject.getDeficit());
+	}
+
+	@Test
+	public void testAddRevenue() {
+		final RevenueCategory category = RevenueCategory.Revenues;
+		final Revenue newRevenue = new Revenue(Cents.of(300), "revenues part3");
+		final Revenue additionalRevenue = new Revenue(Cents.of(123), "revenues part1");
+		assertEquals(Cents.of(3084), testObject.sumOfRevenues());
+
+		testObject.addRevenue(category, newRevenue);
+
+		assertTrue(testObject.listRevenues().get(category).contains(newRevenue));
+		assertEquals(Cents.of(3384), testObject.sumOfRevenues());
+
+		testObject.addRevenue(category, additionalRevenue);
+
+		assertFalse(testObject.listRevenues().get(category).contains(additionalRevenue));
+		assertEquals(Cents.of(3507), testObject.sumOfRevenues());
+	}
+
+	@Test
+	public void testAddExpense() {
+		final ExpenseCategory category = ExpenseCategory.CostOfProduction;
+		final Expense newExpense = new Expense(Cents.of(300), "production part4");
+		final Expense additionalExpense = new Expense(Cents.of(123), "production part1");
+		assertEquals(Cents.of(1587), testObject.sumOfExpenses());
+
+		testObject.addExpense(category, newExpense);
+
+		assertTrue(testObject.listExpenses().get(category).contains(newExpense));
+		assertEquals(Cents.of(1887), testObject.sumOfExpenses());
+
+		testObject.addExpense(category, additionalExpense);
+
+		assertFalse(testObject.listExpenses().get(category).contains(additionalExpense));
+		assertEquals(Cents.of(2010), testObject.sumOfExpenses());
 	}
 }

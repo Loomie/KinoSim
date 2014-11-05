@@ -33,7 +33,7 @@ public class ShowSimulator {
 	private final IncomeStatement		balance		= new IncomeStatement();
 	// TODO move out of ShowSimulator to a more global place where the MovieTheater is known
 	private final Leasehold				leasehold	= new Leasehold(new AreaMovieTheaterCreator(1000).createTheater(), Cents.of(Randomness
-															.getGaussianAround(600)));
+			.getGaussianAround(600)));
 
 	public ShowSimulator(final Schedule schedule, final GuestCalculator calculator, final LocalDate day) {
 		super();
@@ -72,14 +72,14 @@ public class ShowSimulator {
 			// TODO map show to revenue and use own painting
 			final String shortName = String.format("%s %s", showReport.getShow().getStart(), showReport.getShow().getFilm().getTitle());
 			sales = new Revenue(sales.amount, shortName);
-			balance.getRevenues().put(RevenueCategory.Revenues, sales);
+			balance.addRevenue(RevenueCategory.Revenues, sales);
 		}
 		final Map<String, Expense> movieCosts = new MovieRental(report, prices).getDistributorExpense();
 		for (final Expense distributor : movieCosts.values()) {
-			balance.getExpenses().put(ExpenseCategory.CostOfProduction, distributor);
+			balance.addExpense(ExpenseCategory.CostOfProduction, distributor);
 		}
 		if (day.getDayOfMonth() == 1) {
-			balance.getExpenses().put(ExpenseCategory.OtherOperativeExpenses, leasehold.getMonthlyRate());
+			balance.addExpense(ExpenseCategory.OtherOperativeExpenses, leasehold.getMonthlyRate());
 		}
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 import de.outstare.kinosim.finance.expenses.Expense;
@@ -36,12 +37,38 @@ public class IncomeStatement {
 	private final Multimap<RevenueCategory, Revenue>	revenues	= HashMultimap.create();
 	private final Multimap<ExpenseCategory, Expense>	expenses	= HashMultimap.create();
 
-	public Multimap<RevenueCategory, Revenue> getRevenues() {
-		return revenues;
+	public void addRevenue(final RevenueCategory category, Revenue newRevenue) {
+		if (revenues.containsKey(category)) {
+			for (final Revenue existingRevenue : revenues.get(category)) {
+				if (existingRevenue.name.equals(newRevenue.name)) {
+					revenues.remove(category, existingRevenue);
+					newRevenue = new Revenue(existingRevenue.amount.add(newRevenue.amount), existingRevenue.name);
+					break;
+				}
+			}
+		}
+		revenues.put(category, newRevenue);
 	}
 
-	public Multimap<ExpenseCategory, Expense> getExpenses() {
-		return expenses;
+	public void addExpense(final ExpenseCategory category, Expense newExpense) {
+		if (expenses.containsKey(category)) {
+			for (final Expense existingExpense : expenses.get(category)) {
+				if (existingExpense.name.equals(newExpense.name)) {
+					expenses.remove(category, existingExpense);
+					newExpense = new Expense(existingExpense.amount.add(newExpense.amount), existingExpense.name);
+					break;
+				}
+			}
+		}
+		expenses.put(category, newExpense);
+	}
+
+	public Multimap<RevenueCategory, Revenue> listRevenues() {
+		return ImmutableMultimap.copyOf(revenues);
+	}
+
+	public Multimap<ExpenseCategory, Expense> listExpenses() {
+		return ImmutableMultimap.copyOf(expenses);
 	}
 
 	public Cents sumOfRevenues() {
@@ -73,7 +100,7 @@ public class IncomeStatement {
 	}
 
 	private static final int	textWidth	= 30;
-	private static final int	numberWidth	= 10;
+	private static final int	numberWidth	= 14;
 
 	public String prettyPrint() {
 		final StringBuilder text = new StringBuilder(200);
