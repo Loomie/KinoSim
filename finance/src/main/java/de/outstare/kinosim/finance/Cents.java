@@ -1,6 +1,8 @@
 package de.outstare.kinosim.finance;
 
 import java.io.Serializable;
+import java.util.Currency;
+import java.util.Locale;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -30,6 +32,10 @@ public class Cents implements Serializable, Comparable<Cents> {
 
 	public Cents subtract(final Cents other) {
 		return new Cents(Math.subtractExact(value, other.value));
+	}
+
+	public String formatted() {
+		return String.format("%,.2f %s", value / 100.0, Currency.getInstance(Locale.getDefault()).getSymbol());
 	}
 
 	@Override

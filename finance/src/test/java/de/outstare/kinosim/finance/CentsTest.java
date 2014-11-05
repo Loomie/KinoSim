@@ -2,6 +2,8 @@ package de.outstare.kinosim.finance;
 
 import static org.junit.Assert.*;
 
+import java.util.Locale;
+
 import org.junit.Test;
 
 public class CentsTest {
@@ -114,4 +116,16 @@ public class CentsTest {
 		assertEquals(first.hashCode(), second.hashCode());
 	}
 
+	@Test
+	public void testFormatted() {
+		final Cents cents = Cents.of(1234567890);
+		final Locale defaultLocale = Locale.getDefault();
+		// force locale
+		Locale.setDefault(Locale.US);
+		assertEquals("12,345,678.90 $", cents.formatted());
+		Locale.setDefault(Locale.GERMANY);
+		assertEquals("12.345.678,90 €", cents.formatted());
+		// restore default
+		Locale.setDefault(defaultLocale);
+	}
 }

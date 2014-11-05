@@ -72,6 +72,9 @@ public class IncomeStatement {
 		return text.toString();
 	}
 
+	private static final int	textWidth	= 30;
+	private static final int	numberWidth	= 10;
+
 	public String prettyPrint() {
 		final StringBuilder text = new StringBuilder(200);
 		prettyPrint(text);
@@ -80,7 +83,7 @@ public class IncomeStatement {
 
 	private void prettyPrint(final StringBuilder text) {
 		addTableRow(text, new Revenue(sumOfRevenues(), "Revenues"), new Expense(sumOfExpenses(), "Expenses"));
-		for (int i = 0; i < 2 * 28 + 3; i++) {
+		for (int i = 0; i < 2 * (textWidth + numberWidth) + 3; i++) {
 			text.append('-');
 		}
 		text.append('\n');
@@ -110,8 +113,6 @@ public class IncomeStatement {
 	}
 
 	private void addLine(final StringBuilder text, String name, final Cents amount) {
-		final int textWidth = 20;
-		final int numberWidth = 8;
 		if (name.length() > textWidth) {
 			name = StringUtils.abbreviate(name, textWidth);
 		}
@@ -119,7 +120,7 @@ public class IncomeStatement {
 		for (int i = name.length(); i < textWidth; i++) {
 			text.append(' ');
 		}
-		final String number = String.valueOf(amount.getValue());
+		final String number = amount.formatted();
 		for (int i = 0; i < numberWidth - number.length(); i++) {
 			text.append(' ');
 		}
@@ -127,7 +128,7 @@ public class IncomeStatement {
 	}
 
 	private void addEmptyRow(final StringBuilder text) {
-		for (int i = 0; i < 28; i++) {
+		for (int i = 0; i < (textWidth + numberWidth); i++) {
 			text.append(' ');
 		}
 	}
