@@ -24,7 +24,6 @@ public abstract class MoviePopularity {
 	/**
 	 * Get the popularity as average over all audiences.
 	 *
-	 * @param rating
 	 * @return the ratio of people who want to watch the movie (0.0 - 1.0)
 	 */
 	public static double getPopularity(final Movie movie) {
@@ -40,8 +39,6 @@ public abstract class MoviePopularity {
 	/**
 	 * Get the popularity for the given audience.
 	 *
-	 * @param audience
-	 * @param rating
 	 * @return the ratio of people who want to watch the movie (0.0 - 1.0)
 	 */
 	public static double getPopularity(final Audience audience, final Movie movie) {

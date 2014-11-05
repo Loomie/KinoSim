@@ -22,7 +22,7 @@ import de.outstare.kinosim.schedule.editor.ScheduleEditor;
 import de.outstare.kinosim.util.TimeRange;
 
 /**
- * A ScheduleDropTransferHandler allows the drop of movies and shows. It creates a new show for movies dropped on a {@link ScheduleGui}.
+ * A ScheduleDropTransferHandler allows the drop of movies and shows. It creates a new show for dropped movies.
  */
 public class ScheduleDropTransferHandler extends TransferHandler {
 	private static final Logger		LOG					= LoggerFactory.getLogger(ScheduleDropTransferHandler.class);
