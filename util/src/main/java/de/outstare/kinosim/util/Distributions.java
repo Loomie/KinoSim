@@ -41,7 +41,7 @@ public class Distributions {
 	 *   0.0  |   |
 	 *  -0.5 /     \
 	 *  -1.0-       -
-	 *     -1   0   1 <- relative distance from expected value
+	 *     -1   0   1 &lt;- relative distance from expected value
 	 * </pre>
 	 *
 	 * Example2: We have values ranging from 0 to 100. We expect a 75 but got a 10. Because it is more than half-range away the ratio is 0;
