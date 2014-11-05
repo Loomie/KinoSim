@@ -17,7 +17,7 @@ public class AreaMovieTheaterCreatorTest {
 
 			assertTrue(result.getNumberOfSeats() + " seats", 100 < result.getNumberOfSeats());
 			assertTrue(result.getNumberOfSeats() + " seats", result.getNumberOfSeats() < 1100);
-			final double totalArea = result.getRooms().stream().mapToDouble(room -> room.getAllocatedSpace()).sum();
+			final double totalArea = result.getRoomSpace();
 			assertTrue(totalArea / 1.2 <= 1800);
 			System.out.println();
 		}
@@ -32,7 +32,7 @@ public class AreaMovieTheaterCreatorTest {
 
 			assertTrue(result.getNumberOfSeats() + " seats", 4600 < result.getNumberOfSeats());
 			assertTrue(result.getNumberOfSeats() + " seats", result.getNumberOfSeats() < 11200);
-			final double totalArea = result.getRooms().stream().mapToDouble(room -> room.getAllocatedSpace()).sum();
+			final double totalArea = result.getRoomSpace();
 			assertTrue(totalArea / 1.2 <= 18000);
 			System.out.println();
 		}

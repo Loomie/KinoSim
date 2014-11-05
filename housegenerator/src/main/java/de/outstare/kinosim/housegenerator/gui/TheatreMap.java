@@ -39,7 +39,7 @@ public class TheatreMap {
 
 	public JComponent createUi() {
 		// a square which is filled with squares for each room according to its area
-		final double totalArea = theater.getRooms().stream().mapToDouble(room -> room.getAllocatedSpace()).sum();
+		final double totalArea = theater.getRoomSpace();
 		final double totalEdgeLengthInMeters = Math.sqrt(totalArea);
 		final Map<Room, Rectangle2D.Double> roomSquares = getRooms(totalEdgeLengthInMeters);
 

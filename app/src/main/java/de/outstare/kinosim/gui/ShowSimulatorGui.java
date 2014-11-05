@@ -21,7 +21,6 @@ import javax.swing.SwingUtilities;
 import de.outstare.kinosim.ShowSimulator;
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.MovieTheater;
-import de.outstare.kinosim.cinema.Room;
 import de.outstare.kinosim.guests.GuestCalculator;
 import de.outstare.kinosim.guests.GuestsDayReport;
 import de.outstare.kinosim.guests.gui.GuestsDayReportGui;
@@ -118,12 +117,7 @@ public class ShowSimulatorGui {
 	public static void main(final String[] args) {
 		final Schedule schedule = new ScheduleImpl();
 		final MovieTheater theater = new AreaMovieTheaterCreator(Randomness.getGaussianAround(1000)).createTheater();
-		final List<CinemaHall> halls = new ArrayList<>();
-		for (final Room aRoom : theater.getRooms()) {
-			if (aRoom instanceof CinemaHall) {
-				halls.add((CinemaHall) aRoom);
-			}
-		}
+		final List<CinemaHall> halls = theater.getHalls();
 		final MovieGenerator movieGenerator = new RandomMovieGenerator();
 		final List<Movie> movies = new ArrayList<>();
 		for (int i = 0; i < 13; i++) {

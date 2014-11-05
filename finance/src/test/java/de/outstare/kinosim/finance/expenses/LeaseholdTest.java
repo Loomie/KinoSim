@@ -3,9 +3,11 @@ package de.outstare.kinosim.finance.expenses;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
+import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.cinema.Room;
 import de.outstare.kinosim.finance.Cents;
@@ -20,12 +22,22 @@ public class LeaseholdTest {
 		}
 
 		@Override
+		public List<CinemaHall> getHalls() {
+			return null;
+		}
+
+		@Override
 		public Collection<Room> getRooms() {
 			return null;
 		}
 
 		@Override
 		public int getNumberOfSeats() {
+			return 0;
+		}
+
+		@Override
+		public double getRoomSpace() {
 			return 0;
 		}
 

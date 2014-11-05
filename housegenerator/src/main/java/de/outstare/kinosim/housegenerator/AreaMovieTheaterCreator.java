@@ -1,12 +1,16 @@
 package de.outstare.kinosim.housegenerator;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.FixedSizeCinemaHall;
 import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.cinema.Room;
@@ -45,6 +49,7 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 		int actualSeats = 0;
 		final double maxSeats = Math.min(Randomness.getGaussianAround(900), calculatedSeats / 3.0);
 		LOG.debug("Calculated seats: " + calculatedSeats + ", max seats per hall: " + maxSeats);
+		final List<CinemaHall> halls = new ArrayList<>();
 		while (usedSpace < usableArea) {
 			final int seatsForHall = (int) (maxSeats * Math.pow(hallNo, -0.5));
 			final double spaceForHall = cinemaAreaPerSeat * seatsForHall;
@@ -53,7 +58,9 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 				break;
 			}
 			final String name = "Hall " + hallNo;
-			rooms.add(new FixedSizeCinemaHall(name, spaceForHall, seatsForHall));
+			final CinemaHall hall = new FixedSizeCinemaHall(name, spaceForHall, seatsForHall);
+			rooms.add(hall);
+			halls.add(hall);
 			LOG.debug(name + " has " + seatsForHall + " seats and an area of " + spaceForHall + " m²");
 			usedSpace += spaceForHall;
 			actualSeats += seatsForHall;
@@ -61,15 +68,26 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 		}
 		LOG.debug("Total seats: " + actualSeats + " used netto area: " + usedSpace / 1.2 + " m²");
 		final int totalCapacity = actualSeats;
+		final double totalSpace = usedSpace;
 		return new MovieTheater() {
 			@Override
+			public List<CinemaHall> getHalls() {
+				return Collections.unmodifiableList(halls);
+			}
+
+			@Override
 			public Collection<Room> getRooms() {
-				return rooms;
+				return Collections.unmodifiableCollection(rooms);
 			}
 
 			@Override
 			public int getNumberOfSeats() {
 				return totalCapacity;
+			}
+
+			@Override
+			public double getRoomSpace() {
+				return totalSpace;
 			}
 
 			@Override
