@@ -71,7 +71,7 @@ public class ShowSimulator {
 			// replace full description with short description, because day is known and guests are already displayed
 			// TODO map show to revenue and use own painting
 			final String shortName = String.format("%s %s", showReport.getShow().getStart(), showReport.getShow().getFilm().getTitle());
-			sales = new Revenue(sales.amount, shortName);
+			sales = new Revenue(sales.getAmount(), shortName);
 			balance.addRevenue(RevenueCategory.Revenues, sales);
 		}
 		final Map<String, Expense> movieCosts = new MovieRental(report, prices).getDistributorExpense();

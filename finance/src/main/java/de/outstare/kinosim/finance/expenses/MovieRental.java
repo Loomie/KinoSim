@@ -40,7 +40,7 @@ public class MovieRental {
 			final double ratio = MIN_RATIO + (MAX_RATIO - MIN_RATIO) * increase;
 
 			final Revenue sales = new TicketSales(showReport, price).getRevenue();
-			final Cents costs = Cents.of(Math.round(sales.amount.getValue() * ratio));
+			final Cents costs = Cents.of(Math.round(sales.getAmount().getValue() * ratio));
 			LOG.debug("movie rental is {} at {} for {} with {} guests", costs, ratio, showReport.getShow(), showReport.getTotalGuests());
 			final String distributor = movie.getDistributor();
 			Expense old;
@@ -49,7 +49,7 @@ public class MovieRental {
 			} else {
 				old = distributors.get(distributor);
 			}
-			final Expense newly = new Expense(old.amount.add(costs), distributor);
+			final Expense newly = new Expense(old.getAmount().add(costs), distributor);
 			distributors.put(distributor, newly);
 		}
 		return distributors;

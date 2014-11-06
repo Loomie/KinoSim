@@ -97,9 +97,9 @@ public class MovieRentalTest {
 
 		final Map<String, Expense> result = objectUnderTest.getDistributorExpense();
 
-		assertEquals(Cents.of(Math.round(5 * ticketsPart)), result.get(distributorName1).amount);
-		assertEquals(Cents.of(Math.round(6000 * ticketsPart)), result.get(distributorName2).amount);
-		assertEquals(Cents.of(Math.round(1 * ticketsPart)), result.get(distributorName3).amount);
+		assertEquals(Cents.of(Math.round(5 * ticketsPart)), result.get(distributorName1).getAmount());
+		assertEquals(Cents.of(Math.round(6000 * ticketsPart)), result.get(distributorName2).getAmount());
+		assertEquals(Cents.of(Math.round(1 * ticketsPart)), result.get(distributorName3).getAmount());
 	}
 
 }

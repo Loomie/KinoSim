@@ -80,7 +80,7 @@ public class TheaterChooser {
 		private void addButton(final MovieTheater theater, final PopulationPyramid population) {
 			final Leasehold lease = new Leasehold(theater, Cents.of(Randomness.getGaussianAround(600)));
 			final JButton button = new JButton();
-			button.setAction(new AbstractAction(String.format("select for %s /month", lease.getMonthlyRate().amount.formatted())) {
+			button.setAction(new AbstractAction(String.format("select for %s /month", lease.getMonthlyRate().getAmount().formatted())) {
 				private static final long	serialVersionUID	= -5485389946391952277L;
 
 				@Override

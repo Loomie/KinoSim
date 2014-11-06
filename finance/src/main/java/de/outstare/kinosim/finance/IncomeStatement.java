@@ -10,6 +10,7 @@ import com.google.common.collect.Multimap;
 
 import de.outstare.kinosim.finance.expenses.Expense;
 import de.outstare.kinosim.finance.revenue.Revenue;
+import de.outstare.kinosim.util.Randomness;
 
 /**
  * An IncomeStatement (or profit and loss account; German: "Gewinn- und Verlustrechnung") lists all revenues and all expenses to determine a net
@@ -19,7 +20,7 @@ public class IncomeStatement {
 	/**
 	 * Grouping according to German trading law (HGB)
 	 */
-	public enum RevenueCategory {
+	public enum RevenueCategory implements IncomeStatementCategory {
 		Revenues,
 		StockChange,
 		OtherOperativeRevenues,
@@ -28,7 +29,7 @@ public class IncomeStatement {
 	/**
 	 * Grouping according to German trading law (HGB)
 	 */
-	public enum ExpenseCategory {
+	public enum ExpenseCategory implements IncomeStatementCategory {
 		CostOfProduction,
 		StaffCosts,
 		OtherOperativeExpenses,
@@ -40,9 +41,9 @@ public class IncomeStatement {
 	public void addRevenue(final RevenueCategory category, Revenue newRevenue) {
 		if (revenues.containsKey(category)) {
 			for (final Revenue existingRevenue : revenues.get(category)) {
-				if (existingRevenue.name.equals(newRevenue.name)) {
+				if (existingRevenue.getName().equals(newRevenue.getName())) {
 					revenues.remove(category, existingRevenue);
-					newRevenue = new Revenue(existingRevenue.amount.add(newRevenue.amount), existingRevenue.name);
+					newRevenue = new Revenue(existingRevenue.getAmount().add(newRevenue.getAmount()), existingRevenue.getName());
 					break;
 				}
 			}
@@ -53,9 +54,9 @@ public class IncomeStatement {
 	public void addExpense(final ExpenseCategory category, Expense newExpense) {
 		if (expenses.containsKey(category)) {
 			for (final Expense existingExpense : expenses.get(category)) {
-				if (existingExpense.name.equals(newExpense.name)) {
+				if (existingExpense.getName().equals(newExpense.getName())) {
 					expenses.remove(category, existingExpense);
-					newExpense = new Expense(existingExpense.amount.add(newExpense.amount), existingExpense.name);
+					newExpense = new Expense(existingExpense.getAmount().add(newExpense.getAmount()), existingExpense.getName());
 					break;
 				}
 			}
@@ -72,11 +73,11 @@ public class IncomeStatement {
 	}
 
 	public Cents sumOfRevenues() {
-		return Cents.of(revenues.values().stream().mapToLong(revenue -> revenue.amount.getValue()).sum());
+		return Cents.of(revenues.values().stream().mapToLong(revenue -> revenue.getAmount().getValue()).sum());
 	}
 
 	public Cents sumOfExpenses() {
-		return Cents.of(expenses.values().stream().mapToLong(expense -> expense.amount.getValue()).sum());
+		return Cents.of(expenses.values().stream().mapToLong(expense -> expense.getAmount().getValue()).sum());
 	}
 
 	public Revenue getProfit() {
@@ -126,13 +127,13 @@ public class IncomeStatement {
 
 	private void addTableRow(final StringBuilder text, final Revenue revenue, final Expense expense) {
 		if (revenue != null) {
-			addLine(text, revenue.name, revenue.amount);
+			addLine(text, revenue.getName(), revenue.getAmount());
 		} else {
 			addEmptyRow(text);
 		}
 		addSeparator(text);
 		if (expense != null) {
-			addLine(text, expense.name, expense.amount);
+			addLine(text, expense.getName(), expense.getAmount());
 		} else {
 			addEmptyRow(text);
 		}
@@ -162,5 +163,22 @@ public class IncomeStatement {
 
 	private void addSeparator(final StringBuilder text) {
 		text.append(" | ");
+	}
+
+	public static IncomeStatement createRandom() {
+		final IncomeStatement result = new IncomeStatement();
+		for (final RevenueCategory cat : RevenueCategory.values()) {
+			final int items = 1 + Randomness.nextInt(3);
+			for (int i = 0; i < items; i++) {
+				result.addRevenue(cat, new Revenue(Cents.of(Randomness.nextInt(10000)), cat.toString() + " item " + i));
+			}
+		}
+		for (final ExpenseCategory cat : ExpenseCategory.values()) {
+			final int items = 1 + Randomness.nextInt(3);
+			for (int i = 0; i < items; i++) {
+				result.addExpense(cat, new Expense(Cents.of(Randomness.nextInt(10000)), cat.toString() + " item " + i));
+			}
+		}
+		return result;
 	}
 }

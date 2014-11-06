@@ -56,7 +56,7 @@ public class LeaseholdTest {
 		final Leasehold result = new Leasehold(theater, rent);
 
 		final Cents expected = Cents.of(Math.round(rent.getValue() * squareMeters));
-		assertEquals(expected, result.getMonthlyRate().amount);
+		assertEquals(expected, result.getMonthlyRate().getAmount());
 	}
 
 }
