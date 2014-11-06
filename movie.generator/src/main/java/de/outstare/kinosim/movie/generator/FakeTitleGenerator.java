@@ -14,10 +14,12 @@ import de.outstare.kinosim.util.Randomness;
  * A FakeTitleGenerator generates a title based on defined word lists.
  */
 public class FakeTitleGenerator {
+	private final List<String>	adjectives;
 	private final List<String>	adverbs;
 	private final List<String>	nouns;
 
 	public FakeTitleGenerator() {
+		adjectives = readWordList("adjectives.txt");
 		adverbs = readWordList("adverbs.txt");
 		nouns = readWordList("nouns.txt");
 	}
@@ -38,7 +40,21 @@ public class FakeTitleGenerator {
 	}
 
 	public String generateTitle() {
-		return adverbs.get(Randomness.nextInt(adverbs.size())) + " " + nouns.get(Randomness.nextInt(nouns.size()));
+		final boolean useAdverb = Randomness.nextDouble() >= 0.3;
+		final boolean useAdjective = Randomness.nextDouble() >= 0.7;
+		final StringBuilder title = new StringBuilder();
+		if (useAdverb) {
+			title.append(random(adverbs)).append(' ');
+		}
+		if (useAdjective) {
+			title.append(random(adjectives)).append(' ');
+		}
+		title.append(random(nouns));
+		return title.toString();
+	}
+
+	private String random(final List<String> words) {
+		return words.get(Randomness.nextInt(words.size()));
 	}
 
 	// Test
