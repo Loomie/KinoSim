@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.outstare.kinosim.cinema.RoomType;
-import de.outstare.kinosim.cinema.WorkSpace;
 
 public class WorkplacePainterMain extends JFrame {
 	/**
@@ -23,8 +22,8 @@ public class WorkplacePainterMain extends JFrame {
 		super("WorkplacePainter Test");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		LOG.debug("Created Office for " + seats + " seats. Painting it...");
-		final WorkSpacePainter painter = new WorkSpacePainter((WorkSpace) RoomType.Office.createRoom(seats), 20);
-		add(painter);
+		final RoomPanel painterPanel = new RoomPanel(RoomType.Office.createRoom(seats));
+		add(painterPanel);
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
