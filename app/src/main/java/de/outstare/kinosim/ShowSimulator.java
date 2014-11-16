@@ -10,6 +10,7 @@ import de.outstare.kinosim.finance.IncomeStatement.RevenueCategory;
 import de.outstare.kinosim.finance.expenses.Expense;
 import de.outstare.kinosim.finance.expenses.Leasehold;
 import de.outstare.kinosim.finance.expenses.MovieRental;
+import de.outstare.kinosim.finance.expenses.Taxes;
 import de.outstare.kinosim.finance.revenue.Revenue;
 import de.outstare.kinosim.finance.revenue.TicketPriceCategory;
 import de.outstare.kinosim.finance.revenue.TicketSales;
@@ -30,10 +31,10 @@ public class ShowSimulator {
 	private GuestsDayReport				report;
 
 	private final TicketPriceCategory	prices		= TicketPriceCategory.createRandom();
-	private final IncomeStatement		balance		= new IncomeStatement();
+	private final IncomeStatement		balance		= new IncomeStatement(new Taxes(0.1 + 0.1 * Randomness.nextDouble()));
 	// TODO move out of ShowSimulator to a more global place where the MovieTheater is known
-	private final Leasehold				leasehold	= new Leasehold(new AreaMovieTheaterCreator(1000).createTheater(), Cents.of(Randomness
-			.getGaussianAround(600)));
+	private final Leasehold				leasehold	= new Leasehold(new AreaMovieTheaterCreator(3000).createTheater(), Cents.of(Randomness
+															.getGaussianAround(600)));
 
 	public ShowSimulator(final Schedule schedule, final GuestCalculator calculator, final LocalDate day) {
 		super();

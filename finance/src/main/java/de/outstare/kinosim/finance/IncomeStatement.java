@@ -3,12 +3,15 @@ package de.outstare.kinosim.finance;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 import de.outstare.kinosim.finance.expenses.Expense;
+import de.outstare.kinosim.finance.expenses.Taxes;
 import de.outstare.kinosim.finance.revenue.Revenue;
 import de.outstare.kinosim.util.Randomness;
 
@@ -35,10 +38,20 @@ public class IncomeStatement {
 		OtherOperativeExpenses,
 	}
 
+	private static final Logger							LOG			= LoggerFactory.getLogger(IncomeStatement.class);
+
 	private final Multimap<RevenueCategory, Revenue>	revenues	= HashMultimap.create();
 	private final Multimap<ExpenseCategory, Expense>	expenses	= HashMultimap.create();
 
+	private final Taxes									taxes;
+
+	public IncomeStatement(final Taxes taxes) {
+		this.taxes = taxes;
+	}
+
 	public void addRevenue(final RevenueCategory category, Revenue newRevenue) {
+		payTax(newRevenue);
+
 		if (revenues.containsKey(category)) {
 			for (final Revenue existingRevenue : revenues.get(category)) {
 				if (existingRevenue.getName().equals(newRevenue.getName())) {
@@ -49,6 +62,14 @@ public class IncomeStatement {
 			}
 		}
 		revenues.put(category, newRevenue);
+	}
+
+	private void payTax(Revenue newRevenue) {
+		if (taxes != null) {
+			final Expense tax = taxes.getExpense(newRevenue);
+			LOG.info("paying {} taxes for {}", tax.getAmount().formatted(), newRevenue.getName());
+			addExpense(ExpenseCategory.OtherOperativeExpenses, tax);
+		}
 	}
 
 	public void addExpense(final ExpenseCategory category, Expense newExpense) {
@@ -166,7 +187,8 @@ public class IncomeStatement {
 	}
 
 	public static IncomeStatement createRandom() {
-		final IncomeStatement result = new IncomeStatement();
+		final Taxes taxes = new Taxes(0.01 + 0.2 * Randomness.nextDouble());
+		final IncomeStatement result = new IncomeStatement(taxes);
 		for (final RevenueCategory cat : RevenueCategory.values()) {
 			final int items = 1 + Randomness.nextInt(3);
 			for (int i = 0; i < items; i++) {

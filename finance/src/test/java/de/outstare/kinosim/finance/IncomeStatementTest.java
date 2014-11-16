@@ -8,6 +8,7 @@ import org.junit.Test;
 import de.outstare.kinosim.finance.IncomeStatement.ExpenseCategory;
 import de.outstare.kinosim.finance.IncomeStatement.RevenueCategory;
 import de.outstare.kinosim.finance.expenses.Expense;
+import de.outstare.kinosim.finance.expenses.Taxes;
 import de.outstare.kinosim.finance.revenue.Revenue;
 
 public class IncomeStatementTest {
@@ -15,7 +16,7 @@ public class IncomeStatementTest {
 
 	@Before
 	public void setUp() {
-		testObject = new IncomeStatement();
+		testObject = new IncomeStatement(null);
 
 		testObject.addExpense(ExpenseCategory.CostOfProduction, new Expense(Cents.of(1000), "production part1"));
 		testObject.addExpense(ExpenseCategory.CostOfProduction, new Expense(Cents.of(200), "production part2"));
@@ -95,5 +96,26 @@ public class IncomeStatementTest {
 
 		assertFalse(testObject.listExpenses().get(category).contains(additionalExpense));
 		assertEquals(Cents.of(2010), testObject.sumOfExpenses());
+	}
+
+	@Test
+	public void testTaxes() {
+		final Taxes taxes = new Taxes(0.2);
+		testObject = new IncomeStatement(taxes);
+
+		final RevenueCategory category = RevenueCategory.Revenues;
+		final Revenue newRevenue = new Revenue(Cents.of(30000), "revenues part1");
+		final Revenue additionalRevenue = new Revenue(Cents.of(12347), "revenues part1");
+		assertEquals(Cents.of(0), testObject.sumOfExpenses());
+		assertTrue(testObject.listExpenses().get(ExpenseCategory.OtherOperativeExpenses).isEmpty());
+
+		testObject.addRevenue(category, newRevenue);
+
+		assertEquals(Cents.of(6000), testObject.sumOfExpenses());
+		assertFalse(testObject.listExpenses().get(ExpenseCategory.OtherOperativeExpenses).isEmpty());
+
+		testObject.addRevenue(category, additionalRevenue);
+
+		assertEquals(Cents.of(8469), testObject.sumOfExpenses());
 	}
 }
