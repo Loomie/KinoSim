@@ -18,6 +18,7 @@ import de.outstare.kinosim.util.Randomness;
 
 public class WorkSpacePainter extends RoomPainter {
 
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 7465300551424675824L;
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkSpacePainter.class);

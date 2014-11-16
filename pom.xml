@@ -27,6 +27,7 @@
 		<module>guests</module>
 		<module>population</module>
 		<module>finance</module>
+		<module>staff</module>
 	</modules>
 	<build>
 		<plugins>
