@@ -4,16 +4,16 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 public enum Job {
-	Counter(80., 50., 80., 60., 70., 70,
-			30., 20., 40., 10., 40., 10.),
-	Entrance(90., 80., 80., 10., 50., 80.,
-			20., 20., 30., 0., 30., 40.),
-	Till(100., 50., 50., 80., 30., 40.,
-			50., 10., 0., 50., 0., 10.),
-	Office(70., 100., 50., 90., 20., 80.,
-			40., 60., 10., 50., 0., 40.),
-	Projection(10., 70., 80., 80., 10., 50.,
-			0., 40., 40., 60., 0., 10.);
+	Counter(.8, .5, .8, .6, .7, .7,
+			.3, .2, .4, .1, .4, .1),
+	Entrance(.9, .8, .8, .1, .5, .8,
+			.2, .2, .3, 0., .3, .4),
+	Till(1., .5, .5, .8, .3, .4,
+			.5, .1, 0., .5, 0., .1),
+	Office(.7, .1, .5, .9, .2, .8,
+			.4, .6, .1, .5, 0., .4),
+	Projection(.1, .7, .8, .8, .1, .5,
+			0., 4., .4, .6, 0., .1);
 
 	private SkillSet neededSkills;
 	private SkillSet minimumSkills;
@@ -36,11 +36,25 @@ public enum Job {
 			final double needed = neededSkills.getValueOf(entry.getKey());
 			final double min = minimumSkills.getValueOf(entry.getKey());
 			if (value >= needed) {
-				sum += 100;
+				sum += 1.;
 			} else if (value > min) {
-				sum += ((needed - min) / (value - min)) * 100.;
+				sum += ((value - min) / (needed - min));
 			}
 		}
 		return sum / count;
+	}
+
+	/**
+	 * @return the neededSkills
+	 */
+	public SkillSet getNeededSkills() {
+		return neededSkills;
+	}
+
+	/**
+	 * @return the minimumSkills
+	 */
+	public SkillSet getMinimumSkills() {
+		return minimumSkills;
 	}
 }

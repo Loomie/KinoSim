@@ -16,8 +16,8 @@ public class JobTest {
 
 	@Test
 	public void testOverqualified() {
-		final SkillSet overQualifiedSkillSet = new SkillSet(90, 60, 90, 80, 100, 100);
-		assertEquals(100., job.calculateQualification(overQualifiedSkillSet), 0.);
+		final SkillSet overQualifiedSkillSet = new SkillSet(.9, .6, .9, .8, 1., 1.);
+		assertEquals(1., job.calculateQualification(overQualifiedSkillSet), 0.);
 	}
 
 	@Test
@@ -28,19 +28,19 @@ public class JobTest {
 
 	@Test
 	public void testExactlyMinimalQualified() {
-		final SkillSet underQualifiedSkillSet = new SkillSet(30, 20, 40, 10, 40, 10);
-		assertEquals(0., job.calculateQualification(underQualifiedSkillSet), 0);
+		final SkillSet minimalQualifiedSkillSet = new SkillSet(.3, .2, .4, .1, .4, .1);
+		assertEquals(0., job.calculateQualification(minimalQualifiedSkillSet), 0);
 	}
 
 	@Test
 	public void testPerfectlyQualified() {
-		final SkillSet underQualifiedSkillSet = new SkillSet(80, 50, 80, 60, 70, 70);
-		assertEquals(100., job.calculateQualification(underQualifiedSkillSet), 0);
+		final SkillSet perfectlyQualifiedSkillSet = new SkillSet(.8, .5, .8, .6, .7, .7);
+		assertEquals(1., job.calculateQualification(perfectlyQualifiedSkillSet), 0);
 	}
 
 	@Test
 	public void test50PercentQualified() {
-		final SkillSet underQualifiedSkillSet = new SkillSet(55, 35, 60, 35, 55, 40);
-		assertEquals(50., job.calculateQualification(underQualifiedSkillSet), 0);
+		final SkillSet halfQualifiedSkillSet = new SkillSet(.55, .35, .6, .35, .55, .4);
+		assertEquals(.5, job.calculateQualification(halfQualifiedSkillSet), 0.0000000000000002);
 	}
 }
