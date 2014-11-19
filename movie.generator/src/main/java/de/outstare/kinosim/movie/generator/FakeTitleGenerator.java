@@ -1,42 +1,22 @@
 package de.outstare.kinosim.movie.generator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
+import de.outstare.kinosim.util.FileReaderUtil;
 import de.outstare.kinosim.util.Randomness;
 
 /**
  * A FakeTitleGenerator generates a title based on defined word lists.
  */
 public class FakeTitleGenerator {
-	private final List<String>	adjectives;
-	private final List<String>	adverbs;
-	private final List<String>	nouns;
+	private final List<String> adjectives;
+	private final List<String> adverbs;
+	private final List<String> nouns;
 
 	public FakeTitleGenerator() {
-		adjectives = readWordList("adjectives.txt");
-		adverbs = readWordList("adverbs.txt");
-		nouns = readWordList("nouns.txt");
-	}
-
-	private static List<String> readWordList(final String filename) {
-		final List<String> words = new ArrayList<>();
-		try (final BufferedReader reader = new BufferedReader(new InputStreamReader(FakeTitleGenerator.class.getClassLoader().getResourceAsStream(
-				filename)))) {
-			String word;
-			while ((word = reader.readLine()) != null) {
-				words.add(StringUtils.capitalize(word));
-			}
-		} catch (final IOException e) {
-			words.add(e.getMessage());
-			e.printStackTrace();
-		}
-		return words;
+		adjectives = FileReaderUtil.readFileAsList("adjectives.txt");
+		adverbs = FileReaderUtil.readFileAsList("adverbs.txt");
+		nouns = FileReaderUtil.readFileAsList("nouns.txt");
 	}
 
 	public String generateTitle() {

@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public abstract class Randomness {
 	// one random for all calls
-	private static final Random	RANDOM	= new Random();
+	private static final Random RANDOM = new Random();
 
 	private Randomness() {
 		// no instances
@@ -17,10 +17,17 @@ public abstract class Randomness {
 		return RANDOM;
 	}
 
+	/**
+	 * @param bound
+	 * @return A random integer beween 0 (inclusive) and bound (exclusive)
+	 */
 	public static int nextInt(final int bound) {
 		return RANDOM.nextInt(bound);
 	}
 
+	/**
+	 * @return a random double betwen 0 (inclusive) and 1.0 (exclusive)
+	 */
 	public static double nextDouble() {
 		return RANDOM.nextDouble();
 	}
@@ -30,6 +37,7 @@ public abstract class Randomness {
 	}
 
 	/**
+	 * @param number
 	 * @return a normally distributed number around the given number (in average +- 8%)
 	 */
 	public static int getGaussianAround(final int number) {
@@ -37,6 +45,7 @@ public abstract class Randomness {
 	}
 
 	/**
+	 * @param number
 	 * @return a normally distributed number around the given number (in average +- 8%)
 	 */
 	public static double getGaussianAround(final double number) {
@@ -44,7 +53,11 @@ public abstract class Randomness {
 		return number * factor;
 	}
 
-	/** test for getGaussianAround **/
+	/**
+	 * test for getGaussianAround
+	 * 
+	 * @param args
+	 **/
 	public static void main(final String[] args) {
 		final int loops = 10000;
 		final int center = 1000;
