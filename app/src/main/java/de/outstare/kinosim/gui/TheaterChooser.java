@@ -99,7 +99,7 @@ public class TheaterChooser {
 	 */
 	private static void showGUI(final JComponent newContentPane) {
 		// Create and set up the window.
-		final JFrame frame = new JFrame("TheaterChooserDemo");
+		final JFrame frame = new JFrame("Choose a movie theater");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Create and set up the content pane.

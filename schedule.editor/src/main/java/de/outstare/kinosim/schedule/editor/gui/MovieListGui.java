@@ -3,6 +3,8 @@ package de.outstare.kinosim.schedule.editor.gui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +13,6 @@ import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -21,8 +22,10 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
+import de.outstare.kinosim.guituil.WindowUtil;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.generator.RandomMovieGenerator;
+import de.outstare.kinosim.movie.gui.RatingGui;
 import de.outstare.kinosim.schedule.editor.gui.dnd.MovieDragFromListTransferHandler;
 
 /**
@@ -54,6 +57,18 @@ public class MovieListGui implements ListCellRenderer<Movie> {
 		list.setDragEnabled(true);
 		list.setTransferHandler(new MovieDragFromListTransferHandler());
 		list.setCellRenderer(this);
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(final MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					final Movie selectedMovie = list.getSelectedValue();
+					if (selectedMovie != null) {
+						final RatingGui ratingUi = new RatingGui(selectedMovie.getRating());
+						WindowUtil.show(ratingUi.createUi(), "Rating of " + selectedMovie.getTitle(), null);
+					}
+				}
+			}
+		});
 
 		return new JScrollPane(list);
 	}
@@ -82,25 +97,6 @@ public class MovieListGui implements ListCellRenderer<Movie> {
 		return panel;
 	}
 
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
-	 */
-	private static void createAndShowGUI(final MovieListGui movieList) {
-		// Create and set up the window.
-		final JFrame frame = new JFrame("MovieListGuiDemo");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Create and set up the content pane.
-		final JComponent newContentPane = movieList.createUi();
-		newContentPane.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(newContentPane);
-
-		// Display the window.
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
-
 	/** Test **/
 	public static void main(final String[] args) {
 		final RandomMovieGenerator generator = new RandomMovieGenerator();
@@ -109,8 +105,7 @@ public class MovieListGui implements ListCellRenderer<Movie> {
 			someMovies.add(generator.generate());
 		}
 		final MovieListGui movieList = new MovieListGui(someMovies);
-		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
-		javax.swing.SwingUtilities.invokeLater(() -> createAndShowGUI(movieList));
+		WindowUtil.showAndClose(movieList.createUi(), "MovieListGuiDemo", null);
 	}
 }

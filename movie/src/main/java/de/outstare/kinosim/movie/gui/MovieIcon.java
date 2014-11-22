@@ -1,6 +1,7 @@
 package de.outstare.kinosim.movie.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -10,15 +11,13 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import de.outstare.kinosim.guituil.WindowUtil;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.util.Randomness;
 
@@ -119,21 +118,6 @@ public class MovieIcon {
 		return 2 + (seed % 2);
 	}
 
-	private static void showGUI(final JComponent newContentPane) {
-		// Create and set up the window.
-		final JFrame frame = new JFrame("MovieIconDemo");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Create and set up the content pane.
-		newContentPane.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(newContentPane);
-
-		// Display the window.
-		frame.setSize(1000, 700);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
-
 	public static void main(final String[] args) {
 		final JPanel panel = new JPanel(new GridLayout(5, 5));
 		for (int i = 0; i < 5; i++) {
@@ -146,8 +130,7 @@ public class MovieIcon {
 			final MovieIcon icon = new MovieIcon(title.hashCode());
 			panel.add(new JLabel(title, icon.getIcon(), SwingConstants.CENTER));
 		}
-		// Schedule a job for the event-dispatching thread:
-		SwingUtilities.invokeLater(() -> showGUI(panel));
+		WindowUtil.showAndClose(panel, "MovieIconDemo", new Dimension(1000, 700));
 	}
 
 	private static String randomTitle() {

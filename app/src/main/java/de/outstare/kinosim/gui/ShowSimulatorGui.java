@@ -1,5 +1,6 @@
 package de.outstare.kinosim.gui;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
@@ -12,11 +13,9 @@ import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
 import de.outstare.kinosim.ShowSimulator;
 import de.outstare.kinosim.cinema.CinemaHall;
@@ -24,6 +23,7 @@ import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.guests.GuestCalculator;
 import de.outstare.kinosim.guests.GuestsDayReport;
 import de.outstare.kinosim.guests.gui.GuestsDayReportGui;
+import de.outstare.kinosim.guituil.WindowUtil;
 import de.outstare.kinosim.housegenerator.AreaMovieTheaterCreator;
 import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.generator.MovieGenerator;
@@ -94,25 +94,6 @@ public class ShowSimulatorGui {
 		return new GuestsDayReportGui(simulator.getReport()).createUi();
 	}
 
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
-	 */
-	private static void createAndShowGUI(final ShowSimulatorGui editorGui) {
-		// Create and set up the window.
-		final JFrame frame = new JFrame("ScheduleEditorGuiDemo");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Create and set up the content pane.
-		final JComponent newContentPane = editorGui.createUi();
-		newContentPane.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(newContentPane);
-
-		// Display the window.
-		frame.setSize(1000, 700);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
-
 	/** Test **/
 	public static void main(final String[] args) {
 		final Schedule schedule = new ScheduleImpl();
@@ -137,9 +118,8 @@ public class ShowSimulatorGui {
 
 		final ShowSimulator testSimulator = new ShowSimulator(schedule, GuestCalculator.createRandom(), LocalDate.now());
 		final ShowSimulatorGui editorGui = new ShowSimulatorGui(testEditor, testSimulator, TimeRange.of(minStartHour, maxStartHour + 2));
-		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
-		SwingUtilities.invokeLater(() -> createAndShowGUI(editorGui));
+		WindowUtil.showAndClose(editorGui.createUi(), "ScheduleEditorGuiDemo", new Dimension(1000, 700));
 	}
 
 	static List<Movie> generateMovieList() {

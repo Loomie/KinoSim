@@ -8,6 +8,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import de.outstare.kinosim.guituil.PercentageBar;
+import de.outstare.kinosim.guituil.PercentageBarWithMarker;
+import de.outstare.kinosim.guituil.TrafficLightsPercentageBar;
 import de.outstare.kinosim.staff.Skill;
 import de.outstare.kinosim.staff.SkillSet;
 

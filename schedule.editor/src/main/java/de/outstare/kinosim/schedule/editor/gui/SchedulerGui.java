@@ -1,17 +1,17 @@
 package de.outstare.kinosim.schedule.editor.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import de.outstare.kinosim.cinema.CinemaHall;
+import de.outstare.kinosim.guituil.WindowUtil;
 import de.outstare.kinosim.housegenerator.hall.CinemaHallGenerator;
 import de.outstare.kinosim.housegenerator.hall.RandomCinemaHallGenerator;
 import de.outstare.kinosim.movie.Movie;
@@ -47,25 +47,6 @@ public class SchedulerGui {
 		return panel;
 	}
 
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
-	 */
-	private static void createAndShowGUI(final SchedulerGui editorGui) {
-		// Create and set up the window.
-		final JFrame frame = new JFrame("ScheduleEditorGuiDemo");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Create and set up the content pane.
-		final JComponent newContentPane = editorGui.createUi();
-		newContentPane.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(newContentPane);
-
-		// Display the window.
-		frame.setSize(1000, 600);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
-
 	/** Test **/
 	public static void main(final String[] args) {
 		final Schedule schedule = new ScheduleImpl();
@@ -88,8 +69,7 @@ public class SchedulerGui {
 		}
 		final ScheduleEditor testEditor = new ScheduleEditor(schedule, halls, movies);
 		final SchedulerGui editorGui = new SchedulerGui(testEditor, TimeRange.of(minStartHour, maxStartHour + 2));
-		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
-		SwingUtilities.invokeLater(() -> createAndShowGUI(editorGui));
+		WindowUtil.showAndClose(editorGui.createUi(), "ScheduleEditorGuiDemo", new Dimension(1000, 500));
 	}
 }

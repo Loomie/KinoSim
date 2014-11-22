@@ -1,4 +1,4 @@
-package de.outstare.kinosim.staff.gui;
+package de.outstare.kinosim.guituil;
 
 import java.awt.Color;
 

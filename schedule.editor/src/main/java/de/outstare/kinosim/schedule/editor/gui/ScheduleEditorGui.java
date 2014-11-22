@@ -2,6 +2,7 @@ package de.outstare.kinosim.schedule.editor.gui;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -15,13 +16,12 @@ import java.util.SortedSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import de.outstare.kinosim.cinema.CinemaHall;
+import de.outstare.kinosim.guituil.WindowUtil;
 import de.outstare.kinosim.housegenerator.hall.CinemaHallGenerator;
 import de.outstare.kinosim.housegenerator.hall.RandomCinemaHallGenerator;
 import de.outstare.kinosim.movie.Movie;
@@ -72,7 +72,7 @@ public class ScheduleEditorGui {
 			cinemaLabels.add(new JLabel("" + hall.getCapacity()));
 		}
 
-		String iconPath = "trash.png";
+		final String iconPath = "trash.png";
 		final ImageIcon icon = loadIcon(iconPath);
 		final JLabel recycleBin = new JLabel(icon, SwingConstants.CENTER);
 		recycleBin.setOpaque(true);
@@ -108,7 +108,7 @@ public class ScheduleEditorGui {
 		return editor;
 	}
 
-	private ImageIcon loadIcon(String filename) {
+	private ImageIcon loadIcon(final String filename) {
 		final URL iconLocation = getClass().getClassLoader().getResource("icons/" + filename);
 		final ImageIcon icon = new ImageIcon(iconLocation);
 		return icon;
@@ -131,25 +131,6 @@ public class ScheduleEditorGui {
 		if (parent != null) {
 			parent.validate();
 		}
-	}
-
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
-	 */
-	private static void createAndShowGUI(final ScheduleEditorGui editorGui) {
-		// Create and set up the window.
-		final JFrame frame = new JFrame("ScheduleEditorGuiDemo");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Create and set up the content pane.
-		final JComponent newContentPane = editorGui.createUi();
-		newContentPane.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(newContentPane);
-
-		// Display the window.
-		frame.setSize(500, 300);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
 	}
 
 	/** Test **/
@@ -176,6 +157,6 @@ public class ScheduleEditorGui {
 		final ScheduleEditorGui editorGui = new ScheduleEditorGui(testEditor, TimeRange.of(minStartHour, maxStartHour + 2));
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
-		SwingUtilities.invokeLater(() -> createAndShowGUI(editorGui));
+		WindowUtil.showAndClose(editorGui.createUi(), "ScheduleEditorGuiDemo", new Dimension(1000, 500));
 	}
 }

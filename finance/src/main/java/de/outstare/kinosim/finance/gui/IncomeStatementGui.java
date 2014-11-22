@@ -1,14 +1,13 @@
 package de.outstare.kinosim.finance.gui;
 
+import java.awt.Dimension;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import com.google.common.collect.Multimap;
@@ -16,6 +15,7 @@ import com.google.common.collect.Multimap;
 import de.outstare.kinosim.finance.IncomeStatement;
 import de.outstare.kinosim.finance.IncomeStatementCategory;
 import de.outstare.kinosim.finance.NamedAmount;
+import de.outstare.kinosim.guituil.WindowUtil;
 
 /**
  * A IncomeStatementGui displays the balance as a 'T' with a tree on each side. The root elements of the tree are the categories and below are the
@@ -140,28 +140,9 @@ public class IncomeStatementGui {
 		return table;
 	}
 
-	/**
-	 * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
-	 */
-	private static void showGUI(final JComponent newContentPane) {
-		// Create and set up the window.
-		final JFrame frame = new JFrame("IncomeStatementDemo");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Create and set up the content pane.
-		newContentPane.setOpaque(true); // content panes must be opaque
-		frame.setContentPane(newContentPane);
-
-		// Display the window.
-		frame.setSize(1000, 700);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
-
 	public static void main(final String[] args) {
 		final IncomeStatement balance = IncomeStatement.createRandom();
 		final IncomeStatementGui gui = new IncomeStatementGui(balance);
-		// Schedule a job for the event-dispatching thread:
-		SwingUtilities.invokeLater(() -> showGUI(gui.createUi()));
+		WindowUtil.showAndClose(gui.createUi(), "IncomeStatementDemo", new Dimension(700, 300));
 	}
 }

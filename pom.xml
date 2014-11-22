@@ -28,6 +28,7 @@
 		<module>population</module>
 		<module>finance</module>
 		<module>staff</module>
+		<module>guituil</module>
 	</modules>
 	<build>
 		<plugins>
