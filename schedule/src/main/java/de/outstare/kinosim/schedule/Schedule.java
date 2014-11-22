@@ -1,6 +1,7 @@
 package de.outstare.kinosim.schedule;
 
 import java.time.LocalTime;
+import java.util.Collection;
 
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.movie.Movie;
@@ -9,7 +10,7 @@ import de.outstare.kinosim.util.TimeRange;
 /**
  * A Schedule is a plan for a day. It defines when movies will run in what hall. It holds all {@link Show}s in a chronological order.
  */
-public interface Schedule extends Iterable<Show> {
+public interface Schedule extends Collection<Show> {
 	/**
 	 * @param hall
 	 * @return a view that only lists the {@link Show}s for the given hall.
@@ -21,10 +22,6 @@ public interface Schedule extends Iterable<Show> {
 	 * @return a view that only lists the {@link Show}s for the given movie.
 	 */
 	Schedule filterForMovie(Movie hall);
-
-	void add(Show show);
-
-	void remove(Show show);
 
 	/**
 	 * @return <code>null</code> if no shows is scheduled

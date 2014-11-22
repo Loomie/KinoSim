@@ -2,14 +2,17 @@ package de.outstare.kinosim.guests;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.google.common.base.Preconditions;
 
+import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.population.Audience;
 import de.outstare.kinosim.schedule.Schedule;
 import de.outstare.kinosim.schedule.ScheduleImpl;
@@ -25,34 +28,40 @@ public class GuestsDayReport implements Iterable<GuestsShowReport> {
 
 	public GuestsDayReport(final GuestCalculator calculator, final Schedule schedule, final LocalDate date) {
 		this.date = date;
-		for (final Show show : schedule) {
-			final Map<Audience, Integer> guests = new HashMap<>();
-			for (final Audience audience : Audience.values()) {
-				// ideal guests (deterministic)
-				final int normalGuestCount = calculator.calculateAudienceGuests(show, date, audience);
-				// real guests (random)
-				final int guestCount = Randomness.getGaussianAround(normalGuestCount);
-				guests.put(audience, guestCount);
-			}
-
-			final GuestsShowReport report = new GuestsShowReport(show, date, guests);
-			
-			final int totalGuests = report.getTotalGuests();
-			final int maxGuests = show.getHall().getCapacity();
-			if (totalGuests > maxGuests) {
-				// if capacity of hall is reached reduce guests equally for each audience
-				final double ratio = 1 - (totalGuests - maxGuests) / (double) totalGuests;
-				for (final Entry<Audience, Integer> entry : guests.entrySet()) {
-					final int cappedGuests = (int) (entry.getValue() * ratio);
-					guests.put(entry.getKey(), cappedGuests);
+		// group by movie to distribute people across multiple shows
+		final Set<Movie> movies = new HashSet<>();
+		schedule.forEach(show -> movies.add(show.getFilm()));
+		for (final Movie movie : movies) {
+			final int showsWithMovie = schedule.filterForMovie(movie).size();
+			for (final Show show : schedule.filterForMovie(movie)) {
+				final Map<Audience, Integer> guests = new HashMap<>();
+				for (final Audience audience : Audience.values()) {
+					// ideal guests (deterministic)
+					final int normalGuestCount = (int) Math.round(calculator.calculateAudienceGuests(show, date, audience) / (double) showsWithMovie);
+					// real guests (random)
+					final int guestCount = Randomness.getGaussianAround(normalGuestCount);
+					guests.put(audience, guestCount);
 				}
-				// because ratios are floored, some people may be missing to reach the full capacity
-				assert report.getTotalGuests() <= maxGuests : "capped to " + report.getTotalGuests() + " is still over limit of " + maxGuests;
-				final int missing = maxGuests - report.getTotalGuests();
-				guests.put(Audience.ADULTS, guests.get(Audience.ADULTS) + missing);
-			}
 
-			reports.add(report);
+				final GuestsShowReport report = new GuestsShowReport(show, date, guests);
+
+				final int totalGuests = report.getTotalGuests();
+				final int maxGuests = show.getHall().getCapacity();
+				if (totalGuests > maxGuests) {
+					// if capacity of hall is reached reduce guests equally for each audience
+					final double ratio = 1 - (totalGuests - maxGuests) / (double) totalGuests;
+					for (final Entry<Audience, Integer> entry : guests.entrySet()) {
+						final int cappedGuests = (int) (entry.getValue() * ratio);
+						guests.put(entry.getKey(), cappedGuests);
+					}
+					// because ratios are floored, some people may be missing to reach the full capacity
+					assert report.getTotalGuests() <= maxGuests : "capped to " + report.getTotalGuests() + " is still over limit of " + maxGuests;
+					final int missing = maxGuests - report.getTotalGuests();
+					guests.put(Audience.ADULTS, guests.get(Audience.ADULTS) + missing);
+				}
+
+				reports.add(report);
+			}
 		}
 	}
 

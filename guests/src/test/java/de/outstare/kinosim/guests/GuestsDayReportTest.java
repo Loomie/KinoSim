@@ -5,9 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -20,6 +18,7 @@ import de.outstare.kinosim.movie.SimpleMovie;
 import de.outstare.kinosim.population.Audience;
 import de.outstare.kinosim.schedule.AdBlock;
 import de.outstare.kinosim.schedule.Schedule;
+import de.outstare.kinosim.schedule.ScheduleImpl;
 import de.outstare.kinosim.schedule.Show;
 
 public class GuestsDayReportTest {
@@ -34,10 +33,11 @@ public class GuestsDayReportTest {
 		final Show show1 = new Show(LocalTime.of(1, 0), film1, hall1, AdBlock.NONE, 0);
 		final Show show2 = new Show(LocalTime.of(1, 0), film2, hall2, AdBlock.NONE, 0);
 		final Show show3 = new Show(LocalTime.of(2, 0), film1, hall1, AdBlock.NONE, 0);
-		final List<Show> shows = Arrays.asList(show1, show2, show3);
+		final Schedule schedule = new ScheduleImpl();
+		schedule.add(show1);
+		schedule.add(show2);
+		schedule.add(show3);
 		// mocks for faked calculations
-		final Schedule schedule = mock(Schedule.class);
-		when(schedule.iterator()).thenReturn(shows.iterator());
 		final LocalDate date = LocalDate.now();
 		final GuestCalculator calculator = mock(GuestCalculator.class);
 		when(calculator.calculateAudienceGuests(show1, date, Audience.ADULTS)).thenReturn(1);
@@ -56,10 +56,15 @@ public class GuestsDayReportTest {
 
 		int i = 0;
 		for (final GuestsShowReport subReport : report) {
-			assertAround("show " + i, 6 + i * 30, subReport.getTotalGuests());
-			assertAround("show " + i, 1 + i * 10, subReport.getGuests(Audience.ADULTS));
-			assertAround("show " + i, 2 + i * 10, subReport.getGuests(Audience.KIDS));
-			assertAround("show " + i, 3 + i * 10, subReport.getGuests(Audience.SENIORS));
+			final int filmShows = subReport.getShow().getFilm() == film1 ? 2 : 1;
+			int expected = (int) Math.round((6 + i * 30) / (double) filmShows);
+			assertAround("show " + i, expected, subReport.getTotalGuests());
+			expected = (int) Math.round((1 + i * 10) / (double) filmShows);
+			assertAround("show " + i, expected, subReport.getGuests(Audience.ADULTS));
+			expected = (int) Math.round((2 + i * 10) / (double) filmShows);
+			assertAround("show " + i, expected, subReport.getGuests(Audience.KIDS));
+			expected = (int) Math.round((3 + i * 10) / (double) filmShows);
+			assertAround("show " + i, expected, subReport.getGuests(Audience.SENIORS));
 			i++;
 		}
 		assertEquals(i, 3);
@@ -75,10 +80,11 @@ public class GuestsDayReportTest {
 		final Show show1 = new Show(LocalTime.of(1, 0), film1, hall1, AdBlock.NONE, 0);
 		final Show show2 = new Show(LocalTime.of(1, 0), film2, hall2, AdBlock.NONE, 0);
 		final Show show3 = new Show(LocalTime.of(2, 0), film1, hall1, AdBlock.NONE, 0);
-		final List<Show> shows = Arrays.asList(show1, show2, show3);
+		final Schedule schedule = new ScheduleImpl();
+		schedule.add(show1);
+		schedule.add(show2);
+		schedule.add(show3);
 		// mocks for faked calculations
-		final Schedule schedule = mock(Schedule.class);
-		when(schedule.iterator()).thenReturn(shows.iterator());
 		final LocalDate date = LocalDate.now();
 		final GuestCalculator calculator = mock(GuestCalculator.class);
 		when(calculator.calculateAudienceGuests(show1, date, Audience.ADULTS)).thenReturn(1000);

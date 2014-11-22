@@ -1,6 +1,7 @@
 package de.outstare.kinosim.schedule;
 
 import java.time.LocalTime;
+import java.util.AbstractCollection;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -15,7 +16,7 @@ import de.outstare.kinosim.util.TimeRange;
 /**
  * A ScheduleImpl implements {@link Schedule}.
  */
-public class ScheduleImpl implements Schedule {
+public class ScheduleImpl extends AbstractCollection<Show> implements Schedule {
 	private final SortedSet<Show>	shows;
 
 	public ScheduleImpl() {
@@ -27,13 +28,23 @@ public class ScheduleImpl implements Schedule {
 	}
 
 	@Override
-	public void add(final Show show) {
-		shows.add(show);
+	public boolean add(final Show show) {
+		return shows.add(show);
 	}
 
 	@Override
-	public void remove(final Show show) {
-		shows.remove(show);
+	public boolean remove(final Object show) {
+		return shows.remove(show);
+	}
+
+	@Override
+	public int size() {
+		return shows.size();
+	}
+
+	@Override
+	public boolean contains(final Object o) {
+		return shows.contains(o);
 	}
 
 	@Override
