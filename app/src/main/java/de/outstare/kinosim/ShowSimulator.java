@@ -34,7 +34,7 @@ public class ShowSimulator {
 	private final IncomeStatement		balance		= new IncomeStatement(new Taxes(0.1 + 0.1 * Randomness.nextDouble()));
 	// TODO move out of ShowSimulator to a more global place where the MovieTheater is known
 	private final Leasehold				leasehold	= new Leasehold(new AreaMovieTheaterCreator(3000).createTheater(), Cents.of(Randomness
-															.getGaussianAround(600)));
+															.getGaussianAround(1600)));
 
 	public ShowSimulator(final Schedule schedule, final GuestCalculator calculator, final LocalDate day) {
 		super();

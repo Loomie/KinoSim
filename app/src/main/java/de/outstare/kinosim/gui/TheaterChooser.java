@@ -59,7 +59,7 @@ public class TheaterChooser {
 		ChooserButton(final MovieTheater theater) {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-			final PopulationPyramid population = PopulationPyramid.createRandom();
+			final PopulationPyramid population = new PopulationPyramid(3 * theater.getNumberOfSeats(), 50 + Randomness.nextInt(50));
 			addLabel(theater);
 			add(new JLabel(String.format("Population: %,d", population.getTotal())));
 			addMap(theater);
