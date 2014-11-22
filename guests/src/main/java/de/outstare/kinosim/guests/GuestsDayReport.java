@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -35,6 +36,22 @@ public class GuestsDayReport implements Iterable<GuestsShowReport> {
 			}
 
 			final GuestsShowReport report = new GuestsShowReport(show, date, guests);
+			
+			final int totalGuests = report.getTotalGuests();
+			final int maxGuests = show.getHall().getCapacity();
+			if (totalGuests > maxGuests) {
+				// if capacity of hall is reached reduce guests equally for each audience
+				final double ratio = 1 - (totalGuests - maxGuests) / (double) totalGuests;
+				for (final Entry<Audience, Integer> entry : guests.entrySet()) {
+					final int cappedGuests = (int) (entry.getValue() * ratio);
+					guests.put(entry.getKey(), cappedGuests);
+				}
+				// because ratios are floored, some people may be missing to reach the full capacity
+				assert report.getTotalGuests() <= maxGuests : "capped to " + report.getTotalGuests() + " is still over limit of " + maxGuests;
+				final int missing = maxGuests - report.getTotalGuests();
+				guests.put(Audience.ADULTS, guests.get(Audience.ADULTS) + missing);
+			}
+
 			reports.add(report);
 		}
 	}

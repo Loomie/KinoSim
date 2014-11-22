@@ -65,6 +65,45 @@ public class GuestsDayReportTest {
 		assertEquals(i, 3);
 	}
 
+	@Test
+	public void testGetTotalGuestsAboveHallCapacity() {
+		// real objects for ease of data holding and sorting
+		final Movie film1 = newTestMovie("Test 1", 20);
+		final Movie film2 = newTestMovie("Test 2", 80);
+		final CinemaHall hall1 = new FixedSizeCinemaHall("1", 1, 20);
+		final CinemaHall hall2 = new FixedSizeCinemaHall("2", 2, 10);
+		final Show show1 = new Show(LocalTime.of(1, 0), film1, hall1, AdBlock.NONE, 0);
+		final Show show2 = new Show(LocalTime.of(1, 0), film2, hall2, AdBlock.NONE, 0);
+		final Show show3 = new Show(LocalTime.of(2, 0), film1, hall1, AdBlock.NONE, 0);
+		final List<Show> shows = Arrays.asList(show1, show2, show3);
+		// mocks for faked calculations
+		final Schedule schedule = mock(Schedule.class);
+		when(schedule.iterator()).thenReturn(shows.iterator());
+		final LocalDate date = LocalDate.now();
+		final GuestCalculator calculator = mock(GuestCalculator.class);
+		when(calculator.calculateAudienceGuests(show1, date, Audience.ADULTS)).thenReturn(1000);
+		when(calculator.calculateAudienceGuests(show1, date, Audience.KIDS)).thenReturn(2000);
+		when(calculator.calculateAudienceGuests(show1, date, Audience.SENIORS)).thenReturn(3000);
+		when(calculator.calculateAudienceGuests(show3, date, Audience.ADULTS)).thenReturn(111);
+		when(calculator.calculateAudienceGuests(show3, date, Audience.KIDS)).thenReturn(222);
+		when(calculator.calculateAudienceGuests(show3, date, Audience.SENIORS)).thenReturn(333);
+		when(calculator.calculateAudienceGuests(show2, date, Audience.ADULTS)).thenReturn(511);
+		when(calculator.calculateAudienceGuests(show2, date, Audience.KIDS)).thenReturn(522);
+		when(calculator.calculateAudienceGuests(show2, date, Audience.SENIORS)).thenReturn(533);
+
+		final GuestsDayReport report = new GuestsDayReport(calculator, schedule, date);
+
+		assertEquals(hall1.getCapacity() + hall2.getCapacity() + hall1.getCapacity(), report.getTotalGuests());
+
+		int i = 0;
+		for (final GuestsShowReport subReport : report) {
+			final int maxGuests = subReport.getShow().getHall().getCapacity();
+			assertEquals("show " + i, maxGuests, subReport.getTotalGuests());
+			i++;
+		}
+		assertEquals(i, 3);
+	}
+
 	private void assertAround(final int expected, final int actual) {
 		assertAround("", expected, actual);
 	}
