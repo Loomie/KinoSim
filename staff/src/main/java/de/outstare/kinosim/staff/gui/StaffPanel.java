@@ -3,9 +3,12 @@ package de.outstare.kinosim.staff.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+
+import org.jdesktop.swingx.JXCollapsiblePane;
 
 import de.outstare.kinosim.staff.Staff;
 
@@ -14,7 +17,7 @@ public class StaffPanel extends JPanel {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 3859328180950107378L;
+	private static final long	serialVersionUID	= 3859328180950107378L;
 
 	/**
 	 * @param staff
@@ -23,8 +26,13 @@ public class StaffPanel extends JPanel {
 		super();
 		setLayout(new BorderLayout(1, 5));
 		add(new JLabel(staff.getFullName()), BorderLayout.NORTH);
+		final JXCollapsiblePane collapsible = new JXCollapsiblePane();
 		final SkillSetPanel skillsPanel = new SkillSetPanel(staff.getSkills());
 		skillsPanel.setBorder(new LineBorder(Color.BLACK));
-		add(skillsPanel, BorderLayout.CENTER);
+		collapsible.add(skillsPanel);
+		final JButton toggle = new JButton(collapsible.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));
+		toggle.setText("Show/Hide skills");
+		add(toggle, BorderLayout.CENTER);
+		add(collapsible, BorderLayout.SOUTH);
 	}
 }
