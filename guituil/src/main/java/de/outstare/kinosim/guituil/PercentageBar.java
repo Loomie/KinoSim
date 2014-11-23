@@ -10,9 +10,9 @@ public class PercentageBar extends JPanel {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = -4539272986206234560L;
-	private double percent;
-	private Color color;
+	private static final long	serialVersionUID	= -4539272986206234560L;
+	private double				percent;
+	private final Color			color;
 
 	/**
 	 * @param percent
@@ -32,11 +32,8 @@ public class PercentageBar extends JPanel {
 		setPreferredSize(new Dimension(200, 40));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics) */
 	@Override
 	protected void paintComponent(final Graphics g) {
 		g.setColor(Color.BLACK);
@@ -46,9 +43,9 @@ public class PercentageBar extends JPanel {
 		final int paintWidth = getPaintAreaWidth();
 		g.drawLine(getPaintAreaLeft(), getPaintAreaTop(), getPaintAreaLeft(), bottom);
 		g.drawLine(right, getPaintAreaTop(), right, bottom);
-		final int step = Math.floorDiv(paintWidth, 10);
-		for (int i = step; i < paintWidth; i += step) {
-			g.drawLine(i, bottom - paintHeight / 2, i, bottom);
+		for (int i = 0; i < 10; i++) {
+			final int x = getPaintAreaLeft() + (int) (paintWidth / 10.0 * i);
+			g.drawLine(x, bottom - paintHeight / 2, x, bottom);
 		}
 
 		if (percent > 0) {

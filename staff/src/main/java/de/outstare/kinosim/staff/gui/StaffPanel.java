@@ -27,6 +27,16 @@ public class StaffPanel extends JPanel {
 		super();
 		setLayout(new BorderLayout(1, 5));
 		add(new JLabel(staff.getFullName()), BorderLayout.NORTH);
+		// label.setIcon(UIManager.getIcon("Tree.expandedIcon"));
+		// label.addMouseListener(new MouseAdapter() {
+		// @Override
+		// public void mouseClicked(final MouseEvent e) {
+		// final boolean isCollapsed = collapsible.isCollapsed();
+		// collapsible.setCollapsed(!isCollapsed);
+		// final String iconKey = isCollapsed ? "Tree.expandedIcon" : "Tree.collapsedIcon";
+		// label.setIcon(UIManager.getIcon(iconKey));
+		// }
+		// });
 		final JXCollapsiblePane collapsible = new JXCollapsiblePane();
 		final SkillSetPanel skillsPanel = new SkillSetPanel(staff.getSkills());
 		skillsPanel.setBorder(new LineBorder(Color.BLACK));
