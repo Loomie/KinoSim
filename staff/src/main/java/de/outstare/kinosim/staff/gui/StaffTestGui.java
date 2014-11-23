@@ -7,12 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import de.outstare.kinosim.staff.Job;
-import de.outstare.kinosim.staff.NameGenerator;
 import de.outstare.kinosim.staff.Staff;
 
 public class StaffTestGui {
 	public static void main(final String[] args) {
-		final NameGenerator gen = new NameGenerator();
 		final int staffCount = 3;
 		final JFrame frame = new JFrame("Staff");
 		final Staff[] staff = new Staff[staffCount];
@@ -42,6 +40,7 @@ public class StaffTestGui {
 		// frame.add(new StaffPanel(Staff.generateRandomStaff()));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 }
