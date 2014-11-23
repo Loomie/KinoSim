@@ -11,7 +11,7 @@ import de.outstare.kinosim.staff.Staff;
 
 public class StaffTestGui {
 	public static void main(final String[] args) {
-		final int staffCount = 3;
+		final int staffCount = 2;
 		final JFrame frame = new JFrame("Staff");
 		final Staff[] staff = new Staff[staffCount];
 		frame.setLayout(new GridLayout(staffCount + 1, 6));

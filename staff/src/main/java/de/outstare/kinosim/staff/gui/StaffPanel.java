@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXCollapsiblePane;
+import org.jdesktop.swingx.VerticalLayout;
 
 import de.outstare.kinosim.staff.Staff;
 
@@ -17,7 +18,7 @@ public class StaffPanel extends JPanel {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 3859328180950107378L;
+	private static final long serialVersionUID = 3859328180950107378L;
 
 	/**
 	 * @param staff
@@ -32,7 +33,9 @@ public class StaffPanel extends JPanel {
 		collapsible.add(skillsPanel);
 		final JButton toggle = new JButton(collapsible.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));
 		toggle.setText("Show/Hide skills");
-		add(toggle, BorderLayout.CENTER);
-		add(collapsible, BorderLayout.SOUTH);
+		final JPanel togglePanel = new JPanel(new VerticalLayout());
+		togglePanel.add(toggle);
+		togglePanel.add(collapsible);
+		add(togglePanel, BorderLayout.CENTER);
 	}
 }
