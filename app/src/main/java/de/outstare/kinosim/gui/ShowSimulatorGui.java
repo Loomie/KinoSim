@@ -1,5 +1,7 @@
 package de.outstare.kinosim.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,6 +15,7 @@ import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -41,9 +44,9 @@ import de.outstare.kinosim.util.TimeRange;
  * A ShowSimulatorGui shows a {@link ScheduleEditor}, a button for simulating and a {@link GuestsDayReport} for the simulation result.
  */
 public class ShowSimulatorGui {
-	private final ScheduleEditor	editor;
-	private final ShowSimulator		simulator;
-	private final TimeRange			editableTime;
+	private final ScheduleEditor editor;
+	private final ShowSimulator simulator;
+	private final TimeRange editableTime;
 
 	/**
 	 * @param editor
@@ -62,7 +65,7 @@ public class ShowSimulatorGui {
 		final SchedulerGui editorUi = new SchedulerGui(editor, editableTime);
 		final JButton simulate = new JButton("simulate");
 		simulate.setAction(new AbstractAction("simulate") {
-			private static final long	serialVersionUID	= -219059695783807057L;
+			private static final long serialVersionUID = -219059695783807057L;
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -87,7 +90,16 @@ public class ShowSimulatorGui {
 	private JComponent createBalanceUi() {
 		final JTextArea balanceUi = new JTextArea(simulator.getBalance().prettyPrint(), 10, 120);
 		balanceUi.setFont(Font.decode(Font.MONOSPACED));
-		return new JScrollPane(balanceUi);
+		final JLabel bankAccountLabel = new JLabel(simulator.getBankAccount().prettyPrint());
+		if (simulator.getBankAccount().getBalance().getValue() >= 0) {
+			bankAccountLabel.setForeground(new Color(0, 175, 0));
+		} else {
+			bankAccountLabel.setForeground(Color.RED);
+		}
+		final JPanel panel = new JPanel(new BorderLayout());
+		panel.add(bankAccountLabel, BorderLayout.NORTH);
+		panel.add(new JScrollPane(balanceUi), BorderLayout.CENTER);
+		return panel;
 	}
 
 	private JComponent createReportUi() {

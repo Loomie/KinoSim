@@ -3,6 +3,7 @@ package de.outstare.kinosim;
 import java.time.LocalDate;
 import java.util.Map;
 
+import de.outstare.kinosim.finance.BankAccount;
 import de.outstare.kinosim.finance.Cents;
 import de.outstare.kinosim.finance.IncomeStatement;
 import de.outstare.kinosim.finance.IncomeStatement.ExpenseCategory;
@@ -25,16 +26,17 @@ import de.outstare.kinosim.util.Randomness;
  * A ShowSimulator simulates running shows. It mimics people going into cinema halls and how much they enjoy it.
  */
 public class ShowSimulator {
-	private final Schedule				schedule;
-	private final GuestCalculator		calculator;
-	private LocalDate					day;
-	private GuestsDayReport				report;
+	private final Schedule schedule;
+	private final GuestCalculator calculator;
+	private LocalDate day;
+	private GuestsDayReport report;
 
-	private final TicketPriceCategory	prices		= TicketPriceCategory.createRandom();
-	private final IncomeStatement		balance		= new IncomeStatement(new Taxes(0.1 + 0.1 * Randomness.nextDouble()));
+	private final TicketPriceCategory prices = TicketPriceCategory.createRandom();
+	private final IncomeStatement balance = new IncomeStatement(new Taxes(0.1 + 0.1 * Randomness.nextDouble()));
+	private final BankAccount bankAccount = new BankAccount();
 	// TODO move out of ShowSimulator to a more global place where the MovieTheater is known
-	private final Leasehold				leasehold	= new Leasehold(new AreaMovieTheaterCreator(3000).createTheater(), Cents.of(Randomness
-															.getGaussianAround(1600)));
+	private final Leasehold leasehold = new Leasehold(new AreaMovieTheaterCreator(3000).createTheater(), Cents.of(Randomness
+			.getGaussianAround(1600)));
 
 	public ShowSimulator(final Schedule schedule, final GuestCalculator calculator, final LocalDate day) {
 		super();
@@ -54,6 +56,10 @@ public class ShowSimulator {
 
 	public IncomeStatement getBalance() {
 		return balance;
+	}
+
+	public BankAccount getBankAccount() {
+		return bankAccount;
 	}
 
 	public void nextDay() {
@@ -82,5 +88,6 @@ public class ShowSimulator {
 		if (day.getDayOfMonth() == 1) {
 			balance.addExpense(ExpenseCategory.OtherOperativeExpenses, leasehold.getMonthlyRate());
 		}
+		bankAccount.deposit(balance.getTotalBalance());
 	}
 }

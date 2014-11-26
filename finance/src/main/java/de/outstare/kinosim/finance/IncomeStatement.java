@@ -16,8 +16,7 @@ import de.outstare.kinosim.finance.revenue.Revenue;
 import de.outstare.kinosim.util.Randomness;
 
 /**
- * An IncomeStatement (or profit and loss account; German: "Gewinn- und Verlustrechnung") lists all revenues and all expenses to determine a net
- * income.
+ * An IncomeStatement (or profit and loss account; German: "Gewinn- und Verlustrechnung") lists all revenues and all expenses to determine a net income.
  */
 public class IncomeStatement {
 	/**
@@ -38,12 +37,12 @@ public class IncomeStatement {
 		OtherOperativeExpenses,
 	}
 
-	private static final Logger							LOG			= LoggerFactory.getLogger(IncomeStatement.class);
+	private static final Logger LOG = LoggerFactory.getLogger(IncomeStatement.class);
 
-	private final Multimap<RevenueCategory, Revenue>	revenues	= HashMultimap.create();
-	private final Multimap<ExpenseCategory, Expense>	expenses	= HashMultimap.create();
+	private final Multimap<RevenueCategory, Revenue> revenues = HashMultimap.create();
+	private final Multimap<ExpenseCategory, Expense> expenses = HashMultimap.create();
 
-	private final Taxes									taxes;
+	private final Taxes taxes;
 
 	public IncomeStatement(final Taxes taxes) {
 		this.taxes = taxes;
@@ -64,7 +63,7 @@ public class IncomeStatement {
 		revenues.put(category, newRevenue);
 	}
 
-	private void payTax(Revenue newRevenue) {
+	private void payTax(final Revenue newRevenue) {
 		if (taxes != null) {
 			final Expense tax = taxes.getExpense(newRevenue);
 			LOG.info("paying {} taxes for {}", tax.getAmount().formatted(), newRevenue.getName());
@@ -101,6 +100,13 @@ public class IncomeStatement {
 		return Cents.of(expenses.values().stream().mapToLong(expense -> expense.getAmount().getValue()).sum());
 	}
 
+	/**
+	 * @return The total balance of the statement: profit - expenses (so it can be negative)
+	 */
+	public Cents getTotalBalance() {
+		return Cents.of(sumOfRevenues().getValue() - sumOfExpenses().getValue());
+	}
+
 	public Revenue getProfit() {
 		final long profit = Math.max(sumOfRevenues().getValue() - sumOfExpenses().getValue(), 0);
 		return new Revenue(Cents.of(profit), "Profit");
@@ -121,8 +127,8 @@ public class IncomeStatement {
 		return text.toString();
 	}
 
-	private static final int	textWidth	= 30;
-	private static final int	numberWidth	= 14;
+	private static final int textWidth = 30;
+	private static final int numberWidth = 14;
 
 	public String prettyPrint() {
 		final StringBuilder text = new StringBuilder(200);
