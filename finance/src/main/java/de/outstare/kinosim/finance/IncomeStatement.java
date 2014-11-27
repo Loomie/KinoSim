@@ -75,13 +75,21 @@ public class IncomeStatement {
 		if (expenses.containsKey(category)) {
 			for (final Expense existingExpense : expenses.get(category)) {
 				if (existingExpense.getName().equals(newExpense.getName())) {
-					expenses.remove(category, existingExpense);
+					removeExpense(category, existingExpense);
 					newExpense = new Expense(existingExpense.getAmount().add(newExpense.getAmount()), existingExpense.getName());
 					break;
 				}
 			}
 		}
 		expenses.put(category, newExpense);
+	}
+
+	/**
+	 * @param category
+	 * @param existingExpense
+	 */
+	public void removeExpense(final ExpenseCategory category, final Expense existingExpense) {
+		expenses.remove(category, existingExpense);
 	}
 
 	public Multimap<RevenueCategory, Revenue> listRevenues() {
