@@ -2,6 +2,7 @@ package de.outstare.kinosim.cinema;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A MovieTheater is a multiplex cinema with multiple screens, a foyer with counters, offices and storage rooms.
@@ -22,6 +23,11 @@ public interface MovieTheater {
 	 * @return every {@link Room} of this theater.
 	 */
 	Collection<Room> getRooms();
+
+	/**
+	 * @return all {@link Room}s of this theater with the given type.
+	 */
+	Set<Room> getRoomsByType(RoomType type);
 
 	/**
 	 * @return number of square meters (m²) all rooms offer.

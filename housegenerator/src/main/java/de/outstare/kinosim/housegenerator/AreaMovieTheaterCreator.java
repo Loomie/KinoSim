@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +79,11 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 			@Override
 			public Collection<Room> getRooms() {
 				return Collections.unmodifiableCollection(rooms);
+			}
+
+			@Override
+			public Set<Room> getRoomsByType(final RoomType type) {
+				return getRooms().stream().filter(r -> r.getType() == type).collect(Collectors.toSet());
 			}
 
 			@Override

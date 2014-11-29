@@ -4,12 +4,14 @@ import static org.junit.Assert.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.cinema.Room;
+import de.outstare.kinosim.cinema.RoomType;
 import de.outstare.kinosim.finance.Cents;
 
 public class LeaseholdTest {
@@ -28,6 +30,11 @@ public class LeaseholdTest {
 
 		@Override
 		public Collection<Room> getRooms() {
+			return null;
+		}
+
+		@Override
+		public Set<Room> getRoomsByType(final RoomType type) {
 			return null;
 		}
 
