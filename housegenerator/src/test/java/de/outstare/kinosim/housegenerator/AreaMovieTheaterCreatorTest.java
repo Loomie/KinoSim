@@ -31,7 +31,7 @@ public class AreaMovieTheaterCreatorTest {
 			final MovieTheater result = creator.createTheater();
 
 			assertTrue(result.getNumberOfSeats() + " seats", 4600 < result.getNumberOfSeats());
-			assertTrue(result.getNumberOfSeats() + " seats", result.getNumberOfSeats() < 11200);
+			assertTrue(result.getNumberOfSeats() + " seats", result.getNumberOfSeats() < 12200);
 			final double totalArea = result.getRoomSpace();
 			assertTrue(totalArea / 1.2 <= 18000);
 			System.out.println();

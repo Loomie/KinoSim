@@ -56,7 +56,6 @@ public class TheaterView {
 	private JPanel createGrid(final int roomCount) {
 		final JPanel area = new JPanel();
 		final int squareRoot = (int) Math.ceil(Math.sqrt(roomCount));
-		System.out.println(squareRoot + "x" + squareRoot + " for " + roomCount + " rooms");
 		area.setLayout(new GridLayout(squareRoot, squareRoot));
 		return area;
 	}

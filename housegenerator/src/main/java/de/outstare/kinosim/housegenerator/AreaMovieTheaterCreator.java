@@ -117,7 +117,7 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 	}
 
 	private int estimateSeats(final double usableArea, final double cinemaAreaPerSeat) {
-		final double areaForHalls = usableArea * 0.56;
+		final double areaForHalls = usableArea * 0.508;
 		return (int) (areaForHalls / cinemaAreaPerSeat);
 	}
 
