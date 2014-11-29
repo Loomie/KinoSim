@@ -8,9 +8,9 @@ import java.io.IOException;
 import de.outstare.kinosim.movie.Movie;
 
 public class MovieTransferable implements Transferable {
-	public static final DataFlavor	MOVIE_DATA_FLAVOR	= new DataFlavor(Movie.class, Movie.class.getSimpleName());
+	public static final DataFlavor MOVIE_DATA_FLAVOR = new DataFlavor(Movie.class, Movie.class.getSimpleName());
 
-	private final Movie				movie;
+	private final Movie movie;
 
 	public MovieTransferable(final Movie movie) {
 		this.movie = movie;

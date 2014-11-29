@@ -17,9 +17,9 @@ public class Rating {
 	/**
 	 * The max rating value (currently 100 to be easily used as a percentage)
 	 */
-	public static final int						MAX_VALUE	= 100;
+	public static final int MAX_VALUE = 100;
 
-	private final Map<RatingCategory, Integer>	ratings		= new EnumMap<>(RatingCategory.class);
+	private final Map<RatingCategory, Integer> ratings = new EnumMap<>(RatingCategory.class);
 
 	private Rating() {
 		// factory method must be used

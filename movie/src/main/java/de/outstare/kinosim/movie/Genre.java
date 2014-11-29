@@ -29,7 +29,7 @@ public enum Genre {
 		NarrativeForm
 	}
 
-	private final GroupAspect	aspect;
+	private final GroupAspect aspect;
 
 	private Genre(final GroupAspect aspect) {
 		this.aspect = aspect;

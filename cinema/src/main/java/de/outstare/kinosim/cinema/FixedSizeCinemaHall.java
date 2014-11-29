@@ -4,8 +4,8 @@ package de.outstare.kinosim.cinema;
  * Note: this class has a natural ordering that is inconsistent with equals.
  */
 public class FixedSizeCinemaHall extends SimpleRoom implements CinemaHall {
-	private final String	name;
-	private final int		capacity;
+	private final String name;
+	private final int capacity;
 
 	public FixedSizeCinemaHall(final String name, final double allocatedSpace, final int capacity) {
 		super(RoomType.CinemaHall, allocatedSpace);

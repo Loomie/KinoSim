@@ -11,10 +11,10 @@ import de.outstare.kinosim.util.Randomness;
  * @see <a href="http://de.wikipedia.org/wiki/Altersverteilung#Absch.C3.A4tzung_der_Altersverteilungen">Absch&auml;tzung der Altersverteilungen</a>
  */
 public class PopulationPyramid {
-	private static final Logger	LOG	= LoggerFactory.getLogger(PopulationPyramid.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PopulationPyramid.class);
 
-	private final int			newBorns;
-	private final int			maxAge;
+	private final int newBorns;
+	private final int maxAge;
 
 	public PopulationPyramid(final int newBorns, final int maxAge) {
 		this.newBorns = newBorns;

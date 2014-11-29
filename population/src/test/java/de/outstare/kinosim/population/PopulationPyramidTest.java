@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PopulationPyramidTest {
-	private PopulationPyramid	objectUnderTest;
+	private PopulationPyramid objectUnderTest;
 
 	@Before
 	public void setUp() throws Exception {

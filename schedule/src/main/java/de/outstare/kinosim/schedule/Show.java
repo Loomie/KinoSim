@@ -19,11 +19,11 @@ import de.outstare.kinosim.util.Randomness;
  * and breaks can be planned.
  */
 public class Show {
-	private LocalTime			start;
-	private final Movie			film;
-	private final CinemaHall	hall;
-	private final AdBlock		ads;
-	private final int			breakDurationInMinutes;
+	private LocalTime start;
+	private final Movie film;
+	private final CinemaHall hall;
+	private final AdBlock ads;
+	private final int breakDurationInMinutes;
 
 	public Show(final LocalTime start, final Movie film, final CinemaHall hall, final AdBlock ads, final int breakDurationInMinutes) {
 		super();

@@ -23,8 +23,8 @@ import de.outstare.kinosim.util.Randomness;
  * A GuestsDayReport holds all {@link GuestsShowReport}s of a day.
  */
 public class GuestsDayReport implements Iterable<GuestsShowReport> {
-	private final SortedSet<GuestsShowReport>	reports	= new TreeSet<>();
-	private final LocalDate						date;
+	private final SortedSet<GuestsShowReport> reports = new TreeSet<>();
+	private final LocalDate date;
 
 	public GuestsDayReport(final GuestCalculator calculator, final Schedule schedule, final LocalDate date) {
 		this.date = date;

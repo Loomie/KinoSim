@@ -1,6 +1,5 @@
 package de.outstare.kinosim.cinema.gui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +14,14 @@ import de.outstare.kinosim.util.Position;
  *
  */
 public class Area {
-	private Position position;
-	private double length, height;
+	private final Position position;
+	private final double length, height;
 	/**
 	 * indicates if this area has to be filled with stuff (or else has a table)
 	 */
-	private boolean freeArea;
-	private List<Direction> walls;
-	private Map<Position, PaintableObject> objects;
+	private final boolean freeArea;
+	private final List<Direction> walls;
+	private final Map<Position, PaintableObject> objects;
 
 	/**
 	 * @param position
@@ -40,12 +39,13 @@ public class Area {
 		this.freeArea = freeArea;
 		this.walls = walls;
 		objects = new HashMap<>();
-		final List<Position> positions = new ArrayList<Position>();
 		if (!freeArea) {
 			final PaintableObject table = PaintableObject.TABLE;
 			objects.put(new Position(0, calculatePositionOnAxisPartCenter(getHeight(), table.getHeightInMeters(), 1, 1)), table);
 			final PaintableObject chair = PaintableObject.CHAIR;
-			objects.put(new Position(table.getWidthInMeters() + 0.25, calculatePositionOnAxisPartCenter(getHeight(), chair.getHeightInMeters(), 1, 1)), chair);
+			objects.put(
+					new Position(table.getWidthInMeters() + 0.25, calculatePositionOnAxisPartCenter(getHeight(), chair.getHeightInMeters(), 1, 1)),
+					chair);
 			final Random r = new Random();
 			if (r.nextDouble() > 0.7) {
 				final PaintableObject o = PaintableObject.PLANT;
@@ -54,7 +54,7 @@ public class Area {
 				objects.put(new Position(x, y), o);
 			}
 		} else {
-			final PaintableObject o = PaintableObject.PLANT;
+			// final PaintableObject o = PaintableObject.PLANT;
 			// objects.put(
 			// new Position(calculatePositionOnAxisPartCenter(length, o.getWidthInMeters(), 1, 1), calculatePositionOnAxisPartCenter(height,
 			// o.getHeightInMeters(), 1, 1)), o);
@@ -63,7 +63,8 @@ public class Area {
 
 	/**
 	 * Calculates the point of the top/left edge of an object that you want to place on the part of an axis.<br />
-	 * When you want to center i.e. a rectangle on the x axis you have to shift the x-coordinate of the edge by half of the width. That is what this method calculates. <br />
+	 * When you want to center i.e. a rectangle on the x axis you have to shift the x-coordinate of the edge by half of the width. That is what this
+	 * method calculates. <br />
 	 * An example: Your x-axis is 100 units long and you want to split it in 2 parts and center your 10 units long object in the first half.<br />
 	 * Each part is 50 units long.<br />
 	 * The center of the first half is at 25 (100 / 2 / 2). That is where the center of the object should be.<br />
@@ -133,11 +134,6 @@ public class Area {
 		return walls;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return (freeArea ? "" : "Non-") + "free area at " + position + ", width = " + length + ", height = " + height;

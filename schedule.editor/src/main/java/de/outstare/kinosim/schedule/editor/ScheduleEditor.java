@@ -23,12 +23,12 @@ import de.outstare.kinosim.util.TimeRange;
  * a timeline.
  */
 public class ScheduleEditor {
-	private static final Logger						LOG			= LoggerFactory.getLogger(ScheduleEditor.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ScheduleEditor.class);
 
-	private final Schedule							schedule;
-	private final Collection<? extends CinemaHall>	availableHalls;
-	private final Collection<? extends Movie>		availableMovies;
-	private final Set<ScheduleChangeListener>		listeners	= new HashSet<>();
+	private final Schedule schedule;
+	private final Collection<? extends CinemaHall> availableHalls;
+	private final Collection<? extends Movie> availableMovies;
+	private final Set<ScheduleChangeListener> listeners = new HashSet<>();
 
 	public ScheduleEditor(final Schedule schedule, final Collection<? extends CinemaHall> availableHalls,
 			final Collection<? extends Movie> availableMovies) {

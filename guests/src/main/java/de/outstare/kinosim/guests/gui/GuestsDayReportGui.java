@@ -24,7 +24,7 @@ import de.outstare.kinosim.population.Audience;
  * A GuestsDayReportGui displays guest numbers of the day in a table.
  */
 public class GuestsDayReportGui {
-	private final GuestsDayReport	report;
+	private final GuestsDayReport report;
 
 	public GuestsDayReportGui(final GuestsDayReport report) {
 		this.report = report;
@@ -32,7 +32,7 @@ public class GuestsDayReportGui {
 
 	public JComponent createUi() {
 		final JTable table = new JTable(createModel()) {
-			private static final long	serialVersionUID	= 1954725414916757784L;
+			private static final long serialVersionUID = 1954725414916757784L;
 
 			@Override
 			public Component prepareRenderer(final TableCellRenderer renderer, final int row, final int column) {
@@ -59,7 +59,7 @@ public class GuestsDayReportGui {
 
 	private TableModel createModel() {
 		return new AbstractTableModel() {
-			private static final long	serialVersionUID	= 5778358533378897039L;
+			private static final long serialVersionUID = 5778358533378897039L;
 
 			@Override
 			public int getRowCount() {

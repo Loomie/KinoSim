@@ -4,7 +4,7 @@ package de.outstare.kinosim.cinema;
  * A WorkSpace is an area of a {@link MovieTheater} where one type of work is done on multiple workplaces.
  */
 public class WorkSpace extends SimpleRoom {
-	private final int	workplaceCount;
+	private final int workplaceCount;
 
 	WorkSpace(final RoomType type, final double allocatedSpace, final int workplaceCount) {
 		super(type, allocatedSpace);

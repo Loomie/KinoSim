@@ -14,19 +14,19 @@ import de.outstare.kinosim.movie.Movie;
 import de.outstare.kinosim.movie.SimpleMovie;
 
 public class ScheduleImplTest {
-	private final CinemaHall	hall1;
-	private final CinemaHall	hall2;
-	private final CinemaHall	hall3;
-	private final SimpleMovie	movie1;
-	private final SimpleMovie	movie2;
-	private final SimpleMovie	movie3;
-	private final Show			show1;
-	private final Show			show2;
-	private final Show			show3;
-	private final Show			show4;
-	private final Show			show5;
+	private final CinemaHall hall1;
+	private final CinemaHall hall2;
+	private final CinemaHall hall3;
+	private final SimpleMovie movie1;
+	private final SimpleMovie movie2;
+	private final SimpleMovie movie3;
+	private final Show show1;
+	private final Show show2;
+	private final Show show3;
+	private final Show show4;
+	private final Show show5;
 
-	private ScheduleImpl		objectUnderTest;
+	private ScheduleImpl objectUnderTest;
 
 	public ScheduleImplTest() {
 		hall1 = new FixedSizeCinemaHall("1", 1, 100);

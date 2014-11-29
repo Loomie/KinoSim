@@ -29,12 +29,12 @@ public enum Audience {
 	/**
 	 * inclusive
 	 */
-	public final int		minAge;
+	public final int minAge;
 	/**
 	 * exclusive
 	 */
-	public final int		maxAge;
-	public final LocalTime	preferredStartTime;
+	public final int maxAge;
+	public final LocalTime preferredStartTime;
 
 	private Audience(final int minAge, final int maxAge, final int preferredStartHour) {
 		this.minAge = minAge;

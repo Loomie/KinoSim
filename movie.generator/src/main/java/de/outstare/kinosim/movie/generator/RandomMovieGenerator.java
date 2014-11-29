@@ -21,7 +21,7 @@ import de.outstare.kinosim.movie.SimpleMovie;
 import de.outstare.kinosim.util.Randomness;
 
 public class RandomMovieGenerator implements MovieGenerator {
-	private final FakeTitleGenerator	titleGen	= new FakeTitleGenerator();
+	private final FakeTitleGenerator titleGen = new FakeTitleGenerator();
 
 	public static void main(final String[] args) {
 		final MovieGenerator gen = new RandomMovieGenerator();

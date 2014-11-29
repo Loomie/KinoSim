@@ -23,13 +23,13 @@ import de.outstare.kinosim.schedule.AdBlock;
 import de.outstare.kinosim.schedule.Show;
 
 public class GuestCalculatorTest {
-	private final LocalDate	normal_saturday	= LocalDate.of(2014, 03, 01);
-	private final LocalDate	good_saturday	= LocalDate.of(2013, 12, 28);
-	private final LocalDate	poor_saturday	= LocalDate.of(2014, 06, 28);
-	private final LocalDate	normal_monday	= LocalDate.of(2014, 03, 03);
-	private final LocalDate	good_monday		= LocalDate.of(2013, 12, 30);
-	private final LocalDate	poor_monday		= LocalDate.of(2014, 06, 30);
-	private GuestCalculator	objectUnderTest;
+	private final LocalDate normal_saturday = LocalDate.of(2014, 03, 01);
+	private final LocalDate good_saturday = LocalDate.of(2013, 12, 28);
+	private final LocalDate poor_saturday = LocalDate.of(2014, 06, 28);
+	private final LocalDate normal_monday = LocalDate.of(2014, 03, 03);
+	private final LocalDate good_monday = LocalDate.of(2013, 12, 30);
+	private final LocalDate poor_monday = LocalDate.of(2014, 06, 30);
+	private GuestCalculator objectUnderTest;
 
 	@Before
 	public void setUp() throws Exception {

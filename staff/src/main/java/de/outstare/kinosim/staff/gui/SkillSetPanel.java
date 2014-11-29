@@ -18,7 +18,7 @@ public class SkillSetPanel extends JPanel {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= -1502423084448746733L;
+	private static final long serialVersionUID = -1502423084448746733L;
 
 	public SkillSetPanel(final SkillSet skillset) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

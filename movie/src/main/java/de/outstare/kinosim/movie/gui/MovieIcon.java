@@ -25,13 +25,13 @@ import de.outstare.kinosim.util.Randomness;
  * A MovieIcon generates a random icon for a given {@link Movie}.
  */
 public class MovieIcon {
-	private static final int	WIDTH	= 64;
-	private static final int	HEIGHT	= 64;
+	private static final int WIDTH = 64;
+	private static final int HEIGHT = 64;
 
-	private int					seed;
-	private Random				random;
+	private int seed;
+	private Random random;
 
-	private final ImageIcon		icon;
+	private final ImageIcon icon;
 
 	public MovieIcon(final Movie movie) {
 		this(movie.hashCode());

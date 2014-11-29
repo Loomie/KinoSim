@@ -17,8 +17,7 @@ public class FileReaderUtil {
 			while ((word = reader.readLine()) != null) {
 				words.add(StringUtils.capitalize(word));
 			}
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			words.add(e.getMessage());
 			e.printStackTrace();
 		}

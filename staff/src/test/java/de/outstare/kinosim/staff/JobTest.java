@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class JobTest {
 
-	Job	job;
+	Job job;
 
 	@Before
 	public void setUp() throws Exception {

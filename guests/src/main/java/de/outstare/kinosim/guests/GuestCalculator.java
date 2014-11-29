@@ -16,10 +16,10 @@ import de.outstare.kinosim.schedule.Show;
 import de.outstare.kinosim.util.Distributions;
 
 public class GuestCalculator {
-	private static final Logger		LOG						= LoggerFactory.getLogger(GuestCalculator.class);
-	private static final double		MAX_SEASON_MULTIPLIER	= 0.5;
+	private static final Logger LOG = LoggerFactory.getLogger(GuestCalculator.class);
+	private static final double MAX_SEASON_MULTIPLIER = 0.5;
 
-	private final PopulationPyramid	population;
+	private final PopulationPyramid population;
 
 	/**
 	 * @param population

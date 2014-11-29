@@ -6,7 +6,7 @@ import java.awt.Color;
  * A TrafficLightsPercentageBar colors the bar from red (low) over yellow (medium) to green (full).
  */
 public class TrafficLightsPercentageBar extends PercentageBar {
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	public TrafficLightsPercentageBar(final double percent) {
 		super(percent, calculateColor(percent));

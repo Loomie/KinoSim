@@ -8,8 +8,8 @@ enum Corner {
 	BOTTOM_RIGHT(false, false),
 	BOTTOM_LEFT(false, true);
 
-	boolean	isTop;
-	boolean	isLeft;
+	boolean isTop;
+	boolean isLeft;
 
 	private Corner(final boolean isTop, final boolean isLeft) {
 		this.isTop = isTop;

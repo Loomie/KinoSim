@@ -16,7 +16,8 @@ import de.outstare.kinosim.finance.revenue.Revenue;
 import de.outstare.kinosim.util.Randomness;
 
 /**
- * An IncomeStatement (or profit and loss account; German: "Gewinn- und Verlustrechnung") lists all revenues and all expenses to determine a net income.
+ * An IncomeStatement (or profit and loss account; German: "Gewinn- und Verlustrechnung") lists all revenues and all expenses to determine a net
+ * income.
  */
 public class IncomeStatement {
 	/**

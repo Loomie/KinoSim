@@ -20,11 +20,11 @@ import de.outstare.kinosim.guests.GuestsShowReport;
 import de.outstare.kinosim.population.Audience;
 
 public class MovieRentalTest {
-	private final String			distributorName1	= "Test Distributor One";
-	private final String			distributorName2	= "Test Distributor Two";
-	private final String			distributorName3	= "Test Distributor Three";
-	private MovieRental				objectUnderTest;
-	private Map<Audience, Cents>	prices;
+	private static final String distributorName1 = "Test Distributor One";
+	private static final String distributorName2 = "Test Distributor Two";
+	private static final String distributorName3 = "Test Distributor Three";
+	private MovieRental objectUnderTest;
+	private Map<Audience, Cents> prices;
 
 	@Before
 	public void setUp() {

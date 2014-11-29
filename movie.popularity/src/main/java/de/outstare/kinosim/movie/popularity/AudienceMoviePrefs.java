@@ -32,8 +32,8 @@ enum AudienceMoviePrefs {
 	 */
 	SENIORS(10, 10, 30, 15, 35, /**/70, 80, 50, 30, 70);
 
-	private final Map<RatingCategory, Integer>	factorPriorities	= new HashMap<RatingCategory, Integer>();
-	private final Map<RatingCategory, Integer>	factorPreference	= new HashMap<RatingCategory, Integer>();
+	private final Map<RatingCategory, Integer> factorPriorities = new HashMap<RatingCategory, Integer>();
+	private final Map<RatingCategory, Integer> factorPreference = new HashMap<RatingCategory, Integer>();
 
 	/**
 	 * Priority means how important the factor is (sum is 100%). The preference value is which amount of the factor is mostly wanted.

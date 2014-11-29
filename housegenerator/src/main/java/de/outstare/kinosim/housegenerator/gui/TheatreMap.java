@@ -29,9 +29,9 @@ import de.outstare.kinosim.util.Randomness;
  * A TheatreMap visualizes the outline of a {@link MovieTheater}.
  */
 public class TheatreMap {
-	private static final boolean	DEBUG	= false;
+	private static final boolean DEBUG = false;
 
-	private final MovieTheater		theater;
+	private final MovieTheater theater;
 
 	public TheatreMap(final MovieTheater theater) {
 		super();
@@ -45,7 +45,7 @@ public class TheatreMap {
 		final Map<Room, Rectangle2D.Double> roomSquares = getRooms(totalEdgeLengthInMeters);
 
 		final JPanel map = new JPanel() {
-			private static final long	serialVersionUID	= 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public Dimension getMinimumSize() {

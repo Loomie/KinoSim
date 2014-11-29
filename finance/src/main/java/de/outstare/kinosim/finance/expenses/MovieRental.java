@@ -19,12 +19,12 @@ import de.outstare.kinosim.movie.popularity.MoviePopularity;
  * A MovieRental describes the {@link Expense}s for {@link Movie}s.
  */
 public class MovieRental {
-	private static final Logger			LOG			= LoggerFactory.getLogger(MovieRental.class);
-	private static final double			MIN_RATIO	= 0.35;
-	private static final double			MAX_RATIO	= 0.65;
+	private static final Logger LOG = LoggerFactory.getLogger(MovieRental.class);
+	private static final double MIN_RATIO = 0.35;
+	private static final double MAX_RATIO = 0.65;
 
-	private final GuestsDayReport		guestReport;
-	private final TicketPriceCategory	price;
+	private final GuestsDayReport guestReport;
+	private final TicketPriceCategory price;
 
 	public MovieRental(final GuestsDayReport guestReport, final TicketPriceCategory price) {
 		this.guestReport = guestReport;

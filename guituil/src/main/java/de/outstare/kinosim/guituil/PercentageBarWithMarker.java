@@ -32,11 +32,8 @@ public class PercentageBarWithMarker extends PercentageBar {
 	 */
 	private static final long serialVersionUID = -1569756128586994030L;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.outstare.kinosim.staff.gui.PercentageBar#paintComponent(java.awt.Graphics)
-	 */
+	/* (non-Javadoc)
+	 * @see de.outstare.kinosim.staff.gui.PercentageBar#paintComponent(java.awt.Graphics) */
 	@Override
 	protected void paintComponent(final Graphics g) {
 		super.paintComponent(g);

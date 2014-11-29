@@ -12,7 +12,7 @@ import de.outstare.kinosim.finance.expenses.Taxes;
 import de.outstare.kinosim.finance.revenue.Revenue;
 
 public class IncomeStatementTest {
-	private IncomeStatement	testObject;
+	private IncomeStatement testObject;
 
 	@Before
 	public void setUp() {

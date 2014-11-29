@@ -29,8 +29,8 @@ import de.outstare.kinosim.util.TimeRange;
  * A SchedulerGui allows the creation and edition of a {@link Schedule}. Beside a {@link ScheduleEditor} a list of {@link Movie}s is available.
  */
 public class SchedulerGui {
-	private final ScheduleEditor	editor;
-	private final TimeRange			editableTime;
+	private final ScheduleEditor editor;
+	private final TimeRange editableTime;
 
 	public SchedulerGui(final ScheduleEditor editor, final TimeRange editableTime) {
 		this.editor = editor;

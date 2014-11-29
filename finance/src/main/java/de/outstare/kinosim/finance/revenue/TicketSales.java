@@ -12,10 +12,10 @@ import de.outstare.kinosim.schedule.Show;
  * A TicketSales describes the income for {@link Show}s by sold tickets.
  */
 public class TicketSales {
-	private static final Logger			LOG	= LoggerFactory.getLogger(TicketSales.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TicketSales.class);
 
-	private final GuestsShowReport		showReport;
-	private final TicketPriceCategory	price;
+	private final GuestsShowReport showReport;
+	private final TicketPriceCategory price;
 
 	public TicketSales(final GuestsShowReport showReport, final TicketPriceCategory price) {
 		this.showReport = showReport;

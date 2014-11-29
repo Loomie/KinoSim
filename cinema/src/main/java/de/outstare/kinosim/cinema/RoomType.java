@@ -27,10 +27,10 @@ public enum RoomType {
 		PerWorkplace
 	}
 
-	protected final NumberRange			spacePerUnit;
-	private final RoomType.SpaceUnit	spaceUnit;
-	private final NumberRange			workplacesPerThousandSeats;
-	private final boolean				isPublic;
+	protected final NumberRange spacePerUnit;
+	private final RoomType.SpaceUnit spaceUnit;
+	private final NumberRange workplacesPerThousandSeats;
+	private final boolean isPublic;
 
 	private RoomType(final boolean isPublic, final double minimumSpacePerUnit, final double maximumSpacePerUnit, final RoomType.SpaceUnit spaceUnit) {
 		this(isPublic, minimumSpacePerUnit, maximumSpacePerUnit, spaceUnit, null);

@@ -8,8 +8,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * A NamedAmount is an amount of money with a name for what it is used.
  */
 public class NamedAmount {
-	private final Cents		amount;
-	private final String	name;
+	private final Cents amount;
+	private final String name;
 
 	public NamedAmount(final Cents amount, final String name) {
 		this.amount = amount;

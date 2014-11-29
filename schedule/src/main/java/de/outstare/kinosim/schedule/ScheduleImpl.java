@@ -17,7 +17,7 @@ import de.outstare.kinosim.util.TimeRange;
  * A ScheduleImpl implements {@link Schedule}.
  */
 public class ScheduleImpl extends AbstractCollection<Show> implements Schedule {
-	private final SortedSet<Show>	shows;
+	private final SortedSet<Show> shows;
 
 	public ScheduleImpl() {
 		this(new TreeSet<>(new ShowTimeComparator()));

@@ -22,7 +22,7 @@ import de.outstare.kinosim.movie.RatingCategory;
  * A RatingGui displays for each {@link RatingCategory} a bar how people rate it.
  */
 public class RatingGui {
-	private final Rating	rating;
+	private final Rating rating;
 
 	public RatingGui(final Rating rating) {
 		this.rating = rating;

@@ -11,9 +11,9 @@ import de.outstare.kinosim.schedule.Show;
  * A ShowDragTransferHandler allows dragging of {@link Show}s.
  */
 public class ShowDragTransferHandler extends TransferHandler {
-	private static final long	serialVersionUID	= 2029051768749350087L;
+	private static final long serialVersionUID = 2029051768749350087L;
 
-	private final ShowProvider	provider;
+	private final ShowProvider provider;
 
 	public ShowDragTransferHandler(final ShowProvider provider) {
 		this.provider = provider;

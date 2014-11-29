@@ -22,13 +22,13 @@ import de.outstare.kinosim.util.Randomness;
  */
 public class SimpleMovie implements Movie {
 
-	private final String		title;
-	private final Duration		duration;
-	private final int			ageRating;
-	private final String		distributor;
-	private final Set<Genre>	genres;
-	private final Rating		rating;
-	private final LocalDate		release;
+	private final String title;
+	private final Duration duration;
+	private final int ageRating;
+	private final String distributor;
+	private final Set<Genre> genres;
+	private final Rating rating;
+	private final LocalDate release;
 
 	public SimpleMovie(final String title, final Duration duration, final int ageRating, final String distributor, final Set<Genre> genres,
 			final Rating rating, final LocalDate release) {

@@ -32,7 +32,7 @@ import de.outstare.kinosim.schedule.editor.gui.dnd.MovieDragFromListTransferHand
  * A MovieListGui is a graphical list of {@link Movie}s. It shows a summary of each movie. Movies can be dragged from this list.
  */
 public class MovieListGui implements ListCellRenderer<Movie> {
-	private final List<Movie>	movies	= new ArrayList<>();
+	private final List<Movie> movies = new ArrayList<>();
 
 	public MovieListGui(final Collection<? extends Movie> movies) {
 		this.movies.addAll(movies);
@@ -40,7 +40,7 @@ public class MovieListGui implements ListCellRenderer<Movie> {
 
 	public JComponent createUi() {
 		final ListModel<Movie> model = new AbstractListModel<Movie>() {
-			private static final long	serialVersionUID	= 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public int getSize() {

@@ -17,9 +17,9 @@ import de.outstare.kinosim.schedule.editor.ScheduleEditor;
  * A RemoveShowDropTransferHandler removes a dropped show from the given editor.
  */
 public class RemoveShowDropTransferHandler extends TransferHandler {
-	private static final long		serialVersionUID	= 8920909801506422537L;
+	private static final long serialVersionUID = 8920909801506422537L;
 
-	private final ScheduleEditor	editor;
+	private final ScheduleEditor editor;
 
 	public RemoveShowDropTransferHandler(final ScheduleEditor editor) {
 		this.editor = editor;

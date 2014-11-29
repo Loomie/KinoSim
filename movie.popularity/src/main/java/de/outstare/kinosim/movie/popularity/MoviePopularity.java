@@ -15,7 +15,7 @@ import de.outstare.kinosim.util.Distributions;
  * A MoviePopularity holds all factors and the resulting popularity of a movie (deterministic).
  */
 public abstract class MoviePopularity {
-	private static final Logger	LOG	= LoggerFactory.getLogger(MoviePopularity.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MoviePopularity.class);
 
 	private MoviePopularity() {
 		// no instances

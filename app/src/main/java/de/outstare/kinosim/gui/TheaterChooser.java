@@ -35,10 +35,10 @@ import de.outstare.kinosim.util.TimeRange;
  * A TheaterChooser allows to choose one of multiple {@link MovieTheater}.
  */
 public class TheaterChooser {
-	private static final int		AVAILABLE	= 6;							// must be even!
+	private static final int AVAILABLE = 6; // must be even!
 
-	private final TheaterList		list		= new TheaterList(AVAILABLE);
-	private TheaterChooserListener	listener;
+	private final TheaterList list = new TheaterList(AVAILABLE);
+	private TheaterChooserListener listener;
 
 	public JComponent createUi() {
 		final int columns = 3;
@@ -54,7 +54,7 @@ public class TheaterChooser {
 	}
 
 	private class ChooserButton extends JPanel {
-		private static final long	serialVersionUID	= 2727185316379274737L;
+		private static final long serialVersionUID = 2727185316379274737L;
 
 		ChooserButton(final MovieTheater theater) {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -81,7 +81,7 @@ public class TheaterChooser {
 			final Leasehold lease = new Leasehold(theater, Cents.of(Randomness.getGaussianAround(600)));
 			final JButton button = new JButton();
 			button.setAction(new AbstractAction(String.format("select for %s /month", lease.getMonthlyRate().getAmount().formatted())) {
-				private static final long	serialVersionUID	= -5485389946391952277L;
+				private static final long serialVersionUID = -5485389946391952277L;
 
 				@Override
 				public void actionPerformed(final ActionEvent e) {

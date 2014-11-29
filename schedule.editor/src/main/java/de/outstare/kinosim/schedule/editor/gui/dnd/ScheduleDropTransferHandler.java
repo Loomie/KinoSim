@@ -25,16 +25,16 @@ import de.outstare.kinosim.util.TimeRange;
  * A ScheduleDropTransferHandler allows the drop of movies and shows. It creates a new show for dropped movies.
  */
 public class ScheduleDropTransferHandler extends TransferHandler {
-	private static final Logger		LOG					= LoggerFactory.getLogger(ScheduleDropTransferHandler.class);
-	private static final long		serialVersionUID	= -7023136469907812544L;
+	private static final Logger LOG = LoggerFactory.getLogger(ScheduleDropTransferHandler.class);
+	private static final long serialVersionUID = -7023136469907812544L;
 
-	private final ScheduleEditor	editor;
-	private final CinemaHall		hallForNewMovies;
-	private final TimeRange			editableTime;
+	private final ScheduleEditor editor;
+	private final CinemaHall hallForNewMovies;
+	private final TimeRange editableTime;
 	/**
 	 * A rectangle which holds the point of the drop in pixel coordinates and the width of the show in minutes (height is not used)
 	 */
-	public static final String		DROP_AREA_PROPERTY	= "dropRectangle";
+	public static final String DROP_AREA_PROPERTY = "dropRectangle";
 
 	/**
 	 * Create a drop handler for movies and shows

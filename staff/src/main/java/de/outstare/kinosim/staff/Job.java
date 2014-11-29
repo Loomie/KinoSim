@@ -15,8 +15,8 @@ public enum Job {
 	Projection(.1, .7, .8, .8, .1, .5,
 			0., .4, .4, .6, 0., .1);
 
-	private SkillSet	neededSkills;
-	private SkillSet	minimumSkills;
+	private SkillSet neededSkills;
+	private SkillSet minimumSkills;
 
 	private Job(final double customerService, final double organisation, final double dexterity, final double technology, final double hygiene,
 			final double teamwork, final double minCustomerService, final double minOrganisation, final double minDexterity,

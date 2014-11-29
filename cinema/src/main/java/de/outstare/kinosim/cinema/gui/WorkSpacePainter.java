@@ -18,9 +18,6 @@ import de.outstare.kinosim.util.Randomness;
 
 public class WorkSpacePainter extends RoomPainter {
 
-	@SuppressWarnings("unused")
-	private static final long serialVersionUID = 7465300551424675824L;
-
 	private static final Logger LOG = LoggerFactory.getLogger(WorkSpacePainter.class);
 
 	private static final double WORKPLACE_AREA_HEIGHT = 4;
@@ -201,7 +198,8 @@ public class WorkSpacePainter extends RoomPainter {
 		// Draw the objects of the area
 		for (final Entry<Position, PaintableObject> i : area.getObjects().entrySet()) {
 			final Position relativePos = i.getKey();
-			i.getValue().paint(g, new Point(mToPixels(relativePos.getX() + offset.getX()), mToPixels(relativePos.getY() + offset.getY())), pixelsPerMeter);
+			i.getValue().paint(g, new Point(mToPixels(relativePos.getX() + offset.getX()), mToPixels(relativePos.getY() + offset.getY())),
+					pixelsPerMeter);
 		}
 
 	}

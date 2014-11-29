@@ -27,25 +27,25 @@ import de.outstare.kinosim.util.TimeRange;
  * A ScheduleGui displays all scheduled {@link Show}s in a single row (shows may overlap!).
  */
 class ScheduleGui {
-	private final Schedule				schedule;
-	private final Collection<ShowGui>	showGuis		= new ArrayList<>();
-	private Rectangle					dropPreview		= null;
+	private final Schedule schedule;
+	private final Collection<ShowGui> showGuis = new ArrayList<>();
+	private Rectangle dropPreview = null;
 
-	protected DropTargetListener		dropListener	= new DropTargetAdapter() {
-															@Override
-															public void drop(final DropTargetDropEvent dtde) {
-																dropPreview = null;
-																dtde.getDropTargetContext().getComponent().repaint();
-															}
+	protected DropTargetListener dropListener = new DropTargetAdapter() {
+		@Override
+		public void drop(final DropTargetDropEvent dtde) {
+			dropPreview = null;
+			dtde.getDropTargetContext().getComponent().repaint();
+		}
 
-															@Override
-															public void dragExit(final java.awt.dnd.DropTargetEvent dte) {
-																dropPreview = null;
-																dte.getDropTargetContext().getComponent().repaint();
-															};
-														};
+		@Override
+		public void dragExit(final java.awt.dnd.DropTargetEvent dte) {
+			dropPreview = null;
+			dte.getDropTargetContext().getComponent().repaint();
+		};
+	};
 
-	private final TimeRange				visibleTime;
+	private final TimeRange visibleTime;
 
 	ScheduleGui(final Schedule schedule, final TimeRange visibleTime) {
 		this.schedule = schedule;
@@ -54,7 +54,7 @@ class ScheduleGui {
 
 	JComponent createUi() {
 		final JPanel hallRow = new JPanel(null) {
-			private static final long	serialVersionUID	= -6965802305925904974L;
+			private static final long serialVersionUID = -6965802305925904974L;
 
 			@Override
 			protected void paintComponent(final Graphics g) {

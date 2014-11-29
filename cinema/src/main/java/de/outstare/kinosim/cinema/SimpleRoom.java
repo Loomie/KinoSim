@@ -4,8 +4,8 @@ package de.outstare.kinosim.cinema;
  * An SimpleRoom implements {@link Room} and can be extended to specialized rooms.
  */
 public class SimpleRoom implements Room {
-	private final RoomType	type;
-	private final double	allocatedSpace;
+	private final RoomType type;
+	private final double allocatedSpace;
 
 	public SimpleRoom(final RoomType type, final double allocatedSpace) {
 		this.type = type;

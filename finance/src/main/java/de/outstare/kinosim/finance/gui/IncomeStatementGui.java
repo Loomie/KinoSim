@@ -23,9 +23,9 @@ import de.outstare.kinosim.guituil.WindowUtil;
  */
 public class IncomeStatementGui {
 	private static class IncomeStatementModel extends AbstractTableModel {
-		private static final long		serialVersionUID	= 1L;
+		private static final long serialVersionUID = 1L;
 
-		private final IncomeStatement	balance;
+		private final IncomeStatement balance;
 
 		IncomeStatementModel(final IncomeStatement balance) {
 			this.balance = balance;
@@ -114,8 +114,8 @@ public class IncomeStatementGui {
 		}
 
 		private static class Row {
-			final IncomeStatementCategory	category;
-			final NamedAmount				amount;
+			final IncomeStatementCategory category;
+			final NamedAmount amount;
 
 			Row(final IncomeStatementCategory category, final NamedAmount amount) {
 				this.category = category;
@@ -128,7 +128,7 @@ public class IncomeStatementGui {
 		}
 	}
 
-	private final IncomeStatement	balance;
+	private final IncomeStatement balance;
 
 	public IncomeStatementGui(final IncomeStatement balance) {
 		this.balance = balance;

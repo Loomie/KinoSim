@@ -12,7 +12,7 @@ import de.outstare.kinosim.movie.Movie;
  * A MovieDragFromListTransferHandler allows dragging of {@link Movie}s from a {@link JList}. The movies will be copied.
  */
 public class MovieDragFromListTransferHandler extends TransferHandler {
-	private static final long	serialVersionUID	= -1383105057463258054L;
+	private static final long serialVersionUID = -1383105057463258054L;
 
 	@Override
 	public int getSourceActions(final JComponent c) {

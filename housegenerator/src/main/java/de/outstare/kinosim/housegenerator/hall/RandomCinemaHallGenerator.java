@@ -8,9 +8,9 @@ import de.outstare.kinosim.util.Randomness;
  * A HouseGenerator creates a {@link CinemaHall}.
  */
 public class RandomCinemaHallGenerator implements CinemaHallGenerator {
-	static final int	MINIMUM		= 20;
-	static final int	MAX_BASE	= 100;
-	static final int	MAX_RAISE	= 3000;
+	static final int MINIMUM = 20;
+	static final int MAX_BASE = 100;
+	static final int MAX_RAISE = 3000;
 
 	static int randomCapacity() {
 		final int base = Randomness.nextInt(MAX_BASE) + 1;

@@ -10,9 +10,9 @@ public class PercentageBar extends JPanel {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= -4539272986206234560L;
-	private double				percent;
-	private final Color			color;
+	private static final long serialVersionUID = -4539272986206234560L;
+	private double percent;
+	private final Color color;
 
 	/**
 	 * @param percent

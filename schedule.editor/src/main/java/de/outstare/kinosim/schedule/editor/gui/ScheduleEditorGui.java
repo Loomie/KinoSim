@@ -44,9 +44,9 @@ import de.outstare.kinosim.util.TimeRange;
  * It is basically a table with hours of the day on the x-axis and {@link CinemaHall}s on the y-axis. Additionally a pool of movies is available.
  */
 public class ScheduleEditorGui {
-	private final ScheduleEditor	editor;
-	private final TimeRange			editableTime;
-	private JPanel					rows;
+	private final ScheduleEditor editor;
+	private final TimeRange editableTime;
+	private JPanel rows;
 
 	public ScheduleEditorGui(final ScheduleEditor editor, final TimeRange editableTime) {
 		this.editor = editor;

@@ -10,9 +10,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Cents is a value object. It represents an amount of money.
  */
 public class Cents implements Serializable, Comparable<Cents> {
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private final long			value;
+	private final long value;
 
 	public static Cents of(final long value) {
 		return new Cents(value);

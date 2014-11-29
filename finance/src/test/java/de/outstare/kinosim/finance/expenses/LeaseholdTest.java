@@ -15,7 +15,7 @@ import de.outstare.kinosim.finance.Cents;
 public class LeaseholdTest {
 
 	private static class TheaterMock implements MovieTheater {
-		private final double	squareMeters;
+		private final double squareMeters;
 
 		TheaterMock(final double squareMeters) {
 			this.squareMeters = squareMeters;

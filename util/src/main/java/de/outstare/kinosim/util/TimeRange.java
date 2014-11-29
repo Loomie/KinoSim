@@ -10,8 +10,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * A TimeRange is the range between two times.
  */
 public class TimeRange {
-	private final LocalTime	start;
-	private final LocalTime	end;
+	private final LocalTime start;
+	private final LocalTime end;
 
 	public static TimeRange of(final int startHour, final int endHour) {
 		final LocalTime startTime = LocalTime.of(startHour % 24, 0);

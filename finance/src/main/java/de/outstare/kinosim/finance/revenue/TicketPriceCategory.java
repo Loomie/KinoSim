@@ -16,7 +16,7 @@ import de.outstare.kinosim.util.Randomness;
  * {@link CinemaHall}).
  */
 public class TicketPriceCategory {
-	private final Map<Audience, Cents>	prices	= new HashMap<>();
+	private final Map<Audience, Cents> prices = new HashMap<>();
 
 	/**
 	 * @param prices

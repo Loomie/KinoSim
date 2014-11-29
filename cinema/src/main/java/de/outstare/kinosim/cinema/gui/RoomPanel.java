@@ -45,11 +45,8 @@ public class RoomPanel extends JPanel implements ComponentListener {
 		setMinimumSize(new Dimension((int) painter.backgroundWidth, (int) painter.backgroundHeight));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics) */
 	@Override
 	protected void paintComponent(final Graphics g) {
 		painter.paintRoom(g);

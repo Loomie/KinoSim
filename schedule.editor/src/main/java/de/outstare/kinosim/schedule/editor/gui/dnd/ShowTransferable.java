@@ -8,9 +8,9 @@ import java.io.IOException;
 import de.outstare.kinosim.schedule.Show;
 
 public class ShowTransferable implements Transferable {
-	public static final DataFlavor	SHOW_DATA_FLAVOR	= new DataFlavor(Show.class, Show.class.getSimpleName());
+	public static final DataFlavor SHOW_DATA_FLAVOR = new DataFlavor(Show.class, Show.class.getSimpleName());
 
-	private final Show				show;
+	private final Show show;
 
 	public ShowTransferable(final Show movie) {
 		show = movie;

@@ -21,9 +21,9 @@ import de.outstare.kinosim.util.Randomness;
  * A AreaMovieTheaterCreator generates a {@link MovieTheater} for a given area of land (an estate).
  */
 public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
-	private static final Logger	LOG	= LoggerFactory.getLogger(AreaMovieTheaterCreator.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AreaMovieTheaterCreator.class);
 
-	private final int			area;															// in square meters
+	private final int area; // in square meters
 
 	public AreaMovieTheaterCreator(final int areaInSquareMeters) {
 		area = areaInSquareMeters;

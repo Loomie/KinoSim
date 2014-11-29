@@ -23,9 +23,9 @@ import de.outstare.kinosim.util.TimeRange;
  * A ShowGui displays a {@link Show} graphically.
  */
 class ShowGui implements ShowProvider {
-	private final Show	show;
-	private JComponent	ui;
-	private JLabel		label;
+	private final Show show;
+	private JComponent ui;
+	private JLabel label;
 
 	ShowGui(final Show show) {
 		this.show = show;

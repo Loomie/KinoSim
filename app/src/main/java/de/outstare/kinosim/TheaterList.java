@@ -12,7 +12,7 @@ import de.outstare.kinosim.util.Randomness;
  * A TheaterList holds multiple {@link MovieTheater}s.
  */
 public class TheaterList {
-	private final List<MovieTheater>	theaters	= new ArrayList<>();
+	private final List<MovieTheater> theaters = new ArrayList<>();
 
 	public TheaterList(final int availableCount) {
 		for (int i = 0; i < availableCount; i++) {

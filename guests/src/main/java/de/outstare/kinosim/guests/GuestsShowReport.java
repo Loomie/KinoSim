@@ -14,9 +14,9 @@ import de.outstare.kinosim.schedule.Show;
  * A GuestsShowReport holds detailed for a show how many guests were there.
  */
 public class GuestsShowReport implements Comparable<GuestsShowReport> {
-	private final Show						show;
-	private final LocalDate					day;
-	private final Map<Audience, Integer>	guests;
+	private final Show show;
+	private final LocalDate day;
+	private final Map<Audience, Integer> guests;
 
 	public GuestsShowReport(final Show show, final LocalDate day, final Map<Audience, Integer> guests) {
 		super();

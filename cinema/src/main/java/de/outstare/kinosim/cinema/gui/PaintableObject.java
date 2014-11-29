@@ -16,14 +16,20 @@ public enum PaintableObject {
 		@Override
 		public void paint(final Graphics g, final Point pos, final int pixelsPerMeter) {
 			g.setColor(new Color(85, 55, 26));
-			g.fillRect((int) (0.3 * pixelsPerMeter) + pos.x, (int) (0.3 * pixelsPerMeter) + pos.y, (int) (0.4 * pixelsPerMeter), (int) (0.4 * pixelsPerMeter));
+			g.fillRect((int) (0.3 * pixelsPerMeter) + pos.x, (int) (0.3 * pixelsPerMeter) + pos.y, (int) (0.4 * pixelsPerMeter),
+					(int) (0.4 * pixelsPerMeter));
 			g.setColor(new Color(0, 90, 0));
-			g.fillOval((int) (0.4 * pixelsPerMeter) + pos.x, (int) (0.4 * pixelsPerMeter) + pos.y, (int) (0.2 * pixelsPerMeter), (int) (0.2 * pixelsPerMeter));
+			g.fillOval((int) (0.4 * pixelsPerMeter) + pos.x, (int) (0.4 * pixelsPerMeter) + pos.y, (int) (0.2 * pixelsPerMeter),
+					(int) (0.2 * pixelsPerMeter));
 			g.setColor(new Color(0, 150, 0));
-			g.fillOval((int) (0. * pixelsPerMeter) + pos.x, (int) (0.39 * pixelsPerMeter) + pos.y, (int) (0.4 * pixelsPerMeter), (int) (0.22 * pixelsPerMeter));
-			g.fillOval((int) (0.6 * pixelsPerMeter) + pos.x, (int) (0.39 * pixelsPerMeter) + pos.y, (int) (0.4 * pixelsPerMeter), (int) (0.22 * pixelsPerMeter));
-			g.fillOval((int) (0.39 * pixelsPerMeter) + pos.x, (int) (0. * pixelsPerMeter) + pos.y, (int) (0.22 * pixelsPerMeter), (int) (0.4 * pixelsPerMeter));
-			g.fillOval((int) (0.39 * pixelsPerMeter) + pos.x, (int) (0.6 * pixelsPerMeter) + pos.y, (int) (0.22 * pixelsPerMeter), (int) (0.4 * pixelsPerMeter));
+			g.fillOval((int) (0. * pixelsPerMeter) + pos.x, (int) (0.39 * pixelsPerMeter) + pos.y, (int) (0.4 * pixelsPerMeter),
+					(int) (0.22 * pixelsPerMeter));
+			g.fillOval((int) (0.6 * pixelsPerMeter) + pos.x, (int) (0.39 * pixelsPerMeter) + pos.y, (int) (0.4 * pixelsPerMeter),
+					(int) (0.22 * pixelsPerMeter));
+			g.fillOval((int) (0.39 * pixelsPerMeter) + pos.x, (int) (0. * pixelsPerMeter) + pos.y, (int) (0.22 * pixelsPerMeter),
+					(int) (0.4 * pixelsPerMeter));
+			g.fillOval((int) (0.39 * pixelsPerMeter) + pos.x, (int) (0.6 * pixelsPerMeter) + pos.y, (int) (0.22 * pixelsPerMeter),
+					(int) (0.4 * pixelsPerMeter));
 		}
 	},
 	TABLE(0.75, 2.) {
