@@ -87,8 +87,6 @@ public class ShowSimulator {
 		}
 		if (day.getDayOfMonth() == 1) {
 			balance.addExpense(ExpenseCategory.OtherOperativeExpenses, leasehold.getMonthlyRate());
-		} else {
-			balance.removeExpense(ExpenseCategory.OtherOperativeExpenses, leasehold.getMonthlyRate());
 		}
 		bankAccount.deposit(balance.getTotalBalance());
 	}
