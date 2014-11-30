@@ -73,6 +73,7 @@ public class ShowSimulator {
 	}
 
 	private void updateBalance() {
+		final Cents oldBalance = balance.getTotalBalance();
 		for (final GuestsShowReport showReport : report) {
 			Revenue sales = new TicketSales(showReport, prices).getRevenue();
 			// replace full description with short description, because day is known and guests are already displayed
@@ -88,6 +89,8 @@ public class ShowSimulator {
 		if (day.getDayOfMonth() == 1) {
 			balance.addExpense(ExpenseCategory.OtherOperativeExpenses, leasehold.getMonthlyRate());
 		}
-		bankAccount.deposit(balance.getTotalBalance());
+		final Cents newBalance = balance.getTotalBalance();
+		final Cents difference = newBalance.subtract(oldBalance);
+		bankAccount.deposit(difference);
 	}
 }
