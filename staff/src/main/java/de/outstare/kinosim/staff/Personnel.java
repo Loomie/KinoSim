@@ -1,8 +1,7 @@
+package de.outstare.kinosim.staff;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import de.outstare.kinosim.staff.Staff;
 
 /**
  * A Personnel is the total list of all your members
