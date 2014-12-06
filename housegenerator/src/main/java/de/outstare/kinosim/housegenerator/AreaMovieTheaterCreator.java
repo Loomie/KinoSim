@@ -45,10 +45,11 @@ public class AreaMovieTheaterCreator implements MovieTheaterGenerator {
 		double usedSpace = rooms.stream().mapToDouble(room -> room.getAllocatedSpace()).sum();
 		// 3. For the remaining space create cinema halls
 		// Idea: Create one large cinema which holds most people and multiple smaller ones which do not differ that much in size.
-		// Implementation: Use a decreasing curve of x^(-1/2)
+		// Basic Implementation: Use a decreasing curve of x^(-1/2)
+		// Extended Implementation: Use a decreasing curve of 1.5*x^(maxSeats*-0.00025) (sharper decrease in large theaters for more halls)
 		int hallNo = 1;
 		int actualSeats = 0;
-		final double maxSeats = Math.min(Randomness.getGaussianAround(900), calculatedSeats / 3.0);
+		final double maxSeats = Math.min(Randomness.getGaussianAround(700), calculatedSeats / 3.0);
 		LOG.debug("Calculated seats: " + calculatedSeats + ", max seats per hall: " + maxSeats);
 		final List<CinemaHall> halls = new ArrayList<>();
 		while (usedSpace < usableArea) {
