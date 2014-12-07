@@ -127,8 +127,7 @@ public class ShowSimulatorGui {
 			schedule.add(new Show(showStart, movie, hall, AdBlock.NONE, 0));
 		}
 		final ScheduleEditor testEditor = new ScheduleEditor(schedule, halls, movies);
-
-		final ShowSimulator testSimulator = new ShowSimulator(schedule, GuestCalculator.createRandom(), LocalDate.now());
+		final ShowSimulator testSimulator = new ShowSimulator(schedule, GuestCalculator.createRandom(), LocalDate.now(), theater);
 		final ShowSimulatorGui editorGui = new ShowSimulatorGui(testEditor, testSimulator, TimeRange.of(minStartHour, maxStartHour + 2));
 		// creating and showing this application's GUI.
 		WindowUtil.showAndClose(editorGui.createUi(), "ScheduleEditorGuiDemo", new Dimension(1000, 700));

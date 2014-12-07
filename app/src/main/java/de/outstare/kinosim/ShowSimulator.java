@@ -1,8 +1,13 @@
 package de.outstare.kinosim;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Map;
 
+import de.outstare.kinosim.cinema.MovieTheater;
+import de.outstare.kinosim.cinema.Room;
+import de.outstare.kinosim.cinema.RoomType;
+import de.outstare.kinosim.cinema.WorkSpace;
 import de.outstare.kinosim.finance.BankAccount;
 import de.outstare.kinosim.finance.Cents;
 import de.outstare.kinosim.finance.IncomeStatement;
@@ -10,6 +15,7 @@ import de.outstare.kinosim.finance.IncomeStatement.ExpenseCategory;
 import de.outstare.kinosim.finance.IncomeStatement.RevenueCategory;
 import de.outstare.kinosim.finance.expenses.Expense;
 import de.outstare.kinosim.finance.expenses.Leasehold;
+import de.outstare.kinosim.finance.expenses.Loan;
 import de.outstare.kinosim.finance.expenses.MovieRental;
 import de.outstare.kinosim.finance.expenses.Taxes;
 import de.outstare.kinosim.finance.revenue.Revenue;
@@ -18,8 +24,9 @@ import de.outstare.kinosim.finance.revenue.TicketSales;
 import de.outstare.kinosim.guests.GuestCalculator;
 import de.outstare.kinosim.guests.GuestsDayReport;
 import de.outstare.kinosim.guests.GuestsShowReport;
-import de.outstare.kinosim.housegenerator.AreaMovieTheaterCreator;
 import de.outstare.kinosim.schedule.Schedule;
+import de.outstare.kinosim.staff.Personnel;
+import de.outstare.kinosim.staff.Staff;
 import de.outstare.kinosim.util.Randomness;
 
 /**
@@ -34,16 +41,45 @@ public class ShowSimulator {
 	private final TicketPriceCategory prices = TicketPriceCategory.createRandom();
 	private final IncomeStatement balance = new IncomeStatement(new Taxes(0.1 + 0.1 * Randomness.nextDouble()));
 	private final BankAccount bankAccount = new BankAccount();
-	// TODO move out of ShowSimulator to a more global place where the MovieTheater is known
-	private final Leasehold leasehold = new Leasehold(new AreaMovieTheaterCreator(3000).createTheater(), Cents.of(Randomness
-			.getGaussianAround(1600)));
+	private final Leasehold leasehold;
+	private final Loan loan;
 
-	public ShowSimulator(final Schedule schedule, final GuestCalculator calculator, final LocalDate day) {
+	/**
+	 * @param theater
+	 *            FIXME the theater does not belong to the show simulator!
+	 */
+	public ShowSimulator(final Schedule schedule, final GuestCalculator calculator, final LocalDate day, final MovieTheater theater) {
 		super();
 		this.schedule = schedule;
 		this.calculator = calculator;
+		// TODO move out of ShowSimulator to a more global place where the MovieTheater is known
+		leasehold = new Leasehold(theater, Cents.of(Randomness.getGaussianAround(1600)));
+		loan = new Loan(hireAllWorkers(theater), Cents.of(Randomness.getGaussianAround(800)));
+
 		this.day = day.minusDays(1);
 		nextDay();
+	}
+
+	/**
+	 * hires an employee for every work place
+	 * FIXME move out of ShowSimulator
+	 */
+	private static Personnel hireAllWorkers(final MovieTheater theater) {
+		final Personnel employees = new Personnel();
+		for (final Room room : theater.getRooms()) {
+			if (!room.getType().isWorkSpace() || room.getType() == RoomType.StaffRoom) { // we don't hire people for idling
+				System.out.println("ShowSimulator.hireAllWorkers() skipping " + room);
+				continue;
+			}
+			final WorkSpace workSpace = (WorkSpace) room;
+			final int workers = workSpace.getWorkplaceCount();
+			System.out.println("ShowSimulator.hireAllWorkers() adding " + workers + " workers for " + room);
+			for (char i = 0; i < workers; i++) {
+				final Staff employee = new Staff(null, null, null);
+				employees.hire(employee);
+			}
+		}
+		return employees;
 	}
 
 	public LocalDate getDay() {
@@ -88,6 +124,8 @@ public class ShowSimulator {
 		}
 		if (day.getDayOfMonth() == 1) {
 			balance.addExpense(ExpenseCategory.OtherOperativeExpenses, leasehold.getMonthlyRate());
+			final YearMonth lastMonth = YearMonth.from(day.minusMonths(1));
+			balance.addExpense(ExpenseCategory.StaffCosts, loan.getTotalLoan(lastMonth));
 		}
 		final Cents newBalance = balance.getTotalBalance();
 		final Cents difference = newBalance.subtract(oldBalance);

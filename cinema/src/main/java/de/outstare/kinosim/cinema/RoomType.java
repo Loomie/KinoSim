@@ -73,4 +73,8 @@ public enum RoomType {
 		final int workplaces = (int) Math.round(workplacesPerThousandSeats.getRandomValue() * seats / 1000.0);
 		return Math.max(workplaces, 1);
 	}
+
+	public boolean isWorkSpace() {
+		return spaceUnit == SpaceUnit.PerWorkplace;
+	}
 }

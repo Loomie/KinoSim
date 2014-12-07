@@ -117,7 +117,7 @@ public class TheaterChooser {
 		final TheaterChooser chooser = new TheaterChooser();
 		chooser.setListener((theater, lease, population) -> {
 			final Schedule schedule = new ScheduleImpl();
-			final ShowSimulator simulator = new ShowSimulator(schedule, new GuestCalculator(population), LocalDate.now());
+			final ShowSimulator simulator = new ShowSimulator(schedule, new GuestCalculator(population), LocalDate.now(), theater);
 			final Collection<Movie> movieList = ShowSimulatorGui.generateMovieList();
 			final ScheduleEditor scheduleEditor = new ScheduleEditor(schedule, theater.getHalls(), movieList);
 			final ShowSimulatorGui showSimulatorGui = new ShowSimulatorGui(scheduleEditor, simulator, TimeRange.of(14, 26));

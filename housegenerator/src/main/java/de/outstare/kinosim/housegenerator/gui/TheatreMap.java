@@ -81,7 +81,7 @@ public class TheatreMap {
 						size = ((CinemaHall) room).getCapacity() + " seats";
 					} else {
 						label = room.getType().toString();
-						if (room instanceof WorkSpace) {
+						if (room.getType().isWorkSpace()) {
 							size = ((WorkSpace) room).getWorkplaceCount() + " worker";
 						} else {
 							size = "";
