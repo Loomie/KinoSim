@@ -29,6 +29,7 @@
 		<module>finance</module>
 		<module>staff</module>
 		<module>guituil</module>
+		<module>commodities</module>
 	</modules>
 	<build>
 		<plugins>
