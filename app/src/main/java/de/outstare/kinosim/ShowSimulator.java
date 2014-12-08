@@ -15,9 +15,9 @@ import de.outstare.kinosim.finance.IncomeStatement.ExpenseCategory;
 import de.outstare.kinosim.finance.IncomeStatement.RevenueCategory;
 import de.outstare.kinosim.finance.expenses.Expense;
 import de.outstare.kinosim.finance.expenses.Leasehold;
-import de.outstare.kinosim.finance.expenses.Loan;
 import de.outstare.kinosim.finance.expenses.MovieRental;
 import de.outstare.kinosim.finance.expenses.Taxes;
+import de.outstare.kinosim.finance.expenses.Wages;
 import de.outstare.kinosim.finance.revenue.Revenue;
 import de.outstare.kinosim.finance.revenue.TicketPriceCategory;
 import de.outstare.kinosim.finance.revenue.TicketSales;
@@ -42,7 +42,7 @@ public class ShowSimulator {
 	private final IncomeStatement balance = new IncomeStatement(new Taxes(0.1 + 0.1 * Randomness.nextDouble()));
 	private final BankAccount bankAccount = new BankAccount();
 	private final Leasehold leasehold;
-	private final Loan loan;
+	private final Wages wages;
 
 	/**
 	 * @param theater
@@ -54,15 +54,14 @@ public class ShowSimulator {
 		this.calculator = calculator;
 		// TODO move out of ShowSimulator to a more global place where the MovieTheater is known
 		leasehold = new Leasehold(theater, Cents.of(Randomness.getGaussianAround(1600)));
-		loan = new Loan(hireAllWorkers(theater), Cents.of(Randomness.getGaussianAround(800)));
+		wages = new Wages(hireAllWorkers(theater), Cents.of(Randomness.getGaussianAround(800)));
 
 		this.day = day.minusDays(1);
 		nextDay();
 	}
 
 	/**
-	 * hires an employee for every work place
-	 * FIXME move out of ShowSimulator
+	 * hires an employee for every work place FIXME move out of ShowSimulator
 	 */
 	private static Personnel hireAllWorkers(final MovieTheater theater) {
 		final Personnel employees = new Personnel();
@@ -75,7 +74,7 @@ public class ShowSimulator {
 			final int workers = workSpace.getWorkplaceCount();
 			System.out.println("ShowSimulator.hireAllWorkers() adding " + workers + " workers for " + room);
 			for (char i = 0; i < workers; i++) {
-				final Staff employee = new Staff(null, null, null);
+				final Staff employee = Staff.generateRandomStaff();
 				employees.hire(employee);
 			}
 		}
@@ -125,7 +124,7 @@ public class ShowSimulator {
 		if (day.getDayOfMonth() == 1) {
 			balance.addExpense(ExpenseCategory.OtherOperativeExpenses, leasehold.getMonthlyRate());
 			final YearMonth lastMonth = YearMonth.from(day.minusMonths(1));
-			balance.addExpense(ExpenseCategory.StaffCosts, loan.getTotalLoan(lastMonth));
+			balance.addExpense(ExpenseCategory.StaffCosts, wages.getTotalWages(lastMonth));
 		}
 		final Cents newBalance = balance.getTotalBalance();
 		final Cents difference = newBalance.subtract(oldBalance);
