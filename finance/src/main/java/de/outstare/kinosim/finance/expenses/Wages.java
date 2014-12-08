@@ -7,29 +7,30 @@ import de.outstare.kinosim.staff.Personnel;
 import de.outstare.kinosim.staff.Staff;
 
 /**
- * A Loan defines what is payed to your {@link Personnel}
+ * Wages define what is paid to your {@link Personnel}
  */
-public class Loan {
+public class Wages {
 	private final Personnel employees;
 	private final Cents nettoPerHour;
 
-	public Loan(final Personnel employees, final Cents perHour) {
+	public Wages(final Personnel employees, final Cents perHour) {
 		this.employees = employees;
 		nettoPerHour = perHour;
 	}
 
-	public Expense getTotalLoan(final YearMonth month) {
+	public Expense getTotalWages(final YearMonth month) {
 		Cents total = Cents.of(0);
 
 		final double bruttoPerHour = nettoPerHour.getValue() * 1.4; // health insurance and so on payed by employer
 		final double weekly = 40 * bruttoPerHour;
 		final long monthly = (long) (weekly * month.lengthOfMonth() / 7.0);
-		System.out.println("Loan.getTotalLoan() per Month: " + monthly);
+		System.out.println("Wages.getTotalWages() per Month: " + monthly);
 
-		for (final Staff employee : employees) {
+		for (@SuppressWarnings("unused")
+		final Staff employee : employees) {
 			total = total.add(Cents.of(monthly));
 		}
 
-		return new Expense(total, "Loans");
+		return new Expense(total, "Wages");
 	}
 }
