@@ -3,11 +3,11 @@ package de.outstare.kinosim.commodities;
 import de.outstare.kinosim.finance.Cents;
 
 /**
- * A Goods is a type of article that is sold or consumed in a movie theater.
+ * A Good is a type of article that is sold or consumed in a movie theater.
  *
  * @see <a href="https://shop.pco-group.com/index.php?&sp=de&hp=pco_group_de&kt=default">PCO Group Online Shop</a>
  */
-public enum Goods {
+public enum Good {
 	// Food
 	Popcorn(300, .056, 3500), // 22 kg corn, 10 kg sugar -> 300 small portions
 	TortillaChips(12, .06, 1200), // 3x 800 g -> 12x 200 g
@@ -32,7 +32,7 @@ public enum Goods {
 	private final double volume;
 	private final Cents basePrice;
 
-	private Goods(final int packageSize, final double volume, final long basePrice) {
+	private Good(final int packageSize, final double volume, final long basePrice) {
 		this.packageSize = packageSize;
 		this.volume = volume;
 		this.basePrice = Cents.of(basePrice);

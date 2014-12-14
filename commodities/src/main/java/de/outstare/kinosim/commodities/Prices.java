@@ -10,17 +10,17 @@ import de.outstare.kinosim.util.Randomness;
  * Prices contains the current price for all Goods.
  */
 public class Prices {
-	private final Map<Goods, Cents> currentPrice = new HashMap<>();
+	private final Map<Good, Cents> currentPrice = new HashMap<>();
 
 	public Prices() {
 		// only get random prices once instead of every call
-		for (final Goods good : Goods.values()) {
+		for (final Good good : Good.values()) {
 			final Cents price = Cents.of(Randomness.getGaussianAround((int) good.getBasePrice().getValue()));
 			currentPrice.put(good, price);
 		}
 	}
 
-	public Cents getPrice(final Goods good) {
+	public Cents getPrice(final Good good) {
 		assert currentPrice.containsKey(good);
 		return currentPrice.get(good);
 	}

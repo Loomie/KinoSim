@@ -36,9 +36,9 @@ public class Purchasing {
 	 * Puts the given good in the {@link Inventory} and places the bill on the {@link IncomeStatement}. The inventory must have enough free space for
 	 * the given amount!
 	 *
-	 * @see Inventory#isFree(Goods, int)
+	 * @see Inventory#isFree(Good, int)
 	 */
-	public void buy(final Goods good, final int amount) {
+	public void buy(final Good good, final int amount) {
 		assert storage.isFree(good, amount);
 		final Cents totalPrice = Cents.of(prices.getPrice(good).getValue() * amount);
 		final Expense costs = new Expense(totalPrice, good.toString());
@@ -53,7 +53,7 @@ public class Purchasing {
 		final Purchasing test = new Purchasing(inv, balance);
 
 		for (int i = 0; i < 15; i++) {
-			final Goods good = Goods.values()[Randomness.nextInt(Goods.values().length)];
+			final Good good = Good.values()[Randomness.nextInt(Good.values().length)];
 			final int amount = Randomness.nextInt(10) + 1;
 			if (inv.isFree(good, amount)) {
 				System.out.println("buying " + amount + " boxes " + good);

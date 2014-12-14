@@ -1,6 +1,6 @@
 package de.outstare.kinosim.commodities;
 
-import static de.outstare.kinosim.commodities.Goods.*;
+import static de.outstare.kinosim.commodities.Good.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
