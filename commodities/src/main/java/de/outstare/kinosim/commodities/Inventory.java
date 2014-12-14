@@ -53,7 +53,7 @@ public class Inventory {
 		return usedStorageVolume() / storageVolume;
 	}
 
-	private double usedStorageVolume() {
+	double usedStorageVolume() {
 		return goodCounts.entrySet().parallelStream().mapToDouble(e -> e.getKey().getVolumeOfBoxes(e.getValue().intValue())).sum();
 	}
 

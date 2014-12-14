@@ -1,5 +1,7 @@
 package de.outstare.kinosim.commodities;
 
+import de.outstare.kinosim.finance.Cents;
+
 /**
  * A Goods is a type of article that is sold or consumed in a movie theater.
  *
@@ -7,31 +9,33 @@ package de.outstare.kinosim.commodities;
  */
 public enum Goods {
 	// Food
-	Popcorn(300, .056), // 22 kg corn, 10 kg sugar -> 300 small portions
-	TortillaChips(12, .045), // 3x 800 g -> 12x 200 g
-	Icecream(200, .009),
-	GummiCandy(30, .015),
-	ChocolateBar(36, .005),
+	Popcorn(300, .056, 3500), // 22 kg corn, 10 kg sugar -> 300 small portions
+	TortillaChips(12, .06, 1200), // 3x 800 g -> 12x 200 g
+	Icecream(20, .009, 1500),
+	GummiCandy(24, .015, 1200),
+	ChocolateBar(32, .005, 1400),
 	// Beverages
-	SoftDrinks(130, .02), // 20 l sirup -> 130l Cola
-	Coffee(1000, .02), // 6x 1 kg beans, 6 g per cup
-	Beer(20, .036), // 0,5 l
-	FruitJuice(24, 0.18), // 0,2 l
+	SoftDrinks(130, .034, 6500), // 20 l sirup -> 130l Cola
+	Coffee(1000, .02, 10000), // 6x 1 kg beans, 6 g per cup
+	Beer(20, .036, 1500), // 0,5 l
+	FruitJuice(24, 0.18, 1200), // 0,2 l
 	// Non-Food
 	// Consumed
-	Tickets(10000, .0075),
-	Cups(1000, .14),
-	PopcornBags(750, .03), // 1000 small, 500 big -> 750 average
-	ToiletPaper(6, .054), // big rolls
-	Detergent(12, .03), // 12x 1 l
-	BinBags(500, .03);
+	Tickets(10000, .0075, 25000),
+	Cups(1000, .14, 9600), // price: 70 cup + 20 lid + 6 straw
+	PopcornBags(750, .03, 6000), // 1000 small, 500 big -> 750 average
+	ToiletPaper(6, .054, 1200), // big rolls
+	Detergent(12, .03, 1500), // 12x 1 l
+	BinBags(250, .042, 2500);
 
 	private final int packageSize;
 	private final double volume;
+	private final Cents basePrice;
 
-	private Goods(final int packageSize, final double volume) {
+	private Goods(final int packageSize, final double volume, final long basePrice) {
 		this.packageSize = packageSize;
 		this.volume = volume;
+		this.basePrice = Cents.of(basePrice);
 	}
 
 	/**
@@ -50,5 +54,9 @@ public enum Goods {
 
 	double getVolumeOfBoxes(final int boxCount) {
 		return volume * boxCount;
+	}
+
+	Cents getBasePrice() {
+		return basePrice;
 	}
 }
