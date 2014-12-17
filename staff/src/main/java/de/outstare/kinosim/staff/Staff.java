@@ -55,4 +55,60 @@ public class Staff {
 		return getFirstname() + " " + getLastname();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
+		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
+		result = prime * result + ((skills == null) ? 0 : skills.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Staff other = (Staff) obj;
+		if (firstname == null) {
+			if (other.firstname != null) {
+				return false;
+			}
+		} else if (!firstname.equals(other.firstname)) {
+			return false;
+		}
+		if (lastname == null) {
+			if (other.lastname != null) {
+				return false;
+			}
+		} else if (!lastname.equals(other.lastname)) {
+			return false;
+		}
+		if (skills == null) {
+			if (other.skills != null) {
+				return false;
+			}
+		} else if (!skills.equals(other.skills)) {
+			return false;
+		}
+		return true;
+	}
+
 }

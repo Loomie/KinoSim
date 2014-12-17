@@ -24,7 +24,7 @@ public class Wages {
 		final double bruttoPerHour = nettoPerHour.getValue() * 1.4; // health insurance and so on payed by employer
 		final double weekly = 40 * bruttoPerHour;
 		final long monthly = (long) (weekly * month.lengthOfMonth() / 7.0);
-		System.out.println("Wages.getTotalWages() per Month: " + monthly);
+		System.out.println("Wages.getTotalWages() per month per employee in cents: " + monthly);
 
 		for (@SuppressWarnings("unused")
 		final Staff employee : employees) {
