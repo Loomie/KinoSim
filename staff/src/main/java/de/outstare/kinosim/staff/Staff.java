@@ -3,8 +3,8 @@ package de.outstare.kinosim.staff;
 import de.outstare.kinosim.util.Randomness;
 
 public class Staff {
-	private String firstname, lastname;
-	private SkillSet skills;
+	private final String firstname, lastname;
+	private final SkillSet skills;
 
 	/**
 	 * @param firstname
@@ -55,11 +55,7 @@ public class Staff {
 		return getFirstname() + " " + getLastname();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
+	// TODO use HashCodeBuilder
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -70,11 +66,7 @@ public class Staff {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+	// TODO use EqualsBuilder
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
