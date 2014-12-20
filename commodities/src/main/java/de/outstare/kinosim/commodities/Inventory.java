@@ -1,7 +1,9 @@
 package de.outstare.kinosim.commodities;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.common.base.Preconditions;
@@ -12,6 +14,7 @@ import com.google.common.base.Preconditions;
 public class Inventory {
 	private final Map<Good, AtomicInteger> goodCounts = new HashMap<>();
 	private final double storageVolume;
+	private final Set<InventoryListener> listeners = new HashSet<>(2);
 
 	/**
 	 * @param storageVolume
@@ -37,6 +40,7 @@ public class Inventory {
 			goodCounts.put(good, new AtomicInteger());
 		}
 		goodCounts.get(good).addAndGet(amount);
+		fireChange();
 	}
 
 	public void remove(final Good good, final int amount) {
@@ -46,6 +50,7 @@ public class Inventory {
 			} else {
 				goodCounts.get(good).addAndGet(-1 * amount);
 			}
+			fireChange();
 		}
 	}
 
@@ -61,5 +66,20 @@ public class Inventory {
 		final double used = usedStorageVolume();
 		final double required = good.getVolumeOfBoxes(amount);
 		return used + required <= storageVolume;
+	}
+
+	protected void fireChange() {
+		final double fillRatio = getFillRatio();
+		for (final InventoryListener listener : listeners) {
+			listener.fillRatioChanged(fillRatio);
+		}
+	}
+
+	public void addListener(final InventoryListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeListener(final InventoryListener listener) {
+		listeners.remove(listener);
 	}
 }

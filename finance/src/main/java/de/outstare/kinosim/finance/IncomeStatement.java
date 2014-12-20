@@ -1,6 +1,8 @@
 package de.outstare.kinosim.finance;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -42,6 +44,7 @@ public class IncomeStatement {
 
 	private final Multimap<RevenueCategory, Revenue> revenues = HashMultimap.create();
 	private final Multimap<ExpenseCategory, Expense> expenses = HashMultimap.create();
+	private final Set<IncomeStatementListener> listeners = new HashSet<>();
 
 	private final Taxes taxes;
 
@@ -62,6 +65,7 @@ public class IncomeStatement {
 			}
 		}
 		revenues.put(category, newRevenue);
+		fireBalanceChange();
 	}
 
 	private void payTax(final Revenue newRevenue) {
@@ -83,6 +87,7 @@ public class IncomeStatement {
 			}
 		}
 		expenses.put(category, newExpense);
+		fireBalanceChange();
 	}
 
 	public Multimap<RevenueCategory, Revenue> listRevenues() {
@@ -191,6 +196,21 @@ public class IncomeStatement {
 
 	private void addSeparator(final StringBuilder text) {
 		text.append(" | ");
+	}
+
+	private void fireBalanceChange() {
+		final Cents totalBalance = getTotalBalance();
+		for (final IncomeStatementListener listener : listeners) {
+			listener.balanceChanged(totalBalance);
+		}
+	}
+
+	public void addListener(final IncomeStatementListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeListener(final IncomeStatementListener listener) {
+		listeners.remove(listener);
 	}
 
 	public static IncomeStatement createRandom() {
