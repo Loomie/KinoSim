@@ -5,7 +5,7 @@ import de.outstare.kinosim.finance.Cents;
 /**
  * A Good is a type of article that is sold or consumed in a movie theater.
  *
- * @see <a href="https://shop.pco-group.com/index.php?&sp=de&hp=pco_group_de&kt=default">PCO Group Online Shop</a>
+ * @see <a href="https://shop.pco-group.com/index.php">PCO Group Online Shop</a>
  */
 public enum Good {
 	// Food

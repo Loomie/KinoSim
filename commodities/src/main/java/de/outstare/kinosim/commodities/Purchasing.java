@@ -11,7 +11,7 @@ import de.outstare.kinosim.util.Randomness;
  * A Purchasing handles the buying of items to fill the stock. Therefore it applies prices to amounts of stuff.
  */
 public class Purchasing {
-	private final Prices prices = new Prices();
+	private final Prices prices = new BuyingPrices();
 	private final Inventory storage;
 	private final IncomeStatement balance;
 

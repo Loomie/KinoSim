@@ -4,24 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.outstare.kinosim.finance.Cents;
-import de.outstare.kinosim.util.Randomness;
 
 /**
- * Prices contains the current price for all Goods.
+ * A Prices holds a price for every {@link Good}
  */
-public class Prices {
-	private final Map<Good, Cents> currentPrice = new HashMap<>();
+abstract class Prices {
 
-	public Prices() {
-		// only get random prices once instead of every call
-		for (final Good good : Good.values()) {
-			final Cents price = Cents.of(Randomness.getGaussianAround((int) good.getBasePrice().getValue()));
-			currentPrice.put(good, price);
-		}
-	}
+	protected final Map<Good, Cents> currentPrice = new HashMap<>();
 
 	public Cents getPrice(final Good good) {
 		assert currentPrice.containsKey(good);
 		return currentPrice.get(good);
 	}
+
 }

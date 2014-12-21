@@ -34,6 +34,10 @@ public class Cents implements Serializable, Comparable<Cents> {
 		return new Cents(Math.subtractExact(value, other.value));
 	}
 
+	public Cents multiply(final double factor) {
+		return new Cents(Math.round(value * factor));
+	}
+
 	public String formatted() {
 		return String.format("%,.2f %s", value / 100.0, Currency.getInstance(Locale.getDefault()).getSymbol());
 	}
