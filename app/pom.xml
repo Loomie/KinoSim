@@ -23,6 +23,11 @@
 			<artifactId>finance</artifactId>
 			<version>0.1.4-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>de.outstare.kinosim</groupId>
+			<artifactId>commodities</artifactId>
+			<version>0.1.4-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

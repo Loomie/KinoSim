@@ -8,6 +8,10 @@ import de.outstare.kinosim.cinema.MovieTheater;
 import de.outstare.kinosim.cinema.Room;
 import de.outstare.kinosim.cinema.RoomType;
 import de.outstare.kinosim.cinema.WorkSpace;
+import de.outstare.kinosim.commodities.Inventory;
+import de.outstare.kinosim.commodities.Purchasing;
+import de.outstare.kinosim.commodities.Selling;
+import de.outstare.kinosim.commodities.SellingPrices;
 import de.outstare.kinosim.finance.BankAccount;
 import de.outstare.kinosim.finance.Cents;
 import de.outstare.kinosim.finance.IncomeStatement;
@@ -43,6 +47,8 @@ public class ShowSimulator {
 	private final BankAccount bankAccount = new BankAccount();
 	private final Leasehold leasehold;
 	private final Wages wages;
+	private final Inventory inv;
+	private final Selling selling;
 
 	/**
 	 * @param theater
@@ -55,6 +61,10 @@ public class ShowSimulator {
 		// TODO move out of ShowSimulator to a more global place where the MovieTheater is known
 		leasehold = new Leasehold(theater, Cents.of(Randomness.getGaussianAround(1600)));
 		wages = new Wages(hireAllWorkers(theater), Cents.of(Randomness.getGaussianAround(800)));
+		final Room storage = theater.getRoomsByType(RoomType.Storage).iterator().next();
+		inv = new Inventory(storage.getAllocatedSpace() * 1.8 * 0.2); // only 20 % are fully used for placing goods (remaining space is for walk or
+		// wasted)
+		selling = new Selling(inv, balance, new SellingPrices(0.5));
 
 		this.day = day.minusDays(1);
 		nextDay();
@@ -97,6 +107,14 @@ public class ShowSimulator {
 		return bankAccount;
 	}
 
+	public Inventory getInventory() {
+		return inv;
+	}
+
+	public Purchasing getPurchasing() {
+		return new Purchasing(inv, balance);
+	}
+
 	public void nextDay() {
 		day = day.plusDays(1);
 		createReport();
@@ -116,6 +134,8 @@ public class ShowSimulator {
 			final String shortName = String.format("%s %s", showReport.getShow().getStart(), showReport.getShow().getFilm().getTitle());
 			sales = new Revenue(sales.getAmount(), shortName);
 			balance.addRevenue(RevenueCategory.Revenues, sales);
+
+			selling.sellToGuests(report);
 		}
 		final Map<String, Expense> movieCosts = new MovieRental(report, prices).getDistributorExpense();
 		for (final Expense distributor : movieCosts.values()) {

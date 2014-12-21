@@ -70,8 +70,16 @@ public class PurchasingGui {
 			@Override
 			public void stateChanged(final ChangeEvent event) {
 				final int currentAmount = ((Number) spinner.getValue()).intValue();
-				purchaser.buy(good, currentAmount - previousAmount);
-				previousAmount = currentAmount;
+				final int difference = currentAmount - previousAmount;
+				if (difference == 0) {
+					return;
+				}
+				if (purchaser.isStorageFree(good, difference)) {
+					purchaser.buy(good, difference);
+					previousAmount = currentAmount;
+				} else {
+					spinner.setValue(previousAmount);
+				}
 			}
 		});
 	}

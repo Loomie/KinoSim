@@ -23,14 +23,15 @@ public class TicketSales {
 	}
 
 	public Revenue getRevenue() {
-		long sales = 0;
+		Cents sales = Cents.of(0);
 		for (final Audience audience : Audience.values()) {
-			sales += showReport.getGuests(audience) * price.getPrice(audience).getValue();
+			Cents audienceSales = price.getPrice(audience).multiply(showReport.getGuests(audience));
+			sales = sales.add(audienceSales);
 		}
 		final String description = String.format("%d guests on %s %s for %s", showReport.getTotalGuests(), showReport.getDay(), showReport.getShow()
 				.getStart(), showReport.getShow().getFilm().getTitle());
-		LOG.debug("got {} cents for {}", sales, description);
-		return new Revenue(Cents.of(sales), description);
+		LOG.debug("got {} for {}", sales.formatted(), description);
+		return new Revenue(sales, description);
 	}
 
 }

@@ -28,9 +28,11 @@ public class InventoryBar {
 		bar.setValue(percent);
 
 		final StringBuilder tooltip = new StringBuilder();
+		tooltip.append("<html>");
 		for (final Good good : Good.values()) {
-			tooltip.append(good.toString()).append(": ").append(inventory.getAmount(good)).append('\n');
+			tooltip.append(good.toString()).append(": ").append(inventory.getAmount(good)).append("<br>");
 		}
+		tooltip.append("</html>");
 		bar.setToolTipText(tooltip.toString());
 	}
 }

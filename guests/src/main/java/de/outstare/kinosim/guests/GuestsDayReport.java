@@ -95,4 +95,8 @@ public class GuestsDayReport implements Iterable<GuestsShowReport> {
 	public static GuestsDayReport createRandom() {
 		return new GuestsDayReport(GuestCalculator.createRandom(), ScheduleImpl.createRandom(), LocalDate.now());
 	}
+
+	public int getGuests(final Audience audience) {
+		return reports.stream().mapToInt(e -> e.getGuests(audience)).sum();
+	}
 }

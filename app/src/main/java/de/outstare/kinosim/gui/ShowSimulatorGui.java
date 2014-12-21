@@ -15,6 +15,7 @@ import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,6 +24,8 @@ import javax.swing.JTextArea;
 import de.outstare.kinosim.ShowSimulator;
 import de.outstare.kinosim.cinema.CinemaHall;
 import de.outstare.kinosim.cinema.MovieTheater;
+import de.outstare.kinosim.commodities.gui.InventoryBar;
+import de.outstare.kinosim.commodities.gui.PurchasingGui;
 import de.outstare.kinosim.guests.GuestCalculator;
 import de.outstare.kinosim.guests.GuestsDayReport;
 import de.outstare.kinosim.guests.gui.GuestsDayReportGui;
@@ -71,19 +74,46 @@ public class ShowSimulatorGui {
 			public void actionPerformed(final ActionEvent e) {
 				simulator.nextDay();
 
-				panel.remove(3);
-				panel.remove(2);
+				panel.remove(panel.getComponents().length - 1);
+				panel.remove(panel.getComponents().length - 1);
 				panel.add(createReportUi());
 				panel.add(createBalanceUi());
 				panel.validate();
 			}
 		});
+		final JPanel storage = createInventoryUi();
 
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.add(editorUi.createUi());
 		panel.add(simulate);
+		panel.add(storage);
 		panel.add(createReportUi());
 		panel.add(createBalanceUi());
+		return panel;
+	}
+
+	private JPanel createInventoryUi() {
+		final InventoryBar storageBar = new InventoryBar(simulator.getInventory());
+		final JButton purchaseButton = new JButton();
+		purchaseButton.setAction(new AbstractAction("Shop") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				final JDialog dialog = new JDialog();
+				dialog.setTitle("Buy goods");
+				dialog.setModal(false);
+				final JComponent purchaseGui = new PurchasingGui(simulator.getPurchasing()).createUi();
+				dialog.setContentPane(purchaseGui);
+				dialog.pack();
+				dialog.setLocationRelativeTo(null); // center on screen
+				dialog.setVisible(true);
+			}
+		});
+		final JPanel panel = new JPanel();
+		panel.add(new JLabel("Inventory"));
+		panel.add(storageBar.createUi());
+		panel.add(purchaseButton);
 		return panel;
 	}
 
