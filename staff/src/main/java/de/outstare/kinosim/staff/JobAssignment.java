@@ -9,9 +9,9 @@ import de.outstare.kinosim.util.TimeRange;
  *
  */
 public class JobAssignment implements Comparable<JobAssignment> {
-	private TimeRange time;
-	private Staff staff;
-	private Job job;
+	private final TimeRange time;
+	private final Staff staff;
+	private final Job job;
 
 	/**
 	 * @param time
@@ -51,11 +51,12 @@ public class JobAssignment implements Comparable<JobAssignment> {
 		return job;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
+	public double getProductivity() {
+		return job.calculateQualification(staff.getSkills());
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode() */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -66,11 +67,8 @@ public class JobAssignment implements Comparable<JobAssignment> {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object) */
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {

@@ -22,6 +22,12 @@ public enum Job {
 			final double teamwork, final double minCustomerService, final double minOrganisation, final double minDexterity,
 			final double minTechnology,
 			final double minHygiene, final double minTeamwork) {
+		assert minCustomerService <= customerService;
+		assert minDexterity <= dexterity;
+		assert minHygiene <= hygiene;
+		assert minOrganisation <= organisation;
+		assert minTeamwork <= teamwork;
+		assert minTechnology <= technology;
 		neededSkills = new SkillSet(customerService, organisation, dexterity, technology, hygiene, teamwork);
 		minimumSkills = new SkillSet(minCustomerService, minOrganisation, minDexterity, minTechnology, minHygiene, minTeamwork);
 	}
